@@ -1,5 +1,7 @@
 
 {% extends 'base_search.html'%}
+{% load crispy_forms_tags %}
+
 {% block body %}
     <div class="container">
         <div class="row">
@@ -11,6 +13,11 @@
 
                 <div class="card">
                 <ul class="nav d-flex">
+                    {% if verified == False %}
+                        <li class="nav-item">
+                            <a class="nav-link text-black" href="/accounts/admin_panel/">Verify</a>
+                        </li>
+                    {% endif %}
                     <li class="nav-item">
                         <a class="nav-link text-black" href="/accounts/admin_panel/posts">Posts</a>
                     </li>
@@ -26,7 +33,9 @@
             <div class="card">
                 <table class="table">
                 <thead>
+                    
                     {% if data_category == "users"%}
+                    
                         <tr>
                         <th scope="col">#</th>
                         <th scope="col">Username</th>
@@ -53,70 +62,82 @@
                         </tr>
                     {% else %}
                         <tr>
-                        <th scope="col">#</th>
-                        <th scope="col">Select a option</th>
+                        <th scope="col"></th>
+                        <th scope="col"><h4>Verify Access</h4>
+                            <hr>
+                            <div class="col-md-10 col-md-offset-3">
+                                <form method="POST"enctype="multipart/form-data">
+                                    {% csrf_token %}
+                                    {{form|crispy}}
+                                    {{form.media}}
+                                    <input class="btn btn-primary button_shadow"type="submit" value="send">
+                                </form>
+                            </div>
+                        </th>
                         </tr>
                     {% endif %}
                 </thead>
                 <tbody>
-                    {% if data_category == "users"%}
-                        {% for admin_data in admin_datas%} <!-- Users -->
-                            <tr>
-                                <th scope="row">{{admin_data.id}}</th>
-                                <td>{{admin_data}}</td>                      
-                                      
-                                {% include 'account_templates/modal_user_staff.html' %}
-                                {% include 'account_templates/modal_user_superuser.html' %}
+                    {% if verified == True %}
+                        {% if data_category == "users"%}
+                            {% for admin_data in admin_datas%} <!-- Users -->
+                                <tr>
+                                    <th scope="row">{{admin_data.id}}</th>
+                                    <td>{{admin_data}}</td>  
+                                        
+                                    {% include 'account_templates/modal_user_staff.html' %}
+                                    {% include 'account_templates/modal_user_superuser.html' %}
 
-                                {% if request.user.is_staff %}
-                                    <td><a data-bs-toggle="modal" data-bs-target="#modal_staff{{ admin_data.id }}" class="btn btn-primary-success button_shadow" role="button">{{admin_data.is_staff}}</a></td>
-                                    {% if request.user.is_superuser %}
-                                        <td><a data-bs-toggle="modal" data-bs-target="#modal_superuser{{ admin_data.id }}" class="btn btn-primary-success button_shadow" role="button">{{admin_data.is_superuser}}</a></td>
+                                    {% if request.user.is_staff %}
+                                        <td><a data-bs-toggle="modal" data-bs-target="#modal_staff{{ admin_data.id }}" class="btn btn-primary-success button_shadow" role="button">{{admin_data.is_staff}}</a></td>
+                                        {% if request.user.is_superuser %}
+                                            <td><a data-bs-toggle="modal" data-bs-target="#modal_superuser{{ admin_data.id }}" class="btn btn-primary-success button_shadow" role="button">{{admin_data.is_superuser}}</a></td>
+                                        {% else %}
+                                            <td><a class="btn btn-primary-disabled button_shadow" role="button">{{admin_data.is_superuser}}</a></td>
+                                        {% endif %}
                                     {% else %}
+                                        <td><a class="btn btn-primary-disabled button_shadow" role="button">{{admin_data.is_staff}}</a></td>
                                         <td><a class="btn btn-primary-disabled button_shadow" role="button">{{admin_data.is_superuser}}</a></td>
                                     {% endif %}
-                                {% else %}
-                                    <td><a class="btn btn-primary-disabled button_shadow" role="button">{{admin_data.is_staff}}</a></td>
-                                    <td><a class="btn btn-primary-disabled button_shadow" role="button">{{admin_data.is_superuser}}</a></td>
-                                {% endif %}
-                            </tr>
+                                </tr>
 
-                        {% endfor %}
-                    {% elif data_category == "posts" %}
-                        {% for admin_data in admin_datas%} <!-- Posts -->
-                            <tr>
-                                <th scope="row">{{admin_data.id}}</th>
-                                <td>{{admin_data}}</td>
-                                <td>{{admin_data.upvotes}}</td>
-                                <td>{{admin_data.post_views}}</td>
-                                <td>#{{admin_data.user.id}} {{admin_data.user.username}}</td>
-                                <td>
-                                    <a href="{{ admin_data.get_absolute_url }}" class="btn btn-primary-2 button_shadow" role="button">Detail</a>
-                                    <a href="{{ admin_data.get_update_url }}" class="btn btn-primary-2 button_shadow" role="button">Modify</a>
-                                    <button type="button" class="btn btn-danger button_shadow" data-bs-toggle="modal" data-bs-target="#modal_{{ admin_data.id }}">Delete</button>
-                                </td>
-                            </tr>
+                            {% endfor %}
+                        {% elif data_category == "posts" %}
+                            {% for admin_data in admin_datas%} <!-- Posts -->
+                                <tr>
+                                    <th scope="row">{{admin_data.id}}</th>
+                                    <td>{{admin_data}}</td>
+                                    <td>{{admin_data.upvotes}}</td>
+                                    <td>{{admin_data.post_views}}</td>
+                                    <td>#{{admin_data.user.id}} {{admin_data.user.username}}</td>
+                                    <td>
+                                        <a href="{{ admin_data.get_absolute_url }}" class="btn btn-primary-2 button_shadow" role="button">Detail</a>
+                                        <a href="{{ admin_data.get_update_url }}" class="btn btn-primary-2 button_shadow" role="button">Modify</a>
+                                        <button type="button" class="btn btn-danger button_shadow" data-bs-toggle="modal" data-bs-target="#modal_{{ admin_data.id }}">Delete</button>
+                                    </td>
+                                </tr>
 
-                            {% include 'account_templates/modal_post.html' %}
-                        {% endfor %}
-                    {% elif data_category == "contacts" %}
-                        {% for admin_data in admin_datas%} <!-- Contact -->
-                            <tr>
-                                <th scope="row">{{admin_data.id}}</th>
-                                <td>{{admin_data.name}}</td>
-                                <td>{{admin_data.surname}}</td>
-                                <td>{{admin_data.adress}}</td>
-                                <td>{{admin_data.user_gender}}</td>
-                                <td>{{admin_data.email}}</td>
-                                <td>#{{admin_data.user.id}} {{admin_data.user}}</td>
-                                <td>
-                                    <a href="{{ admin_data.get_modify_contact_adminpanel_url }}" class="btn btn-primary-2 button_shadow" role="button">Modify</a>
-                                    <button type="button" class="btn btn-danger button_shadow" data-bs-toggle="modal" data-bs-target="#modal_contact{{ admin_data.id }}">Delete</button>
-                                </td>
-                            </tr>
+                                {% include 'account_templates/modal_post.html' %}
+                            {% endfor %}
+                        {% elif data_category == "contacts" %}
+                            {% for admin_data in admin_datas%} <!-- Contact -->
+                                <tr>
+                                    <th scope="row">{{admin_data.id}}</th>
+                                    <td>{{admin_data.name}}</td>
+                                    <td>{{admin_data.surname}}</td>
+                                    <td>{{admin_data.adress}}</td>
+                                    <td>{{admin_data.user_gender}}</td>
+                                    <td>{{admin_data.email}}</td>
+                                    <td>#{{admin_data.user.id}} {{admin_data.user}}</td>
+                                    <td>
+                                        <a href="{{ admin_data.get_modify_contact_adminpanel_url }}" class="btn btn-primary-2 button_shadow" role="button">Modify</a>
+                                        <button type="button" class="btn btn-danger button_shadow" data-bs-toggle="modal" data-bs-target="#modal_contact{{ admin_data.id }}">Delete</button>
+                                    </td>
+                                </tr>
 
-                            {% include 'account_templates/modal_contact.html' %}
-                        {% endfor %}
+                                {% include 'account_templates/modal_contact.html' %}
+                            {% endfor %}
+                        {% endif %}
                     {% endif %}
                 </tbody>
                 </table>
