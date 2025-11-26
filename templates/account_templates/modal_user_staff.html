@@ -1,3 +1,5 @@
+{% load crispy_forms_tags  %}
+{% load static %}
 <!-- Modal post delete -->
 <div class="modal fade" id="modal_staff{{ admin_data.id }}" tabindex="-1" aria-labelledby="modalLabel_{{ admin_data.id }}" aria-hidden="true">
     <div class="modal-dialog">
@@ -9,6 +11,17 @@
             <div class="modal-body">
                 Are you sure you want to change this?
             </div>
+
+            
+            <div class="col-md-10 col-md-offset-3">
+                <form method="POST"enctype="multipart/form-data">
+                    {% csrf_token %}
+                    {{form|crispy}}
+                    {{form.media}}
+                    <input class="btn btn-primary button_shadow"type="submit" value="send">
+                </form>
+            </div>
+
             <div class="modal-footer">
                 <button type="button" class="btn btn-primary button_shadow" data-bs-dismiss="modal">No</button>
                 {% if request.user.is_authenticated %}

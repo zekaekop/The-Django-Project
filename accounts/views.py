@@ -1,5 +1,5 @@
 from django.shortcuts import render, redirect , get_object_or_404, Http404
-from .forms import LoginForm, RegisterForm
+from .forms import LoginForm, RegisterForm, VerifyAccount
 from django.contrib.auth.models import User
 from post.models import Post , ContactInfo
 from django.contrib.auth import authenticate, login, logout
@@ -106,11 +106,15 @@ def admin_panel_contact(request):
 
 
 def set_user_perms_staff_adminpanel(request, id):
-    if request.user.is_staff:
-        user = get_object_or_404(User, id = id)
-        user.is_staff = not user.is_staff
-        user.save()
-    return redirect('/accounts/admin_panel/users')
+    admin_verify = VerifyAccount(request.POST or None, request.FILES or None, instance=request.user) 
+    password = admin_verify.cleaned_data.get("password")
+    if password:
+        if request.user.is_staff:
+            user = get_object_or_404(User, id = id)
+            user.is_staff = not user.is_staff
+            user.save()
+    
+    return render('/accounts/admin_panel/users', {"form" : admin_verify})
 
 def set_user_perms_superuser_adminpanel(request, id):
     if request.user.is_staff and request.user.is_superuser:

@@ -28,10 +28,16 @@ class RegisterForm(forms.ModelForm):
             'password_repeat',
         ]
 
-
     def clean_password_repeat(self):
         password = self.cleaned_data.get('password')
         password_repeat = self.cleaned_data.get('password_repeat')
         if password and password_repeat and password != password_repeat:
             raise forms.ValidationError('Passwords do not match')
         return password_repeat
+    
+class VerifyAccount(forms.ModelForm):
+    password = forms.CharField(
+        required=True,
+        widget=forms.PasswordInput(),
+        label="Verify password"
+    )
