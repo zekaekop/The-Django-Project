@@ -49,19 +49,15 @@ def admin_panel(request):
 
         if password and password == confirm:
             verify.set_password(password)
-            verified = True
-        else:
-            verified = False
                 
         verify.save()
 
         context = {
             "data_category": "default",
-            "verified": verified,
             "form": admin_verify,
         }
         return render(request, "account_templates/admin_panel.html", context)
-    return render(request, "account_templates/admin_panel.html", {"data_category": "default","verified": False, "form": admin_verify,})
+    return render(request, "account_templates/admin_panel.html", {"data_category": "default", "form": admin_verify,})
 
 def admin_panel_users(request):
     if request.user.is_staff or request.user.is_superuser:
@@ -74,7 +70,7 @@ def admin_panel_users(request):
             users = users.filter(
                 Q(username__icontains=query)).distinct()
             
-        context = {"admin_datas":users, "verified": verified, "data_category":"users",}
+        context = {"admin_datas":users, "data_category":"users",}
 
         return render(request, "account_templates/admin_panel.html", context)
     else:
@@ -95,7 +91,7 @@ def admin_panel_posts(request):
                 Q(user__first_name__icontains=query)|
                 Q(user__last_name__icontains=query)).distinct()
             
-        context = {"admin_datas":posts, "verified": verified, "data_category":"posts",}
+        context = {"admin_datas":posts, "data_category":"posts",}
 
         return render(request, "account_templates/admin_panel.html", context)
     else:
@@ -116,7 +112,7 @@ def admin_panel_contact(request):
                 Q(name__icontains=query)|
                 Q(surname__icontains=query)).distinct()
             
-        context = {"admin_datas":contacts, "verified": verified, "data_category":"contacts",}
+        context = {"admin_datas":contacts,"data_category":"contacts",}
 
         return render(request, "account_templates/admin_panel.html", context)
     else:
@@ -132,14 +128,10 @@ def set_user_perms_staff_adminpanel(request, id):
     return redirect('/accounts/admin_panel/users')
 
 def set_user_perms_superuser_adminpanel(request, id):
-    admin_verify = VerifyAccount(request.POST or None, instance=request.user) 
-    password = admin_verify.cleaned_data.get("password")
-    confirm = admin_verify.cleaned_data.get("confirm_password")
-
-    if password == confirm:
-        if request.user.is_staff and request.user.is_superuser:
-            user = get_object_or_404(User, id = id)
-            user.is_superuser = not user.is_superuser
-            user.save()
+        
+    if request.user.is_staff and request.user.is_superuser:
+        user = get_object_or_404(User, id = id)
+        user.is_superuser = not user.is_superuser
+        user.save()
 
     return redirect('/accounts/admin_panel/users')

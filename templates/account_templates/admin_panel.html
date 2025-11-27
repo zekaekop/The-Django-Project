@@ -13,20 +13,21 @@
 
                 <div class="card">
                 <ul class="nav d-flex">
-                    {% if verified == False %}
+                    {% if verified == null %}
                         <li class="nav-item">
                             <a class="nav-link text-black" href="/accounts/admin_panel/">Verify</a>
                         </li>
+                    {% else %}
+                        <li class="nav-item">
+                            <a class="nav-link text-black" href="/accounts/admin_panel/posts">Posts</a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link text-black" href="/accounts/admin_panel/users">Users</a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link text-black" href="/accounts/admin_panel/contacts">Contact</a>
+                        </li>
                     {% endif %}
-                    <li class="nav-item">
-                        <a class="nav-link text-black" href="/accounts/admin_panel/posts">Posts</a>
-                    </li>
-                    <li class="nav-item">
-                        <a class="nav-link text-black" href="/accounts/admin_panel/users">Users</a>
-                    </li>
-                    <li class="nav-item">
-                        <a class="nav-link text-black" href="/accounts/admin_panel/contacts">Contact</a>
-                    </li>
                 </ul>
             </div>
 
