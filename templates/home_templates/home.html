@@ -10,7 +10,17 @@
     <div class="card">
       <ul class="nav d-flex">
         <li class="nav-item">
-          <a class="nav-link text-black"><b>Top 3 popular posts</b></a>
+          <div class="dropdown">
+            <a class="btn btn-primary dropdown-toggle" href="#" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+              Dropdown link
+            </a>
+
+            <ul class="dropdown-menu">
+              <li><a class="dropdown-item" href="#"><b>List by views</b></a></li>
+              <li><a class="dropdown-item" href="#"><b>List by upvote</b></a></li>
+              <li><a class="dropdown-item" href="#"><b>List by comments</b></a></li>
+            </ul>
+          </div>
         </li>
         <div class="d-flex ms-auto">
           <li class="nav-item">
@@ -86,6 +96,7 @@
               : "More";
           });
         </script>
+        
       </div>
     </div>
   </div>
