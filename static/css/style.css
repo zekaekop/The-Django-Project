@@ -111,7 +111,7 @@ div{
 }
 
 .cloud_container{
-    filter: opacity(25%);
+
     position: absolute;
     mix-blend-mode: multiply;
     width: 100%;
@@ -127,6 +127,7 @@ div{
 .cloud{
     position: absolute;
     z-index: 0;
+    filter: opacity(25%);
 }
 
 nav {

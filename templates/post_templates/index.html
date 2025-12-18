@@ -61,9 +61,6 @@
                                     <small class="text_fadded"><b><a href="https://en.wikipedia.org/wiki/Cross-site_scripting" style="color: red; ">js included </a></b></small>
                                 {% endif %}
                             {% endif %}
-
-                            <div class="cloud_container"></div> <!-- creates card clouds -->
-
                         </div>
 
                         <div class="d-flex mt-auto card-header" style="margin: 0.2rem;"> <!-- post footer -->
@@ -172,35 +169,5 @@
             </div>
         </div>
     </div>
-
-
-<script>/*
-    document.querySelectorAll('.cloud_container').forEach(function(container) {
-        const cloud_image = [
-            "{% static '/img/wallpaper/cloud1.png' %}",
-            //"{% static '/img/wallpaper/cloud2.png' %}",
-            "{% static '/img/wallpaper/cloud3.png' %}",
-            "{% static '/img/wallpaper/cloud4.png' %}",
-        ];
-
-        const cloud_count = 1;
-
-        for(let i = 0; i < cloud_count; i++){
-            const cloud = document.createElement("img");
-            cloud.src = cloud_image[Math.floor(Math.random() * cloud_image.length)];
-
-            cloud.className = "cloud";
-
-            cloud.style.left = Math.random() * 30 + "%";
-            cloud.style.top = Math.random() * 30 + "%";
-
-            cloud.style.scale = (Math.random() + 1) * 0.3;
-
-            cloud.style.position = "absolute";
-
-            container.appendChild(cloud);
-        }
-    });*/
-</script>
 
 {% endblock%}
