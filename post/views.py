@@ -28,7 +28,7 @@ class Info():
             contact = form.save(commit=False)
             contact.user = request.user
             contact.save()
-            return redirect('/')
+            return render(request, "info/contact.html", {'form': ContactusForm(), 'title':'Info', 'success': True})
         return render(request, "info/contact.html", {'form':form, 'title':'Info'})
 
 class ListPosts():
@@ -198,6 +198,7 @@ class PostActions():
             if form.is_valid():
                 form.save()
                 updated_post = form.save()
+                messages.success(request, 'Your post has been updated successfully!')
                 return HttpResponseRedirect(updated_post.get_absolute_url())
             
             context = {
@@ -213,19 +214,13 @@ def post_create(request):
 
     authenticate_users(request)
 
-#    if request.method == "POST":
-#        form = postForm(request.POST)
-#        if form.is_valid():
-#            form.save()
-#    else:
-#        form = postForm()
-
     form = PostForm(request.POST or None, request.FILES or None)
     
     if form.is_valid():
         updated_post = form.save(commit=False)
         updated_post.user = request.user
         updated_post.save()
+        messages.success(request, 'Your post has been created successfully!')
         return HttpResponseRedirect(updated_post.get_absolute_url())
 
     context = {
