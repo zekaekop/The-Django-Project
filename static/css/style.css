@@ -144,14 +144,14 @@ div{
 .cloud{
     position: absolute;
     z-index: -10;
-    filter: opacity(10%);
+    filter: opacity(50%);
     animation: cloud-float linear infinite;
 
 }
 
 @keyframes cloud-float {
     from {
-        left: -10%;
+        left: -30%;
     }
     to {
         left: 100%; 
