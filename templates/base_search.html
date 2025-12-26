@@ -39,6 +39,11 @@
 
     --arrow: url("{% static 'img/arrow_dark.svg' %}"); /* upvotes */
     --arrow-fill: url("{% static 'img/arrow_fill_dark.svg' %}");
+    /* Post create */
+    --file-upload: url("{% static 'img/post/create/fileupload_dark.svg'%}"); 
+    --css-logo: url("{% static 'img/post/create/css_dark.svg'%}"); 
+    --js-logo: url("{% static 'img/post/create/js_dark.svg'%}"); 
+    --html-logo: url("{% static 'img/post/create/html_dark.svg'%}"); 
 
     /* Admin panel */
     --edit-normal: url("{% static 'img/admin_perms/edit_normal_dark.svg' %}");
@@ -77,7 +82,12 @@
 
     --arrow: url("{% static 'img/arrow_light.svg' %}"); /* upvotes */
     --arrow-fill: url("{% static 'img/arrow_fill_light.svg' %}");
-
+    /* Post create */
+    --file-upload: url("{% static 'img/post/create/fileupload_light.svg'%}"); 
+    --css-logo: url("{% static 'img/post/create/css_light.svg'%}"); 
+    --js-logo: url("{% static 'img/post/create/js_light.svg'%}"); 
+    --html-logo: url("{% static 'img/post/create/html_light.svg'%}"); 
+    
     /* Admin panel */
     --edit-normal: url("{% static 'img/admin_perms/edit_normal_light.svg' %}");
 
@@ -99,8 +109,6 @@
     --paginator-arrow-double-right: url("{% static '/img/paginator_arrows/double_right_light.svg' %}");
 }
 </style>
-
-<link rel="stylesheet" href="{% static 'css/theme.css' %}">
 
 <body>
     {% include "header_search.html" %}

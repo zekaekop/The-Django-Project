@@ -2,25 +2,31 @@ from django.db import models
 from django.urls import reverse
 from ckeditor.fields import RichTextField
 from django.core.validators import FileExtensionValidator
+from django.core.exceptions import ValidationError
 #from django.utils.text import slugify
 
 AUTH_USER_MODEL = 'post.User'
 
 class Post(models.Model):
+    def file_size(value): # add this to some file where you can import it from
+        limit = 10 * 1024 * 1024
+        if value.size > limit:
+            raise ValidationError('File too large. Size should not exceed 10 MiB.')
+        
     user = models.ForeignKey('auth.User', verbose_name="OP", related_name="posts", on_delete=models.CASCADE)
     title = models.CharField(max_length=200,verbose_name="Title ")
     desc = RichTextField(verbose_name="")
     date = models.DateTimeField(verbose_name="Date/Time ", auto_now_add=True)
 
-    image = models.ImageField(upload_to='images_uploaded', null=True, blank=True, validators=[FileExtensionValidator(allowed_extensions=['png','jpg','jpeg','svg','webp'])])
-    video = models.FileField(upload_to='videos_uploaded',null=True, blank=True, validators=[FileExtensionValidator(allowed_extensions=['MOV','avi','mp4','webm','mkv'])])
+    image = models.ImageField(upload_to='images_uploaded', null=True, blank=True, validators=[file_size,FileExtensionValidator(allowed_extensions=['png','jpg','jpeg','webp'])])
+    video = models.FileField(upload_to='videos_uploaded',null=True, blank=True, validators=[file_size,FileExtensionValidator(allowed_extensions=['mov','avi','mp4','webm','mkv'])])
 
 
-    user_html = models.FileField(upload_to='html_uploaded',null=True, blank=True, validators=[FileExtensionValidator(allowed_extensions=['html'])])
-    user_css = models.FileField(upload_to='css_uploaded',null=True, blank=True, validators=[FileExtensionValidator(allowed_extensions=['css'])])
-    user_js =  models.FileField(upload_to='js_uploaded',null=True, blank=True, validators=[FileExtensionValidator(allowed_extensions=['js'])])
+    user_html = models.FileField(upload_to='html_uploaded',null=True, blank=True, validators=[file_size,FileExtensionValidator(allowed_extensions=['html'])])
+    user_css = models.FileField(upload_to='css_uploaded',null=True, blank=True, validators=[file_size,FileExtensionValidator(allowed_extensions=['css'])])
+    user_js =  models.FileField(upload_to='js_uploaded',null=True, blank=True, validators=[file_size,FileExtensionValidator(allowed_extensions=['js'])])
 
-    site_preview = models.ImageField(upload_to='images_uploaded', null=True, blank=True, validators=[FileExtensionValidator(allowed_extensions=['png','jpg','jpeg','svg','webp'])])
+    site_preview = models.ImageField(upload_to='images_uploaded', null=True, blank=True, validators=[file_size,FileExtensionValidator(allowed_extensions=['png','jpg','jpeg','webp'])])
 
     upvotes = models.PositiveIntegerField(default=0)
     post_views = models.PositiveIntegerField(default=0)
@@ -82,7 +88,6 @@ class Post(models.Model):
 
     class Meta:
         ordering = ["-date","id"]
-
 
 class UserUpvote(models.Model):
     user = models.ForeignKey('auth.User', on_delete=models.CASCADE, related_name="upvotes")

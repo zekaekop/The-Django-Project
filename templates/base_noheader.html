@@ -23,9 +23,13 @@
 /* You must provide a dark and light version of an icon!! */
 /* ##############################################################*/
 
+body{
+    background-color: rgba(255, 255, 255, 0); /* makes the bg transparent, because this file is only used for create preview post  in the iframe*/
+}
+
 :root[data-theme="light"]{
     /* Background */
-    --bg-image: url("{% static 'img/wallpaper/waves5_light.jpg'%}");
+    /*--bg-image: url("{% static 'img/wallpaper/waves5_light.jpg'%}");
     
     /* Posts */
     --eye: url("{% static 'img/eye_dark.svg'%}"); /* view icon */
@@ -64,7 +68,7 @@
 }
 :root[data-theme="dark"]{
     /* Background */
-    --bg-image: url("{% static 'img/wallpaper/waves5_gray.jpg'%}");
+    /*--bg-image: url("{% static 'img/wallpaper/waves5_gray.jpg'%}");
 
     /* Posts */
     --eye: url("{% static 'img/eye_light.svg'%}"); /* view icon */
@@ -108,12 +112,13 @@
 
 
 <body>
-    {% include "header.html" %}
-    {% include 'messages.html' %}
 
     {% block body %}
 
     {% endblock %}
+
+    
+    <script src="{% static 'js/theme.js'%}"></script>
 
     <script src="{% static '/js/popper.min.js' %}"></script>
     <script src="{% static 'js/jquery.min.js' %}"></script>

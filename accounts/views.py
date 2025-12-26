@@ -16,7 +16,7 @@ def login_view(request):
             user = authenticate(username = username, password = password)
             login(request,user)
             return redirect('/')
-        return render(request, "account_templates/form.html", {'form':form, 'title':'Login'})
+        return render(request, "account_templates/form.html", {'form':form, 'title':'Login',"donthaveaccount":True})
 
 def signin_view(request):
     form = RegisterForm(request.POST or None)
@@ -30,7 +30,7 @@ def signin_view(request):
         new_user = authenticate(username = user.username, password = password)
         login(request, new_user)
         return redirect('/')
-    return render(request, "account_templates/form.html", {'form':form, 'title':'Sign in'})
+    return render(request, "account_templates/form.html", {'form':form, 'title':'Sign in', "donthaveaccount":False})
 
 def logout_view(request):
     logout(request)

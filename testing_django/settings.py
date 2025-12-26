@@ -128,19 +128,14 @@ USE_TZ = True
 # Static files (CSS, JavaScript, Images)
 # https://docs.djangoproject.com/en/5.2/howto/static-files/
 
-STATIC_URL = 'static/'
-
-STATICFILES_DIRS = (
-  os.path.join(BASE_DIR, 'static'),
-)
-
-STATIC_ROOT = os.path.join(BASE_DIR, 'staticfiles/')
-
-CKEDITOR_BASEPATH = "/static/ckeditor/ckeditor/"
-#STATIC_ROOT = os.path.join(BASE_DIR,'staticfiles/')
+STATIC_URL = '/static/'
+STATICFILES_DIRS = (os.path.join(BASE_DIR, 'static'),)
+STATIC_ROOT = os.path.join(BASE_DIR, 'staticfiles')
 
 MEDIA_URL = '/media/'
 MEDIA_ROOT = os.path.join(BASE_DIR, 'media')
+
+CKEDITOR_BASEPATH = "/static/ckeditor/ckeditor/"
 
 # Default primary key field type
 # https://docs.djangoproject.com/en/5.2/ref/settings/#default-auto-field
@@ -150,5 +145,4 @@ DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
 CRISPY_ALLOWED_TEMPLATE_PACKS = "bootstrap5"
 CRISPY_TEMPLATE_PACK = "bootstrap5"
 
-RECAPTCHA_PUBLIC_KEY = '6LdTh-wrAAAAAG2riGz9jQJGq2UGAz_qYIWT75Vp'
-RECAPTCHA_PRIVATE_KEY = '6LdTh-wrAAAAAMzytHHgHSTxbZtaWejE-MdhaGiU'
+X_FRAME_OPTIONS = "SAMEORIGIN"

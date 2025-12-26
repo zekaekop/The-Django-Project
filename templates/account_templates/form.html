@@ -12,7 +12,17 @@
                 <hr>
                 {% csrf_token %}
                 {{ form|crispy }}
-                <input class="btn btn-primary button_shadow" type="submit" value="Enter">
+                {% if donthaveaccount %}
+                    <div class="d-flex justify-content-center">
+                        <input class="btn btn-primary button_shadow" type="submit" value="Enter">
+                        <a href="{% url 'accounts:signin' %}" class="ms-auto mt-1 text_fadded">Don't have an account?</a>
+                    <div>
+                {% else %}
+                    <div class="d-flex justify-content-center">
+                        <input class="btn btn-primary button_shadow" type="submit" value="Enter">
+                        <a href="{% url 'accounts:login' %}" class="ms-auto mt-1 text_fadded">Already have an account?</a>
+                    <div>
+                {% endif %}
             </form>
         </div>
     </div>

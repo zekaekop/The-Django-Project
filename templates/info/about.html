@@ -1,17 +1,35 @@
-{% extends 'base.html'%}
-
+{% extends 'base.html' %}
 
 {% block body %}
-    <div class="container justify-content-center mt-2">
-        <h1 style="text-align: center;">About Us</h1>
-        <h5 style="text-align: center;">Lorem ipsum dolor sit amet consectetur adipisicing elit. Ad, beatae!</h3>
+<div class="container mt-5">
+    <h1 class="text-center mb-4">About The Django Project</h1>
+    <div class="card post_body_noscale p-3">
+        <p class="lead text-justify">
+            The Django Project is a dynamic web application designed to empower users to explore, create, and interact with
+            posts effortlessly.
+            It offers a seamless platform for sharing ideas, engaging with content, and connecting with a vibrant community.
+        </p>
 
-        <div class="container mt-5">
-            <div class="img-thumbnail post_body">
-                
-                <h4>Lorem ipsum dolor sit amet consectetur adipisicing elit. Unde rerum eveniet, a ut quas quae reiciendis odit cumque ipsum, necessitatibus ex aliquam animi nostrum, doloribus nulla excepturi aliquid perferendis? Nemo, id! Mollitia inventore minima asperiores soluta! Quam officia, ex consectetur eum, excepturi nisi commodi possimus iure molestias tenetur perferendis facere assumenda veniam vel, sed id. Deleniti accusamus quos aliquid unde velit aperiam facilis praesentium cupiditate itaque totam, animi voluptas sunt quae consectetur! Fugit, quibusdam, iure magni est numquam perferendis repellat ducimus dolorem amet praesentium ut. Quibusdam adipisci nihil recusandae? Ullam doloremque harum enim incidunt aliquam ipsam alias atque, laboriosam doloribus!</h4>
+        <h2 class="mt-4">Key Features</h2>
+        <ul class="list-group  mb-4">
+            <li class="list-group-item">Discover and interact with top posts.</li>
+            <li class="list-group-item">Create your own posts and share your ideas.</li>
+            <li class="list-group-item">Engage with the community through comments and upvotes.</li>
+            <li class="list-group-item">Admins can manage content efficiently via the admin panel.</li>
+            <li class="list-group-item">Contact feature to easily reach out to the development team.</li>
+        </ul>
 
-            </div>
+        <h2 class="mt-4">Contributing</h2>
+        <p class="text-justify">
+            Developers of all levels are welcome to contribute. Whether you're a beginner or an experienced coder,
+            The Django Project offers an opportunity to learn, collaborate, and enhance your skills.
+            Check out the <a href="https://github.com/zekaekop/The-Django-Project?tab=readme-ov-file">documentation</a> to
+            get started.
+        </p>
+
+        <div class="text-center mt-4">
+            <a href="https://github.com/zekaekop/The-Django-Project" class="btn btn-primary btn-lg button_shadow">Explore on GitHub</a>
         </div>
     </div>
+</div>
 {% endblock %}

@@ -30,6 +30,8 @@ Note: The images bellow is the fixture sample db, in the <a href="/docs/Running.
 <hr>
 <img width="1920" height="941" alt="image" src="https://github.com/user-attachments/assets/8358507e-7500-4152-b36a-80f786b9ff40" />
 
+<img width="1348" height="785" alt="image" src="https://github.com/user-attachments/assets/8c2bbb72-e56d-4608-a899-f8345277d9c4" />
+
 <img width="1920" height="945" alt="image" src="https://github.com/user-attachments/assets/20f75650-66ed-48f4-a280-879ace618801" />
 
 <img width="1920" height="947" alt="image" src="https://github.com/user-attachments/assets/30667a17-a289-490d-93c3-bde7e3013952" />

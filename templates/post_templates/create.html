@@ -1,0 +1,355 @@
+{% extends 'base.html' %}
+
+{% load static %}
+{% block body %}
+<div class="container-fluid">
+    <div class="row">
+        <!-- Left Side: Form Inputs -->
+        <div class="col-lg-4 col-md-5 p-4 ">
+            <h1 class="mb-4 text_color">Create New Post</h1>
+            <!-- <h5>Logged in as {{request.user|safe|truncatechars:50}}</h5> -->
+            
+            <form method="POST" enctype="multipart/form-data" id="postForm">
+                {% csrf_token %}
+                <div class="card">
+                <!-- Title Input -->
+                <div class="mb-4">
+                    <label class="form-label fw-bold">Title *</label>
+                    <textarea type="text" 
+                           name="title" 
+                           class="form-control form-control-lg" 
+                           placeholder="Enter post title"
+                           required
+                           rows="1"
+                           maxlength="200">{{post.title}}</textarea>
+                </div>
+                
+                <!-- Description Textarea -->
+                <div class="mb-2">
+                    <label class="form-label fw-bold">Description</label>
+                    <textarea id="descTextarea" maxlength="10000" name="desc" class="form-control" rows="4" placeholder="What's this post about?">{{post.desc}}</textarea>
+                </div>
+                
+                <!-- File Uploads -->
+                <div class="mb-2">
+                    <label class="form-label fw-bold">File Uploads</label> <img class="image_file_upload" alt=""> <img class="file_upload" alt="">
+                    <div class="row g-0 mb-2">
+                        <div class="col-md-6">
+                            <div class="btn btn-primary py-1 mt-3 button_shadow" style="height: 85%; width: 97%;"> 
+                                <a href=""><span class="div_link" id="uploadImg"></span></a> <!-- Add Image -->
+                                <input type="file" name="image" id="fileImg" style="display: none;">
+                                <div class="card-body">
+                                    <label class="form-label fw-bold text_color">Image</label> <img class="image_file_upload" alt=""> <!-- <a href="teststst"><img class="delete" alt=""></a>  I needs to ix z indexing before i can do this -->
+                                    <br>
+                                    <div class="card-body d-md-none">
+                                        <small class="text_fadded">Supported - png, jpg, jpeg, webp</small>
+                                    </div>
+                                    <br>
+                                    <small class="text_fadded" id="filename_img"> {% if post.image %}{{post.image.name|cut:"images_uploaded/"}} {% else %} None {% endif %} |</small> <!-- when updating if theres a image show its name, else none-->
+                                    <small class="text_fadded" id="filesize_img"> 0 </small> <small class="text_fadded">/ 10 MiB</small>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-md-6">
+                            <div class="btn btn-primary py-1 mt-3  button_shadow" style="height: 85%; width: 99%;">
+                                <a href=""><span class="div_link"  id="uploadVideo"></span></a> <!-- Add Video -->
+                                <input type="file" name="video" id="fileVideo" style="display: none;">
+                                <div class="card-body">
+                                    <label class="form-label fw-bold text_color">Video</label> <img class="image_file_upload" alt="">
+                                    <br>
+                                    <div class="card-body d-md-none">
+                                        <small class="text_fadded">Supported - MOV, avi, mp4, webm, mkv</small>
+                                    </div>
+                                    <br>
+                                    <small class="text_fadded" id="filename_video"> {% if post.video %}{{post.video.name|cut:"videos_uploaded/"}} {% else %} None {% endif %}  |</small>
+                                    <small class="text_fadded" id="filesize_video"> 0 </small> <small class="text_fadded">/ 10 MiB</small>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-md-6 w-100">
+                            <div class="btn btn-primary py-1 mt-3  button_shadow" style="height: 85%; width: 99%;">
+                                <a href=""><span class="div_link"  id="uploadSitePreview"></span></a> <!-- Add site preview -->
+                                <input type="file" name="site_preview" id="fileSitePreview" style="display: none;">
+                                <div class="card-body">
+                                    <label class="form-label fw-bold text_color">Site Preview </label> <img class="image_file_upload" alt="">
+                                    <br>
+                                    <small class="text_fadded" id="filename_site_preview"> {% if post.site_preview %}{{post.site_preview.name|cut:"images_uploaded/"}} {% else %} None {% endif %}  |</small>
+                                    <small class="text_fadded" id="filesize_site_preview"> 0 </small> <small class="text_fadded">/ 10 MiB</small>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-md-6">
+                            <div class="btn btn-primary py-1 mt-3  button_shadow" style="height: 85%; width: 97%;">
+                                <a href=""><span class="div_link"  id="uploadHtml"></span></a> <!-- Add Html -->
+                                <input type="file" name="user_html" id="fileHtml" style="display: none;">
+                                <div class="card-body">
+                                    <img class="html_logo" alt="" height="50"> <img class="file_upload" alt="">
+                                    <br>
+                                    <small class="text_fadded" id="filename_html"> {% if post.user_html %}{{post.user_html.name|cut:"html_uploaded/"}} {% else %} None {% endif %} |</small>
+                                    <small class="text_fadded" id="filesize_html"> 0 </small> <small class="text_fadded">/ 10 MiB</small>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-md-6">
+                            <div class="btn btn-primary py-1 mt-3  button_shadow" style="height: 85%; width: 99%;">
+                                <a href=""><span class="div_link"  id="uploadCss"></span></a> <!-- Add Css -->
+                                <input type="file" name="user_css" id="fileCss" style="display: none;">
+                                <div class="card-body">
+                                    <img class="css_logo" alt="" height="50"><img class="file_upload" alt="">
+                                    <br>
+                                    <small class="text_fadded" id="filename_css"> {% if post.user_css %}{{post.user_css.name|cut:"css_uploaded/"}} {% else %} None {% endif %} |</small>
+                                    <small class="text_fadded" id="filesize_css"> 0 </small> <small class="text_fadded">/ 10 MiB</small>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-md-6 w-100">
+                            <div class="btn btn-primary py-1 mt-3  button_shadow" style="height: 85%; width: 99%;">
+                                <a href=""><span class="div_link"  id="uploadJs"></span></a> <!-- Add Js -->
+                                <input type="file" name="user_js" id="fileJs" style="display: none;">
+                                <div class="card-body">
+                                    <img class="js_logo" alt="" height="50"><img class="file_upload" alt="">
+                                    <br>
+                                    <small class="text_fadded" id="filename_js"> {% if post.user_js %}{{post.user_js.name|cut:"js_uploaded/"}} {% else %} None {% endif %} |</small>
+                                    <small class="text_fadded" id="filesize_js"> 0 </small> <small class="text_fadded">/ 10 MiB</small>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    
+                </div>
+                
+                <!-- Submit Button -->
+                <div class="d-grid gap-2">
+                    <button type="submit" name="action" value="publish" class="btn btn-primary btn-lg py-3 button_shadow">
+                        <i class="bi bi-plus-circle me-2"></i>Create Post
+                    </button>
+                    <a href="{% url 'home:home' %}" class="btn btn-danger button_shadow">Cancel</a>
+                </div>
+
+                </div>
+            </form>
+        </div>
+        
+        <!-- Right Side: Live Preview -->
+        <div class="col-lg-8 col-md-7 p-4">
+            <div class="sticky-top" style="top: 20px;">
+                <div class="d-flex justify-content-between align-items-center mb-4">
+                    <h2>Post Preview</h2>
+                    <button type="submit" name="action" value="preview" class="btn btn-yellow button_shadow" onclick="updatePreview()">
+                        <img src="{% static 'img/post/create/refresh_light.svg'%}" alt="Refresh">
+                    </button>
+                </div>
+                
+                <!-- Preview Container -->
+                <div class="card shadow-lg">
+                    <div class="card-header bg-dark text-white">
+                        <div class="d-flex justify-content-between align-items-center">
+                            <span>Preview Window</span>
+                        </div>
+                    </div>
+                    <div class="card-body p-0">
+                        <div id="previewFrame" class="preview-container">
+                            <!-- Preview will be rendered here -->
+                            <iframe src="{% url 'post:preview' %}" style="position: absolute; height: 100%; width: 100%; border: none"  sandbox="allow-scripts allow-same-origin" scrolling="no"></iframe>
+                        </div>
+                    </div>
+                </div>
+                
+                <!-- Limits -->
+                <div class="mt-4">
+                    <div class="row text-center">
+                        <div class="col">
+                            <div class="card">
+                                <div class="card-body">
+                                    <small class="text_fadded">Description</small>
+                                    <h4 id="descCounter" class="text_fadded" ><span id="currentDescCount">0</span> <span id="maximumDescCount">/ 10,000</span> </h4>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col">
+                            <div class="card">
+                                <div class="card-body">
+                                    <small class="text_fadded">Post capacity</small>
+                                    <h4 id="jsCounter" class="text_fadded"><span id="total_capacity"></span> / 10 MiB</h4>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- Custom Styling -->
+<style>
+    .preview-container {
+        min-height: 500px;
+        background-image: var(--bg-image);
+        overflow: auto;
+        padding: 20px;
+    }
+    
+    [data-preview] {
+        transition: all 0.3s;
+    }
+    
+    [data-preview].active {
+        background-color: #6c63ff;
+        color: white;
+    }
+</style>
+
+<script src="{% static 'js/jquery.min.js' %}"></script>
+<!-- JavaScript for Live Preview -->
+<script>
+    // Character counters | Credit https://codepen.io/patrickwestwood/pen/gPPywv
+    $('#descTextarea').keyup(function() {
+        
+    var characterCount = $(this).val().length,
+        current = $('#currentDescCount'),
+        maximum = $('#maximumDescCount'),
+        theCount = $('#descCounter');
+        
+    current.text(characterCount);
+    
+    
+    /*Sets the color matching the quota limit
+    if (characterCount < 1000) {
+        current.css('color', convertHex('#050505', 0.5));
+    }
+    if (characterCount > 1000 && characterCount < 2999) {
+        current.css('color', '#6d5555');
+    }
+    if (characterCount > 3000 && characterCount < 4999) {
+        current.css('color', '#793535');
+    }
+    if (characterCount > 5000 && characterCount < 6999) {
+        current.css('color', '#841c1c');
+    }
+    if (characterCount > 7000 && characterCount < 8999) {
+        current.css('color', '#8f0001');
+    }
+    
+    if (characterCount >= 9000) {
+        maximum.css('color', '#8f0001');
+        current.css('color', '#8f0001');
+        theCount.css('font-weight','bold');
+    } else {
+        maximum.css('color', convertHex('#050505', 0.5));
+        theCount.css('color', convertHex('#050505', 0.5));
+    }*/
+    
+        
+    });
+    /*
+    function convertHex(hex,opacity){
+        hex = hex.replace('#','');
+        r = parseInt(hex.substring(0,2), 16);
+        g = parseInt(hex.substring(2,4), 16);
+        b = parseInt(hex.substring(4,6), 16);
+        result = 'rgba('+r+','+g+','+b+','+opacity/100+')';
+        return result;
+    }*/
+
+    // Uploads img and video from the custom cards using links
+    const uploadImg = document.getElementById('uploadImg');
+    const fileImg = document.getElementById('fileImg'); // input
+    const uploadVideo = document.getElementById('uploadVideo');
+    const fileVideo = document.getElementById('fileVideo'); // input
+
+    const uploadSitePreview = document.getElementById('uploadSitePreview');
+    const fileSitePreview = document.getElementById('fileSitePreview'); // input
+
+    // File uploads
+    const uploadHtml = document.getElementById('uploadHtml');
+    const fileHtml = document.getElementById('fileHtml');
+    const uploadCss = document.getElementById('uploadCss');
+    const fileCss = document.getElementById('fileCss');
+    const uploadJs = document.getElementById('uploadJs');
+    const fileJs = document.getElementById('fileJs'); 
+
+    function triggerFileInput(fileInput) {return function (e) {
+        e.preventDefault();
+        fileInput.click();
+    };
+    }
+
+    uploadImg.addEventListener('click', triggerFileInput(fileImg));
+    uploadVideo.addEventListener('click', triggerFileInput(fileVideo));
+    uploadSitePreview.addEventListener('click', triggerFileInput(fileSitePreview));
+
+    uploadHtml.addEventListener('click', triggerFileInput(fileHtml));
+    uploadCss.addEventListener('click', triggerFileInput(fileCss));
+    uploadJs.addEventListener('click', triggerFileInput(fileJs));
+
+
+    const total_capacity = document.getElementById('total_capacity'); 
+    var total_size = 0;
+    total_capacity.textContent = total_size;
+    
+    function apply_file_data(filename, filesize) {return function () { // Applies file data to the custom upload cards
+        if (this.files.length > 0) { // checks if its emty
+            if (this.files[0].size < (1048576 * 10)) // if its bellow 10 MiBs | 1048576 is 1 MiB
+            {
+                if ((total_size + this.files[0].size) < (1048576 * 10)){
+                    filename.textContent = this.files[0].name;
+
+                    total_size += this.files[0].size; // Adds to the total capacity
+                    
+                    total_capacity.textContent = (total_size / (1024 * 1024)).toFixed(2);;
+
+                    const filesize_untrimmed = (this.files[0].size) / (1024 * 1024);
+                    filesize.textContent = filesize_untrimmed.toFixed(2); // trims, basically just makes Ex. 74.02389378138 to 74.02
+                    filesize.textContent += " MiB";
+                }
+            }
+            else{
+                this.value = ''; // removes file
+            }
+        }
+    };
+    }
+
+    const filename_img = document.getElementById('filename_img');
+    const filesize_img = document.getElementById('filesize_img');
+
+    const filename_video = document.getElementById('filename_video');
+    const filesize_video = document.getElementById('filesize_video');
+
+    const filename_site_preview = document.getElementById('filename_site_preview');
+    const filesize_site_preview = document.getElementById('filesize_site_preview');
+
+    const filename_html = document.getElementById('filename_html');
+    const filesize_html = document.getElementById('filesize_html');
+    const filename_css = document.getElementById('filename_css');
+    const filesize_css = document.getElementById('filesize_css');
+    const filename_js = document.getElementById('filename_js');
+    const filesize_js = document.getElementById('filesize_js');
+
+    
+    fileImg.addEventListener('change', apply_file_data(filename_img, filesize_img))
+    fileVideo.addEventListener('change', apply_file_data(filename_video, filesize_video))
+    fileSitePreview.addEventListener('change', apply_file_data(filename_site_preview, filesize_site_preview))
+
+    fileHtml.addEventListener('change', apply_file_data(filename_html, filesize_html))
+    fileCss.addEventListener('change', apply_file_data(filename_css, filesize_css))
+    fileJs.addEventListener('change', apply_file_data(filename_js, filesize_js))
+    
+    // Live preview update
+    function updatePreview() {
+        
+        const previewFrame = document.getElementById('previewFrame');
+    }
+    
+    // Auto-update preview on typing (debounced)
+    let previewTimeout;
+    document.querySelectorAll('textarea[name="user_html"], textarea[name="user_css"], textarea[name="user_js"]').forEach(textarea => {
+        textarea.addEventListener('input', function() {
+            clearTimeout(previewTimeout);
+            previewTimeout = setTimeout(updatePreview, 1000);
+        });
+    });
+</script>
+{% endblock %}

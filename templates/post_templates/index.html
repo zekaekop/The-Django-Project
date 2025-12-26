@@ -76,7 +76,7 @@
                                 <img class="ms-2 eye" alt="">{{ post.post_views }} 
                                 <div class="ms-auto">
                                     {% if post.user == request.user %} <!-- Checks if you are owner of post -->
-                                        <a href="{{ post.get_update_url }}"><img class="edit"  alt="Edit Post"></a>
+                                        <a href="{% url 'post:update' post.id %}"><img class="edit"  alt="Edit Post"></a>
                                         <a href="" data-bs-toggle="modal" data-bs-target="#modal_delete_{{ post.id }}"><img class="delete" alt="Delete Post"></a>
                                     {% endif %}
                                 </div>

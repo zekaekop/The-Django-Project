@@ -4,13 +4,16 @@
     --bg-secondary-color: rgba(230, 230, 230, 0.3);
     --bg-border-color: rgb(200, 200, 200);
     --text-color: rgb(5, 5, 5);
-    --text-color-faded: rgb(5, 5, 5, 0.5);
+    --text-color-faded: rgba(5, 5, 5, 0.5);
+    --text-color-faded: rgba(5, 5, 5, 0.5);
 
     --shadow-color-08: rgba(0, 0, 0, 0.8);
     --shadow-color-04: rgba(0, 0, 0, 0.4);
     --shadow-color-02: rgba(0, 0, 0, 0.2);
 
     --transparent: rgba(0, 0, 0, 0);
+
+    --bubble-brightness: 0.5;
 
     --button-disabled: #8a8a8a;
     --button-disabled-hover: #7c7c7c;
@@ -41,6 +44,8 @@
     --shadow-color-02: rgba(0, 0, 0, 0.5);
 
     --transparent: rgba(0, 0, 0, 0);
+
+    --bubble-brightness: 1.0;
     
     --button-disabled: #4a4a4a;
     --button-disabled-hover: #5a5a5a;
@@ -93,6 +98,17 @@
 }
 */
 
+input::placeholder {
+    color: var(--text-color-faded) !important;
+}
+
+/* Target all textarea placeholders */
+textarea::placeholder {
+    color: var(--text-color-faded) !important;
+}
+
+
+
 body {
     color: var(--text-color);
     background-color: var(--bg-color);
@@ -130,6 +146,16 @@ div{
     filter: opacity(25%);
 }
 
+.list-group{
+    box-shadow: 5px 5px 10px var(--shadow-color-02);
+}
+
+.list-group-item{
+    color: var(--text-color);
+    background-color: var(--bg-secondary-color);
+    border-color: var(--bg-border-color);
+}
+
 nav {
     position: relative;
     overflow: hidden;
@@ -144,6 +170,7 @@ nav {
     width: 50px;
     height: auto;
     z-index: -10;
+    filter: brightness(var(--bubble-brightness));
     animation: bubble-float 3s ease-in infinite;
 }
 
@@ -162,6 +189,7 @@ nav {
     overflow-wrap: break-word;
     margin-left: 0.5rem;
 }
+
 .post_body{
     margin: 5px; 
     box-shadow: 5px 5px 10px var(--shadow-color-02);
@@ -257,6 +285,27 @@ nav {
     box-shadow: 2px 2px 5px var(--shadow-color-04);
 }
 
+.btn-yellow{
+    color: white;
+    background-color: rgb(255, 186, 36);
+    border-color: orange;
+    transition: all 100ms ease-out;
+    transform: scale(1.00);
+}
+
+.btn-yellow:hover{
+    color: white;
+    background-color: rgb(243, 171, 17);
+    border-color: rgb(255, 173, 21);
+    transition: all 100ms ease-out;
+    transform: scale(1.03);
+}
+
+.btn-yellow:active{
+    background-color: rgb(243, 144, 46) !important;
+    border-color: rgb(255, 138, 21) !important;
+}
+
 .btn-primary{
     color: var(--text-color);
     background-color: var(--button-primary-color);
@@ -301,10 +350,6 @@ nav {
 .btn-primary:active{
     background-color: var(--button-primary-color) !important;
     border-color: var(--button-border-color-hover) !important; 
-}
-
-.card{
-    max-width: 100%;
 }
 
 .card-header{
@@ -356,3 +401,150 @@ nav {
   background-image: url('empty.gif');
 }
 /*https://stackoverflow.com/questions/796087/make-a-div-into-a-link*/
+
+
+/*THEME*/
+
+
+/* Background */
+body{
+    background-image: var(--bg-image);
+    background-size: cover;
+    background-repeat: no-repeat; 
+    background-attachment: fixed;
+}
+
+.card { 
+    margin: 10px !important;
+    padding: 10px !important;
+    box-shadow: 5px 5px 10px var(--shadow-color-02) !important;
+    background-color: var(--bg-color) !important;
+    border-color: var(--button-border-color);
+}
+
+.table{
+    --bs-table-color: var(--text-color);
+    --bs-table-bg: var(--bg-color);
+    --bs-table-border-color: var(--bg-border-color);
+}
+
+.nav-link {
+    color: var(--text-color) !important;
+}
+
+.img-thumbnail{
+    border-color: var(--bg-border-color);
+    background-color: var(--bg-color) !important;
+}
+
+/* Modals */
+
+.modal-content{
+    background-color: var(--bg-color);
+}
+
+.modal-header{
+    border-bottom: var(--bs-modal-header-border-width) solid var(--bg-border-color);
+}
+
+.modal-footer{
+    border-top: var(--bs-modal-footer-border-width) solid var(--bg-border-color);
+}
+
+/* ##############################################################*/
+/* icons that match the web theme must apply to the img tag. */
+/* ##############################################################*/
+
+/* Posts */
+.arrow_upvote{
+    content: var(--arrow);
+}
+
+.arrow_fill_upvote{
+    content: var(--arrow-fill);
+}
+
+.eye{
+    content: var(--eye);
+}
+
+.edit{
+    content: var(--edit);
+}
+
+.flag{
+    content: var(--flag);
+}
+/* Post Create */
+.file_upload{
+    content: var(--file-upload);
+}
+.image_file_upload{
+    content: var(--file-upload-image);
+}
+.css_logo{
+    content: var(--css-logo);
+}
+
+.js_logo{
+    content: var(--js-logo);
+}
+
+.html_logo{
+    content: var(--html-logo);
+}
+
+
+.flag_fill{
+    content: var(--flag-fill);
+}
+
+/* Admin panel */
+.edit_normal{
+    content: var(--edit-normal);
+}
+
+.delete{
+    content: var(--delete);
+}
+
+.account{
+    content: var(--account);
+}
+
+.account_false{
+    content: var(--account-false);
+}
+
+.admin_true{
+    content: var(--admin-true);
+}
+
+.admin_false{
+    content: var(--admin-false);
+}
+
+.disabled_eye{
+    content: var(--disabled-eye);
+}
+
+/* Header */
+
+.theme_toggle_icon{
+    content: var(--theme_toggle_icon);
+}
+
+.compass{
+    content: var(--compass);
+}
+
+.map_search{
+    content: var(--map-search);
+}
+
+/* Paginator */
+
+.paginator-arrow-left{ content: var(--paginator-arrow-left); }
+.paginator-arrow-right{ content: var(--paginator-arrow-right); }
+.paginator-arrow-double-left{ content: var(--paginator-arrow-double-left); }
+.paginator-arrow-double-right{ content: var(--paginator-arrow-double-right); }

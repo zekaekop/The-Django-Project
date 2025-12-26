@@ -17,6 +17,7 @@ urlpatterns = [
     re_path(r'^(?P<id>\d+)/$', posts.list_post_in_detail, name = "detail"), 
     # r'^(?P<id>\d+)/$' doesnt work with path
     path("create/", views.post_create, name = "create"),
+    path("create/preview", views.post_create_preview, name = "preview"),
 
     # Post actions
     re_path(r'^(?P<id>\d+)/update/$', post_actions.post_update, name = "update"),
@@ -25,4 +26,7 @@ urlpatterns = [
 
     re_path(r'^(?P<id>\d+)/upvote/$', post_actions.upvote_in_blog, name = "upvote_post"),
     re_path(r'^(?P<id>\d+)/upvote/detail/$', post_actions.upvote_in_detail, name = "upvote_post_detail"),
+
+    # Web
+    re_path(r'^(?P<id>\d+)/web/$', posts.render_web_view, name = "web"), 
 ]
