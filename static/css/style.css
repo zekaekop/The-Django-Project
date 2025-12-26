@@ -112,6 +112,7 @@ textarea::placeholder {
 body {
     color: var(--text-color);
     background-color: var(--bg-color);
+    overflow-x: hidden;
 }
 
 div{
@@ -142,8 +143,19 @@ div{
 
 .cloud{
     position: absolute;
-    z-index: 0;
-    filter: opacity(25%);
+    z-index: -10;
+    filter: opacity(10%);
+    animation: cloud-float linear infinite;
+
+}
+
+@keyframes cloud-float {
+    from {
+        left: -10%;
+    }
+    to {
+        left: 100%; 
+    }
 }
 
 .list-group{
