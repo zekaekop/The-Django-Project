@@ -91,6 +91,13 @@ class Post(models.Model):
     class Meta:
         ordering = ["-date","id"]
 
+class PostImage(models.Model):
+    post = models.ForeignKey(Post, related_name='images', on_delete=models.CASCADE)
+    image = models.ImageField(
+        upload_to='images_uploaded',
+        validators=[Post.file_size, FileExtensionValidator(allowed_extensions=['png','jpg','jpeg','webp'])]
+    )
+
 class UserUpvote(models.Model):
     user = models.ForeignKey('auth.User', on_delete=models.CASCADE, related_name="upvotes")
     post = models.ForeignKey(Post, on_delete=models.CASCADE, related_name="user_upvotes")

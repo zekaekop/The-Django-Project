@@ -38,7 +38,7 @@
                             <div class="btn btn-primary py-1 mt-3 button_shadow" style="height: 85%; width: 97%;"> 
                                 <a href=""><span class="div_link" id="uploadImg"></span></a> <!-- Add Image -->
                                 <a href=""><span class="div_link" style="width: 2rem; height: 2rem;" id="deleteImg"><img class="delete scale-hover" alt=""></span></a> <!-- Delete Image -->
-                                <input type="file" name="image" id="fileImg" style="display: none;">
+                                <input type="file" name="images" multiple accept="image/*" id="fileImg" style="display: none;">
                                 <div class="card-body">
                                     <label class="form-label fw-bold text_color">Image</label> <img class="image_file_upload" alt=""> <!-- <a href="teststst"><img class="delete" alt=""></a>  I needs to ix z indexing before i can do this -->
                                     <br>
@@ -46,7 +46,10 @@
                                         <small class="text_fadded">Supported - png, jpg, jpeg, webp</small>
                                     </div>
                                     <br>
-                                    <small class="text_fadded" id="filename_img"> {% if post.image %}{{post.image.name|cut:"images_uploaded/"}} {% else %} None {% endif %} |</small> <!-- when updating if theres a image show its name, else none-->
+                                    <div id="file_error" class="alert alert-danger d-none py-1" role="alert" style="font-size:0.9rem;">
+                                        <small id="file_error_text"></small>
+                                    </div>
+                                    <small class="text_fadded" id="filename_img"> {% if post and post.images.count %}{{ post.images.count }} files {% elif post and post.image %}{{post.image.name|cut:"images_uploaded/"}} {% else %} None {% endif %} |</small> <!-- when updating if theres a image show its name, else none-->
                                     <small class="text_fadded" id="filesize_img"> 0 </small> <small class="text_fadded">/ 10 MiB</small>
                                 </div>
                             </div>
@@ -350,27 +353,46 @@
     var total_size = 0;
     total_capacity.textContent = total_size;
     
-    function apply_file_data(filename, filesize) {return function () { // Applies file data to the custom upload cards
-        if (this.files.length > 0) { // checks if its emty
-            if (this.files[0].size < (1048576 * 10)) // if its bellow 10 MiBs | 1048576 is 1 MiB
-            {
-                if ((total_size + this.files[0].size) < (1048576 * 10)){
-                    filename.textContent = this.files[0].name;
+    const fileError = document.getElementById('file_error');
+    const fileErrorText = document.getElementById('file_error_text');
 
-                    total_size += this.files[0].size; // Adds to the total capacity
-                    
-                    total_capacity.textContent = (total_size / (1024 * 1024)).toFixed(2);;
+    function showFileError(msg) {
+        if (fileError && fileErrorText) {
+            fileErrorText.textContent = msg;
+            fileError.classList.remove('d-none');
+            // hide after 5 seconds
+            setTimeout(() => { fileError.classList.add('d-none'); fileErrorText.textContent = ''; }, 5000);
+        } else {
+            alert(msg);
+        }
+    }
 
-                    const filesize_untrimmed = (this.files[0].size) / (1024 * 1024);
-                    filesize.textContent = filesize_untrimmed.toFixed(2); // trims, basically just makes Ex. 74.02389378138 to 74.02
-                    filesize.textContent += " MiB";
+    function apply_file_data(filename, filesize) {
+        return function () {
+            if (this.files.length > 0) {
+                let addedSize = 0;
+                let names = [];
+                for (let i = 0; i < this.files.length; i++) {
+                    const file = this.files[i];
+                    if (file.size > (1048576 * 10)) { // per-file limit
+                        showFileError('File limit allowed 10 MB only');
+                        this.value = '';
+                        return;
+                    }
+                    addedSize += file.size;
+                    names.push(file.name);
+                }
+                if ((total_size + addedSize) < (1048576 * 10)) {
+                    filename.textContent = names.length > 1 ? `${names.length} files` : names[0];
+                    total_size += addedSize; // Adds to the total capacity
+                    total_capacity.textContent = (total_size / (1024 * 1024)).toFixed(2);
+                    filesize.textContent = (addedSize / (1024 * 1024)).toFixed(2) + " MiB";
+                } else {
+                    showFileError('File limit allowed 10 MB only');
+                    this.value = '';
                 }
             }
-            else{
-                this.value = ''; // removes file
-            }
-        }
-    };
+        };
     }
 
     
@@ -394,6 +416,16 @@
         textarea.addEventListener('input', function() {
             clearTimeout(previewTimeout);
             previewTimeout = setTimeout(updatePreview, 1000);
+        });
+    });
+
+    // If server-side returned a file-limit message, mirror it near the upload
+    document.addEventListener('DOMContentLoaded', function() {
+        document.querySelectorAll('.messages li').forEach(function(li) {
+            const txt = li.textContent || '';
+            if (txt.includes('File limit allowed') || txt.includes('10 MiB')) {
+                showFileError(txt.trim());
+            }
         });
     });
 </script>

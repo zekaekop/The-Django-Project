@@ -21,7 +21,11 @@
                                 <video src="{{ post.video.url }}" alt="Post video" class="img-thumbnail mt-2" width="800" controls></video>                          
                             {% endif %}
 
-                            {% if post.image%}
+                            {% if post.images.count %}
+                                {% for img in post.images.all %}
+                                    <img src="{{ img.image.url }}" alt="Post Image" class="img-thumbnail mt-2" style="width: 600px;">
+                                {% endfor %}
+                            {% elif post.image %}
                                 <img src="{{ post.image.url }}" alt="Post Image" class="img-thumbnail mt-2" style="width: 600px;">
                             {% endif %}
 

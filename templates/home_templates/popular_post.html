@@ -19,8 +19,10 @@
 
                 {% if post.video %}
                     <video src="{{ post.video.url }}" alt="Post video" class="img-thumbnail mt-2" width="500" controls></video>
-                {% else %}                            
-                    {% if post.image%}
+                {% else %}
+                    {% if post.images.count %}
+                        <img src="{{ post.images.all.0.image.url }}" alt="Post Image" class="img-thumbnail mt-2" style="max-height: 200px;">
+                    {% elif post.image %}
                         <img src="{{ post.image.url }}" alt="Post Image" class="img-thumbnail mt-2" style="max-height: 200px;">
                     {% endif %}
                 {% endif %}
