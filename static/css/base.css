@@ -1,6 +1,11 @@
 /* Main css file */
 /* This is where you will find cards styles and layouts */
 
+*{
+    font-family:  'Quicksand',  'Times New Roman', Times, serif !important;
+    font-weight: 600 !important;
+}
+
 /* Background */
 body{
     background-image: var(--bg-image);
