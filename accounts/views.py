@@ -44,7 +44,19 @@ def signin_view(request):
         new_user = authenticate(username = user.username, password = password)
         login(request, new_user)
         return redirect('/')
-    return render(request, "account_templates/form.html", {'form':form, 'title':'Sign in', "donthaveaccount":False})
+    
+    posts = Post.objects.count()
+    accounts = User.objects.count()
+    
+    context ={
+        'form':form,
+        'title':'Login',
+        "donthaveaccount":False,
+        "total_accounts":accounts,
+        "total_posts":posts,
+        }
+        
+    return render(request, "account_templates/form.html", context)
 
 def logout_view(request):
     logout(request)
