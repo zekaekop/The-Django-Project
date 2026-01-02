@@ -35,6 +35,8 @@ class Post(models.Model):
 
     staff_modified = models.BooleanField(default=False)
 
+    updated_at = models.DateTimeField(verbose_name="Date/Time ", null=True)
+
     def __str__(self):
         return self.title
 

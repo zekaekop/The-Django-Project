@@ -13,6 +13,7 @@ from django.http import JsonResponse
 
 from django.core.paginator import Paginator
 from django.conf import settings
+from django.utils import timezone
 #from django.utils.text import slugify
 
 def authenticate_users(request):
@@ -261,6 +262,7 @@ class PostActions():
 
                     if action == "publish":
                         if post.title and post.desc:
+                            post.updated_at = timezone.now()
                             post.save()
                             return HttpResponseRedirect(post.get_absolute_url())
 

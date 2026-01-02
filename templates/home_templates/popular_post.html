@@ -35,6 +35,10 @@
                             <small>Show More</small>
                         {% endif %}
                     {% endif %}
+
+                    {% if post.updated_at %}
+                        <small class="text_fadded">Edited {{ post.updated_at }}</small>
+                    {% endif %}
                 </div>
             </div>
         </div>

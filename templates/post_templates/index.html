@@ -42,9 +42,17 @@
                                 {% endif %}
                             {% endif %}
 
+
+
                             <div class="card-header mt-2" style="position: relative;">
                                 {{ post.desc|safe|linebreaks|truncatechars:150 }}
+
+                                {% if post.updated_at %}
+                                    <small class="text_fadded">Edited {{ post.updated_at }}</small>
+                                {% endif %}
                             </div>
+
+
 
                             {% if post.site_preview %}
                                 <div class="d-flex flex-column">
