@@ -12,7 +12,7 @@
             <div class="card p-2" style="box-shadow: 5px 5px 10px rgba(0, 0, 0, 0.45);">
 
                 <form method="POST" autocomplete="off">
-                    <h1 class="text-center text_color">{{ title }}</h1>
+                    <h1 class="text_color">{{ title }}</h1>
                     <hr>
 
                     {% csrf_token %}
@@ -38,7 +38,7 @@
                         <div class="card-body">
                             <small class="text_fadded">Registered Accounts</small>
                             <h4 id="descCounter" class="text_fadded">
-                                <span id="currentDescCount">0</span>
+                                <span id="currentDescCount">{{ total_accounts }}</span>
                             </h4>
                         </div>
                     </div>
@@ -48,7 +48,7 @@
                         <div class="card-body">
                             <small class="text_fadded">Created Posts</small>
                             <h4 id="descCounter" class="text_fadded">
-                                <span id="currentDescCount">0</span>
+                                <span id="currentDescCount">{{ total_posts }}</span>
                             </h4>
                         </div>
                     </div>
