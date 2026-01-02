@@ -23,6 +23,10 @@ div{
     color: var(--text-color);
 }
 
+hr{
+    color: var(--text-color);
+}
+
 .text_color{
     color: var(--text-color);
 }
