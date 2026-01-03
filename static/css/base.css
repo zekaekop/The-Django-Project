@@ -6,6 +6,11 @@
     font-weight: 600 !important;
 }
 
+*{
+    font-family:  'Quicksand',  'Times New Roman', Times, serif !important;
+    font-weight: 600 !important;
+}
+
 /* Background */
 body{
     background-image: var(--bg-image);
