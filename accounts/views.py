@@ -1,6 +1,8 @@
 from django.shortcuts import render, redirect , get_object_or_404, Http404
 from .forms import LoginForm, RegisterForm
 from django.contrib.auth import authenticate, login, logout
+from post.models import Post
+from django.contrib.auth.models import User
 from django.db.models import Q
 from django.core.paginator import Paginator
 
@@ -16,7 +18,19 @@ def login_view(request):
             user = authenticate(username = username, password = password)
             login(request,user)
             return redirect('/')
-        return render(request, "account_templates/form.html", {'form':form, 'title':'Login',"donthaveaccount":True})
+        
+        posts = Post.objects.count()
+        accounts = User.objects.count()
+        
+        context ={
+            'form':form,
+            'title':'Login',
+            "donthaveaccount":True,
+            "total_accounts":accounts,
+            "total_posts":posts,
+            }
+        
+        return render(request, "account_templates/form.html", context)
 
 def signin_view(request):
     form = RegisterForm(request.POST or None)
@@ -30,7 +44,19 @@ def signin_view(request):
         new_user = authenticate(username = user.username, password = password)
         login(request, new_user)
         return redirect('/')
-    return render(request, "account_templates/form.html", {'form':form, 'title':'Sign in', "donthaveaccount":False})
+    
+    posts = Post.objects.count()
+    accounts = User.objects.count()
+    
+    context ={
+        'form':form,
+        'title':'Login',
+        "donthaveaccount":False,
+        "total_accounts":accounts,
+        "total_posts":posts,
+        }
+        
+    return render(request, "account_templates/form.html", context)
 
 def logout_view(request):
     logout(request)
