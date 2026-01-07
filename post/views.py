@@ -99,6 +99,7 @@ class ListPosts():
             "reported_posts" : reports,
             "debug": settings.DEBUG,
             "category":Post.Categories,
+            "current_category": category,
         }
 
         suffix = ""
