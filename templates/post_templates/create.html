@@ -33,7 +33,7 @@
                 <div class="mb-4">
                 <label class="form-label fw-bold">Category *</label> <br>
                 {% for cats in category %}
-                        <div class="btn btn-primary py-1 mt-3 button_shadow" style="cursor:auto;">
+                        <div class="btn btn-primary py-1 mt-3 button_shadow" style="cursor:auto;"  data-bs-toggle="tooltip" title="{{ cats.label }}">
                             {% if cats == 'CNT' %}  
                                  <input class="button_shadow" style="cursor: pointer;" type="radio" name="category" value="CNT"  data-bs-toggle="tooltip" title="{{ cats.label }}"  checked="checked">
                             {% else %}
