@@ -58,10 +58,12 @@
                                 {% endif %}
                             {% endif %}
 
-
-
                             <div class="card-header mt-2" style="position: relative;">
                                 {{ post.desc|safe|linebreaks|truncatechars:150 }}
+
+                                {% if post.current_total_size or post.current_total_size >= 0.01 %}
+                                <small class="text_fadded">{{ post.current_total_size }} MiB</small>
+                                {% endif %}
 
                                 {% if post.updated_at %}
                                     <small class="text_fadded">Edited {{ post.updated_at }}</small>
