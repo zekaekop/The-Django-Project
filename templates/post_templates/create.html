@@ -139,6 +139,7 @@
                         </div>
                     </div>
 
+                    <input type="hidden" id="total_capacity_inp" name="total_size" value="0" > <!-- Posts all store their size in the db -->
                     
                 </div>
                 
@@ -205,7 +206,7 @@
                             <div class="card">
                                 <div class="card-body">
                                     <small class="text_fadded">Post capacity</small>
-                                    <h4 id="jsCounter" class="text_fadded"><span id="total_capacity"></span> / 10 MiB</h4>
+                                    <h4 id="jsCounter" class="text_fadded"><span id="total_capacity" ></span> / 10 MiB</h4>
                                 </div>
                             </div>
                         </div>
@@ -364,9 +365,12 @@
     deleteJs.addEventListener('click', removeSelectedFile(fileJs, filename_js, filesize_js));
 
     const total_capacity = document.getElementById('total_capacity'); 
+    const total_capacity_inp = document.getElementById('total_capacity_inp'); 
     var total_size = 0;
     total_capacity.textContent = total_size;
-    
+    total_capacity.value = total_size;
+    total_capacity_inp.value = total_size;
+
     const fileError = document.getElementById('file_error');
     const fileErrorText = document.getElementById('file_error_text');
 
@@ -394,12 +398,14 @@
                         return;
                     }
                     addedSize += file.size;
-                    names.push(file.name);
+                    names.push(file.name);  
                 }
                 if ((total_size + addedSize) < (1048576 * 10)) {
                     filename.textContent = names.length > 1 ? `${names.length} files` : names[0];
                     total_size += addedSize; // Adds to the total capacity
                     total_capacity.textContent = (total_size / (1024 * 1024)).toFixed(2);
+                    total_capacity.value = (total_size / (1024 * 1024)).toFixed(2);
+                    total_capacity_inp.value = (total_size / (1024 * 1024)).toFixed(2);
                     filesize.textContent = (addedSize / (1024 * 1024)).toFixed(2) + " MiB";
                 } else {
                     showFileError('File limit allowed 10 MB only');

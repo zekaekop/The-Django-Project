@@ -350,6 +350,8 @@ def post_create(request):
 
         category = request.POST.get("category")
 
+        current_total_size = request.POST.get("total_size")
+
         title = request.POST.get("title")
         desc = request.POST.get("desc")
 
@@ -374,6 +376,7 @@ def post_create(request):
             user_css=user_css,
             user_js=user_js,
             category = category,
+            current_total_size = current_total_size,
         )
 
         if action == "publish":

@@ -37,6 +37,8 @@ class Post(models.Model):
 
     updated_at = models.DateTimeField(verbose_name="Date/Time ", null=True)
 
+    current_total_size = models.FloatField(default=0, null=True)
+
     class Categories(models.TextChoices):
         
         # miscs
@@ -55,7 +57,6 @@ class Post(models.Model):
         art = "ART", "Art"
         entertainment = "ENT", "Entertainment"
         video_games = "VGZ", "Video Games"
-        
 
     category = models.CharField( max_length=3, choices=Categories.choices, default=Categories.central,)
 
