@@ -50,9 +50,12 @@ class Post(models.Model):
         
         # generics
         tech = "TCH", 'Technology',
-        cooking = "COK", 'Cooking',
         world_news = "WNS", 'World News',
         economics = "ECO", 'Economics',
+        art = "ART", "Art"
+        entertainment = "ENT", "Entertainment"
+        video_games = "VGZ", "Video Games"
+        
 
     category = models.CharField( max_length=3, choices=Categories.choices, default=Categories.central,)
 
