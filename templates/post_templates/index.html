@@ -4,6 +4,22 @@
 {% load timesince_shortner %}
 {% block body%}
 
+<div class="container">             
+    <div class="row row-cols-1 row-cols-md-3" style="margin-top: 1rem;">
+        <div class="col d-flex mt-3">
+            <div>
+                <ul class="nav d-flex justify-content-end ms-auto">
+                     <li> <a href="">Test</a></li>
+                     <li> <a href="">Test</a></li>
+                     <li> <a href="">Test</a></li>
+                     <li> <a href="">Test</a></li>
+                     <li> <a href="">Test</a></li>
+                     <li> <a href="">Test</a></li>
+                </ul>
+            </div>
+        </div>
+    </div>
+</div>
 
 {% if posts %}
     <div class="container">             
@@ -16,8 +32,6 @@
                         <div style="position: relative; flex-grow: 1; overflow: hidden; overflow-wrap: break-word;">
                             <a href="{{ post.get_absolute_url }}"><span class="div_link"></span></a>
 
-                            
-                            
                             <div class="card-header mb-2">
                                 <h3 class="post_title">
                                     {{ post.title }}
@@ -51,8 +65,6 @@
                                     <small class="text_fadded">Edited {{ post.updated_at }}</small>
                                 {% endif %}
                             </div>
-
-
 
                             {% if post.site_preview %}
                                 <div class="d-flex flex-column">
