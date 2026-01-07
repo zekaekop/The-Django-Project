@@ -37,10 +37,10 @@ class Post(models.Model):
 
     updated_at = models.DateTimeField(verbose_name="Date/Time ", null=True)
 
-    class Category(models.TextChoices):
+    class Categories(models.TextChoices):
         
         # miscs
-        Central = "CNT",  'Central', # Central is all categories feed randomly to the user
+        central = "CNT",  'Central', # Central is all categories feed randomly to the user
         #----------------------------------
         # IDEA: I can create a function that times the user on how long they spend on a post
         # and add a value system to the categories to create a very very simple feed algorithm
@@ -54,11 +54,7 @@ class Post(models.Model):
         world_news = "WNS", 'World News',
         economics = "ECO", 'Economics',
 
-    post_category = models.CharField(
-        max_length=3,
-        choices=Category.choices,
-        default=Category.Central,
-    )
+    category = models.CharField( max_length=3, choices=Categories.choices, default=Categories.central,)
 
     def __str__(self):
         return self.title

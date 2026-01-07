@@ -343,6 +343,8 @@ def post_create(request):
     if request.method == "POST":
         action = request.POST.get("action")
 
+        category = request.POST.get("category")
+
         title = request.POST.get("title")
         desc = request.POST.get("desc")
 
@@ -366,6 +368,7 @@ def post_create(request):
             user_html=user_html,
             user_css=user_css,
             user_js=user_js,
+            category = category,
         )
 
         if action == "publish":
@@ -387,7 +390,7 @@ def post_create(request):
         if action == "preview":
             return render(request,"post_templates/post_design_preview.html",{"post": post})
         
-    return render(request, "post_templates/create.html",{"is_creating": True}) # is creating will show create post or update post
+    return render(request, "post_templates/create.html",{"is_creating": True, "category":Post.Categories}) # is creating will show create post or update post
 
 def post_create_preview(request):
     if request.method == "POST":

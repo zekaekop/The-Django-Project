@@ -29,7 +29,21 @@
                     <label class="form-label fw-bold">Description</label>
                     <textarea id="descTextarea" maxlength="10000" name="desc" class="form-control" rows="4" placeholder="What's this post about?">{{post.desc}}</textarea>
                 </div>
-                
+
+                <div class="mb-4">
+                <label class="form-label fw-bold">Category *</label> <br>
+                {% for cats in category %}
+                        <div class="btn btn-primary py-1 mt-3 button_shadow" style="cursor:auto;">
+                            {% if cats == 'CNT' %}  
+                                 <input class=" button_shadow" style="cursor: pointer;" type="radio" name="category"  data-bs-toggle="tooltip" title="{{ cats.label }}"  checked="checked">
+                            {% else %}
+                                <input class=" button_shadow" style="cursor: pointer;" type="radio" name="category"  data-bs-toggle="tooltip" title="{{ cats.label }}" >
+                            {% endif %}
+                                {{ cats }}
+                            </input>
+                        </div>
+                {% endfor %}
+                </div>
                 <!-- File Uploads -->
                 <div class="mb-2">
                     <label class="form-label fw-bold">File Uploads</label> <img class="image_file_upload" alt=""> <img class="file_upload" alt="">
