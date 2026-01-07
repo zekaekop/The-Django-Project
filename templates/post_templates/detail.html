@@ -39,6 +39,10 @@
                             <div class="card-header mt-2 mb-2">
                                 {{ post.desc|safe|linebreaks}}
 
+                                {% if post.current_total_size or post.current_total_size >= 0.01 %}
+                                <small class="text_fadded">{{ post.current_total_size }} MiB</small> <br>
+                                {% endif %}
+
                                 {% if post.updated_at %}
                                     <small class="text_fadded">Edited {{ post.updated_at }}</small>
                                 {% endif %}           
