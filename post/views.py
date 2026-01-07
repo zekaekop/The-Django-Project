@@ -237,6 +237,9 @@ class PostActions():
                     post.title = request.POST.get("title") or post.title
                     post.desc = request.POST.get("desc") or post.desc
 
+                    category = request.POST.get("category") or post.category
+                    current_total_size = request.POST.get("total_size") or post.current_total_size
+
                     # Update files ONLY if uploaded
                     if request.FILES.get("site_preview")  or request.FILES.get("site_preview") == None:
                         post.site_preview = request.FILES.get("site_preview")
@@ -256,7 +259,7 @@ class PostActions():
                         total_size = sum(f.size for f in images)
                         if total_size > 10 * 1024 * 1024:
                             messages.error(request, "File limit allowed 10 MB only")
-                            return render(request, "post_templates/create.html",{"post":post, "moderated":post.staff_modified})
+                            return render(request, "post_templates/create.html",{"post":post, "moderated":post.staff_modified, "category":Post.Categories})
                         if not post.image and images:
                             post.image = images[0]
                         for f in images:
@@ -268,6 +271,8 @@ class PostActions():
                     if action == "publish":
                         if post.title and post.desc:
                             post.updated_at = timezone.now()
+                            post.category = category
+                            post.current_total_size = current_total_size
                             post.save()
                             return HttpResponseRedirect(post.get_absolute_url())
 
@@ -278,13 +283,13 @@ class PostActions():
                             {"post": post}
                         )
                     
-                    return render(request, "post_templates/create.html",{"post":post, "moderated":post.staff_modified})
+                    return render(request, "post_templates/create.html",{"post":post, "moderated":post.staff_modified, "category":Post.Categories})
             else:
-                return render(request, "post_templates/create.html",{"post":post, "moderated":post.staff_modified})
+                return render(request, "post_templates/create.html",{"post":post, "moderated":post.staff_modified, "category":Post.Categories})
         else:
             raise Http404("cant update wrong user")
             
-        return render(request, "post_templates/create.html",{"post":post, "moderated":post.staff_modified})
+        return render(request, "post_templates/create.html",{"post":post, "moderated":post.staff_modified, "category":Post.Categories})
 
 
 # AJax Functions for realtime updating
