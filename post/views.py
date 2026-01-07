@@ -104,11 +104,11 @@ class ListPosts():
 
         suffix = ""
         for each_page in range(len(posts)):
-            if len(posts[each_page].title) > 25:
+            if len(posts[each_page].title) > 45:
                 suffix = "..."
             else:
                 suffix = ""
-            posts[each_page].title = posts[each_page].title[:25] + suffix
+            posts[each_page].title = posts[each_page].title[:45] + suffix
 
         return render(request, "post_templates/index.html", context)
     
