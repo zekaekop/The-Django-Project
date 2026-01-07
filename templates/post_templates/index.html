@@ -4,6 +4,24 @@
 {% load timesince_shortner %}
 {% block body%}
 
+<div class="container">             
+        <div class="col d-flex mt-3">
+            <ul class="nav d-flex justify-content-center ms-auto">
+                {% for cats in category %}
+                    <li  class="nav-item">
+                         <a class="nav-link" href="{% url 'post:category' cats %}">
+                            {% if current_category == cats %}
+                            <b>{{ cats.label }}</b>
+                            {% else %}
+                            {{ cats.label }}
+                            {% endif %}
+                        </a>
+                    </li>  <span class="text_fadded me-2" style="margin-top: 0.7rem;">/</span>
+                {% endfor %}
+            </ul>
+        </div>
+    </div>
+</div>
 
 {% if posts %}
     <div class="container">             
@@ -16,8 +34,6 @@
                         <div style="position: relative; flex-grow: 1; overflow: hidden; overflow-wrap: break-word;">
                             <a href="{{ post.get_absolute_url }}"><span class="div_link"></span></a>
 
-                            
-                            
                             <div class="card-header mb-2">
                                 <h3 class="post_title">
                                     {{ post.title }}
@@ -51,8 +67,6 @@
                                     <small class="text_fadded">Edited {{ post.updated_at }}</small>
                                 {% endif %}
                             </div>
-
-
 
                             {% if post.site_preview %}
                                 <div class="d-flex flex-column">

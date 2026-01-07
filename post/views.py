@@ -58,8 +58,11 @@ class Info:
 
 class ListPosts():
 
-    def posts_paginator(self, request):
-        post_list = Post.objects.all()
+    def posts_paginator(self, request, category):
+        if category == "CNT" or category == None:
+            post_list = Post.objects.all()
+        else:
+            post_list = Post.objects.filter(category=category)
         query = request.GET.get("q")
 
         if query: # Search query in header
@@ -85,8 +88,8 @@ class ListPosts():
     def post_get_reports(self,request):
         return self.fetch_post_data(request,UserReport)
     
-    def list_feed_posts(self,request):
-        posts = self.posts_paginator(request)
+    def list_feed_posts(self,request, category = None):
+        posts = self.posts_paginator(request,category)
         upvotes = self.post_get_upvotes(request)
         reports = self.post_get_reports(request)
         
@@ -95,6 +98,8 @@ class ListPosts():
             "upvoted_posts" : upvotes,
             "reported_posts" : reports,
             "debug": settings.DEBUG,
+            "category":Post.Categories,
+            "current_category": category,
         }
 
         suffix = ""
@@ -343,6 +348,8 @@ def post_create(request):
     if request.method == "POST":
         action = request.POST.get("action")
 
+        category = request.POST.get("category")
+
         title = request.POST.get("title")
         desc = request.POST.get("desc")
 
@@ -366,10 +373,11 @@ def post_create(request):
             user_html=user_html,
             user_css=user_css,
             user_js=user_js,
+            category = category,
         )
 
         if action == "publish":
-            if title and desc:
+            if title and desc and category:
                 post.save()
                 # Handle multiple uploaded images (field name: 'images')
                 images = request.FILES.getlist('images')
@@ -387,7 +395,7 @@ def post_create(request):
         if action == "preview":
             return render(request,"post_templates/post_design_preview.html",{"post": post})
         
-    return render(request, "post_templates/create.html",{"is_creating": True}) # is creating will show create post or update post
+    return render(request, "post_templates/create.html",{"is_creating": True, "category":Post.Categories}) # is creating will show create post or update post
 
 def post_create_preview(request):
     if request.method == "POST":
