@@ -35,9 +35,9 @@
                 {% for cats in category %}
                         <div class="btn btn-primary py-1 mt-3 button_shadow" style="cursor:auto;">
                             {% if cats == 'CNT' %}  
-                                 <input class=" button_shadow" style="cursor: pointer;" type="radio" name="category"  data-bs-toggle="tooltip" title="{{ cats.label }}"  checked="checked">
+                                 <input class="button_shadow" style="cursor: pointer;" type="radio" name="category" value="CNT"  data-bs-toggle="tooltip" title="{{ cats.label }}"  checked="checked">
                             {% else %}
-                                <input class=" button_shadow" style="cursor: pointer;" type="radio" name="category"  data-bs-toggle="tooltip" title="{{ cats.label }}" >
+                                <input class="button_shadow" style="cursor: pointer;" type="radio" name="category" value="{{cats}}" data-bs-toggle="tooltip" title="{{ cats.label }}" >
                             {% endif %}
                                 {{ cats }}
                             </input>

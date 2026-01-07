@@ -58,8 +58,11 @@ class Info:
 
 class ListPosts():
 
-    def posts_paginator(self, request):
-        post_list = Post.objects.all()
+    def posts_paginator(self, request, category):
+        if category == "CNT" or category == None:
+            post_list = Post.objects.all()
+        else:
+            post_list = Post.objects.filter(category=category)
         query = request.GET.get("q")
 
         if query: # Search query in header
@@ -85,8 +88,8 @@ class ListPosts():
     def post_get_reports(self,request):
         return self.fetch_post_data(request,UserReport)
     
-    def list_feed_posts(self,request):
-        posts = self.posts_paginator(request)
+    def list_feed_posts(self,request, category = None):
+        posts = self.posts_paginator(request,category)
         upvotes = self.post_get_upvotes(request)
         reports = self.post_get_reports(request)
         
@@ -373,7 +376,7 @@ def post_create(request):
         )
 
         if action == "publish":
-            if title and desc:
+            if title and desc and category:
                 post.save()
                 # Handle multiple uploaded images (field name: 'images')
                 images = request.FILES.getlist('images')
