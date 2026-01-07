@@ -95,6 +95,7 @@ class ListPosts():
             "upvoted_posts" : upvotes,
             "reported_posts" : reports,
             "debug": settings.DEBUG,
+            "category":Post.Categories,
         }
 
         suffix = ""

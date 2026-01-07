@@ -5,18 +5,12 @@
 {% block body%}
 
 <div class="container">             
-    <div class="row row-cols-1 row-cols-md-3" style="margin-top: 1rem;">
         <div class="col d-flex mt-3">
-            <div>
-                <ul class="nav d-flex justify-content-end ms-auto">
-                     <li> <a href="">Test</a></li>
-                     <li> <a href="">Test</a></li>
-                     <li> <a href="">Test</a></li>
-                     <li> <a href="">Test</a></li>
-                     <li> <a href="">Test</a></li>
-                     <li> <a href="">Test</a></li>
-                </ul>
-            </div>
+            <ul class="nav d-flex justify-content-center ms-auto">
+                {% for cats in category %}
+                    <li  class="nav-item"> <a class="nav-link" href="post:{{ cats }}">{{ cats.label  }}</a></li>  <span class="text_fadded me-2" style="margin-top: 0.7rem;">/</span>
+                {% endfor %}
+            </ul>
         </div>
     </div>
 </div>
