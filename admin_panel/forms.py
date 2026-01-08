@@ -1,5 +1,5 @@
 from django import forms
-from admin_panel.models import ContactInfo
+from info.models import ContactInfo
 from django.contrib.auth.hashers import check_password
 from django.contrib.auth.models import User
 class ContactusForm(forms.ModelForm):

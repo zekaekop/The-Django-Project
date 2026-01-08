@@ -8,9 +8,6 @@ posts = ListPosts()
 post_actions = PostActions()
 
 urlpatterns = [
-    # Misc
-    path("about/", views.Info.about_us, name = "about"),
-    path("contact/", views.Info.contact_us, name = "contact"),
 
     # Posts
     path("index/", posts.list_feed_posts, name = "index"),

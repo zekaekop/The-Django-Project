@@ -1,5 +1,5 @@
 from django.shortcuts import render, get_object_or_404, HttpResponseRedirect, redirect, Http404, HttpResponse
-from .models import ContactInfo
+from info.models import ContactInfo
 from post.models import Post
 from django.contrib.auth.models import User
 from .forms import ContactusForm
