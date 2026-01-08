@@ -194,23 +194,11 @@ class PostActions():
                         if request.user.is_staff: #if an admin modifies a post, the op wont be able to change it back
                             post.staff_modified = True
 
-                    action = request.POST.get("action")
-
                     # Update text fields to old values
-                    post.title = request.POST.get("title")
-                    post.desc = request.POST.get("desc")
-
-                    category = request.POST.get("category")
-                    current_total_size = request.POST.get("total_size")
-
-                    post.site_preview = request.FILES.get("site_preview")
-
-                    post.user_html = request.FILES.get("user_html")
-                    post.user_css = request.FILES.get("user_css")
-                    post.user_js = request.FILES.get("user_js")
+                    POST_data = PostAssembly.get_post_POST_data(request)
 
                     # Handle multiple images on update (append)
-                    images = request.FILES.getlist('images')
+                    images = POST_data.images
                     if images:
                         total_size = sum(f.size for f in images)
                         if total_size > 10 * 1024 * 1024:
@@ -224,15 +212,16 @@ class PostActions():
                     if request.FILES.get("video")  or request.FILES.get("video") == None:
                         post.video = request.FILES.get("video")
 
-                    if action == "publish":
+                    if POST_data.action == "publish":
                         if post.title and post.desc:
                             post.updated_at = timezone.now()
-                            post.category = category
-                            post.current_total_size = current_total_size
-                            post.save()
+
+                            post = PostAssembly.apply_post_POST_data(request, POST_data)
+                            
+                            post.save()   
                             return HttpResponseRedirect(post.get_absolute_url())
 
-                    if action == "preview":
+                    if POST_data.action == "preview":
                         return render(
                             request,
                             "post_templates/post_design_preview.html",
