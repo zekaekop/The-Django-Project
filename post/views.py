@@ -319,91 +319,55 @@ class PostAjaxFetching():
         }
         return JsonResponse(data)
 
-def post_create(request):
-    authenticate_users(request)
+class PostAssembly():
 
-    if request.method == "POST":
-        action = request.POST.get("action")
+    def post_create(self, request):
 
-        category = request.POST.get("category")
+        authenticate_users(request)
 
-        current_total_size = request.POST.get("total_size")
+        if request.method == "POST":
 
-        title = request.POST.get("title")
-        desc = request.POST.get("desc")
+            POST_data = self.get_post_POST_data(request)
+            post = self.apply_post_POST_data(request, POST_data)
 
-        site_preview = request.FILES.get("site_preview")
+            if POST_data.action == "publish":
+                if post.title and post.desc and post.category:
+                    post.save()
+                    # Handle multiple uploaded images (field name: 'images')
+                    images = request.FILES.getlist('images')
+                    if images:
+                        total_size = sum(f.size for f in images)
+                        if total_size > 10 * 1024 * 1024:
+                            messages.error(request, "Combined File Limit Allowed 10 MB Only.")
+                            return render(request, "post_templates/create.html", {"is_creating": True})
+                        if not post.image and images:
+                            post.image = images[0]
+                            post.save()
+                        for f in images:
+                            PostImage.objects.create(post=post, image=f)
+                    return HttpResponseRedirect(post.get_absolute_url())
+            if POST_data.action == "preview":
+                return render(request,"post_templates/post_design_preview.html",{"post": post})
+                
+        return render(request, "post_templates/create.html",{"is_creating": True, "category":Post.Categories}) # is creating will show create post or update post
 
-        user_html = request.FILES.get("user_html")
-        user_css = request.FILES.get("user_css")
-        user_js = request.FILES.get("user_js")
+    def post_create_preview(self, request):
 
-        images = request.FILES.getlist("images")
-        image = images[0] if images else None
-        video = request.FILES.get("video")
+        if request.method == "POST":
+            
+            POST_data = self.get_post_POST_data(request)
+            post = self.apply_post_POST_data(request, POST_data)
 
+            context = {
+                "post" : post
+            }
+
+            return render(request, "post_templates/post_design_preview.html",context)
+        
         post = Post(
             user=request.user,
-            title=title,
-            desc=desc,
-            image=image,
-            video=video,
-            site_preview=site_preview,
-            user_html=user_html,
-            user_css=user_css,
-            user_js=user_js,
-            category = category,
-            current_total_size = current_total_size,
-        )
-
-        if action == "publish":
-            if title and desc and category:
-                post.save()
-                # Handle multiple uploaded images (field name: 'images')
-                images = request.FILES.getlist('images')
-                if images:
-                    total_size = sum(f.size for f in images)
-                    if total_size > 10 * 1024 * 1024:
-                        messages.error(request, "Combined File Limit Allowed 10 MB Only.")
-                        return render(request, "post_templates/create.html", {"is_creating": True})
-                    if not post.image and images:
-                        post.image = images[0]
-                        post.save()
-                    for f in images:
-                        PostImage.objects.create(post=post, image=f)
-                return HttpResponseRedirect(post.get_absolute_url())
-        if action == "preview":
-            return render(request,"post_templates/post_design_preview.html",{"post": post})
-        
-    return render(request, "post_templates/create.html",{"is_creating": True, "category":Post.Categories}) # is creating will show create post or update post
-
-def post_create_preview(request):
-    if request.method == "POST":
-        # Manually extract data from POST request
-        title = request.POST.get('title')
-        desc = request.POST.get('desc')
-
-        image = request.POST.get('image')
-        video = request.POST.get('video')
-        site_preview = request.POST.get('site_preview')
-        
-        user_html = request.POST.get('user_html')
-        user_css = request.POST.get('user_css')
-        user_js = request.POST.get('user_js')
-        site_preview = request.POST.get('site_preview')
-
-        post = Post(
-            user=request.user,
-            title=title,
-            desc=desc,
-
-            image=image,
-            video=video,
-            site_preview=site_preview,
-
-            user_html=user_html,
-            user_css=user_css,
-            user_js=user_js,
+            title="Title Example",
+            desc="This is the Desc",
         )
 
         context = {
@@ -411,14 +375,52 @@ def post_create_preview(request):
         }
 
         return render(request, "post_templates/post_design_preview.html",context)
-    post = Post(
-        user=request.user,
-        title="Title Example",
-        desc="This is the Desc",
-    )
+    
+    def get_post_POST_data(self, request): # The post of the post :)
 
-    context = {
-        "post" : post
-    }
+        class POST_data:
+            action = request.POST.get("action")
 
-    return render(request, "post_templates/post_design_preview.html",context)
+            category = request.POST.get("category")
+            # if not category  or category == None:
+            #     category == "CNT"
+
+            current_total_size = request.POST.get("total_size")
+
+            title = request.POST.get("title")
+            desc = request.POST.get("desc")
+
+            site_preview = request.FILES.get("site_preview")
+
+            user_html = request.FILES.get("user_html")
+            user_css = request.FILES.get("user_css")
+            user_js = request.FILES.get("user_js")
+
+            images = request.FILES.getlist("images")
+            image = images[0] if images else None
+            video = request.FILES.get("video")
+
+        return POST_data
+    
+    def apply_post_POST_data(self, request, POST_data):
+
+        post = Post(
+            user=request.user,
+
+            category= POST_data.category,
+            title= POST_data.title,
+            desc= POST_data.desc,
+
+            image= POST_data.image,
+            video= POST_data.video,
+
+            site_preview= POST_data.site_preview,
+
+            user_html= POST_data.user_html,
+            user_css= POST_data.user_css,
+            user_js= POST_data.user_js,
+
+            current_total_size = POST_data.current_total_size[0],
+            )
+
+        return post

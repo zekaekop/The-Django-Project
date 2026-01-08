@@ -1,12 +1,15 @@
 from django.urls import re_path, path
 from . import views
-from .views import ListPosts, PostActions, PostAjaxFetching
+from .views import ListPosts, PostActions, PostAjaxFetching, PostAssembly
 
 app_name = "post"
 
 posts = ListPosts()
 post_actions = PostActions()
+post_assembly = PostAssembly()
 post_ajax = PostAjaxFetching()
+
+
 urlpatterns = [
 
     # Posts
@@ -23,8 +26,9 @@ urlpatterns = [
     re_path(r'^(?P<id>\d+)/upvotes/$', post_ajax.post_detail_upvotes_ajax, name = "get_post_upvotes"), 
     re_path(r'^(?P<id>\d+)/views/$', post_ajax.post_detail_views_ajax, name = "get_post_view"), 
 
-    path("create/", views.post_create, name = "create"),
-    path("create/preview", views.post_create_preview, name = "preview"),
+    # Post creation and updating to the db
+    path("create/", post_assembly.post_create, name = "create"),
+    path("create/preview", post_assembly.post_create_preview, name = "preview"),
 
     # Post actions
     re_path(r'^(?P<id>\d+)/update/$', post_actions.post_update, name = "update"),
