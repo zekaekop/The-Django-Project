@@ -6,11 +6,11 @@ from django.contrib.auth.models import User
 class InfoViewTests(TestCase):
 
     def test_about_page_loads(self):
-        response = self.client.get(reverse("post:about"))
+        response = self.client.get(reverse("info:about"))
         self.assertEqual(response.status_code, 200)
 
     def test_contact_page_loads(self):
-        response = self.client.get(reverse("post:contact"))
+        response = self.client.get(reverse("info:contact"))
         self.assertEqual(response.status_code, 200)
 
 
