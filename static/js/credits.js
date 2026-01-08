@@ -9,7 +9,7 @@ function damage_boat(){
 
         clicks += 1;
 
-        if (clicks >= 2){
+        if (clicks >= 5){
             credit_boat();
         }
     }
