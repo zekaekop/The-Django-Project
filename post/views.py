@@ -256,59 +256,68 @@ class PostActions():
 
 
 # AJax Functions for realtime updating
+class PostAjaxFetching():
 
-def post_detail_upvotes_ajax(request,id):
-    post = get_object_or_404(Post, id = id)
+    def post_detail_upvotes_ajax(self, request,id):
 
-    upvoted = False
-    if request.user.is_authenticated:
+        authenticate_users(request)
+
+        post = get_object_or_404(Post, id = id)
+
+        upvoted = False
         upvoted = UserUpvote.objects.filter(user=request.user, post=post).exists()
+        
+        data = {"upvotes" : post.upvotes,
+                "upvoted" : upvoted,}
+        return JsonResponse(data)
+
+    def post_detail_views_ajax(self, request, id):
+        post = get_object_or_404(Post, id = id)
+
+        data = {"post_views":post.post_views}
+        return JsonResponse(data)
     
-    data = {"upvotes" : post.upvotes,
-            "upvoted" : upvoted,}
-    return JsonResponse(data)
 
-def post_index_upvotes_ajax(request):
-    post_list = Post.objects.all()
-    paginator = Paginator(post_list, 9)  # Show 9 posts per page.
-    
-    post_ids = post_list.values_list('id', flat=True)
+    def post_index_upvotes_ajax(self, request):
+        post_list = Post.objects.all()
+        paginator = Paginator(post_list, 9)  # Show 9 posts per page.
+        
+        post_ids = post_list.values_list('id', flat=True)
 
-    upvoted_qs = UserUpvote.objects.filter(user=request.user, post_id__in=post_ids)
-    upvoted_posts = set(upvoted_qs.values_list('post_id', flat=True))
+        upvoted_qs = UserUpvote.objects.filter(user=request.user, post_id__in=post_ids)
+        upvoted_posts = set(upvoted_qs.values_list('post_id', flat=True))
 
-    page = request.GET.get("page")
-    page_obj = paginator.get_page(page)
-    data = {
-        "posts": [
-                {"id": post.id, 
-                "upvotes": post.upvotes,
-                "upvoted": post.id in upvoted_posts}
-            for post in page_obj.object_list
-        ]
-    }
+        page = request.GET.get("page")
+        page_obj = paginator.get_page(page)
+        data = {
+            "posts": [
+                    {"id": post.id, 
+                    "upvotes": post.upvotes,
+                    "upvoted": post.id in upvoted_posts}
+                for post in page_obj.object_list
+            ]
+        }
 
-    return JsonResponse(data)
+        return JsonResponse(data)
 
-def post_detail_views_ajax(request,id):
-    post = get_object_or_404(Post, id = id)
+    def post_index_views_ajax(self, request):
+        post_list = Post.objects.all()
+        paginator = Paginator(post_list, 9)  # 9 posts per page
 
-    data = {"post_views":post.post_views}
-    return JsonResponse(data)
+        post_ids = post_list.values_list('id', flat=True)
 
-def post_index_views_ajax(request):
-    post_list = Post.objects.all()
-    paginator = Paginator(post_list, 9)  # 9 posts per page
-
-    page = request.GET.get("page")
-    page_obj = paginator.get_page(page)
-    data = {
-        "posts": [
-            {"id": post.id, "views": post.post_views}
-            for post in page_obj.object_list
-        ]
-    }
-    return JsonResponse(data)
+        views_qs = Post.objects.filter(user=request.user, post_id__in=post_ids)
+        views_posts = set(views_qs.values_list('post_id', flat=True))
+        
+        page = request.GET.get("page")
+        page_obj = paginator.get_page(page)
+        data = {
+            "posts": [
+                {"id": post.id, "views": views_posts}
+                for post in page_obj.object_list
+            ]
+        }
+        return JsonResponse(data)
 
 def post_create(request):
     authenticate_users(request)
