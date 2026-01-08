@@ -7,8 +7,10 @@
     
     
     <div class="container">
+        
+        <img id="home_boat" onclick="damage_boat()" src="{% static 'img/header/boat_sail.svg'%}" alt="Home">
+        <a id="credit_boat" href="{% url 'credits:thanks'%}" style="display: none;" ><img src="{% static 'img/header/boat_sail.svg'%}" alt="Credits"></a>
 
-        <img src="{% static 'img/header/boat_sail.svg'%}" alt="Home">
         <a href="/" class="nav-link navbar-brand text-light  me-auto" style="color: white !important;"> Home</a>
 
         <button class="navbar-toggler text-light" type="button" data-bs-toggle="collapse" data-bs-target="#navbarLinks" 
@@ -49,3 +51,5 @@
 <script src="{% static 'js/bubbles.js'%}"></script>
 
 <script src="{% static 'js/theme.js'%}"></script>
+
+<script src="{% static 'js/credits.js'%}"></script>
