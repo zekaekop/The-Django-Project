@@ -15,11 +15,19 @@ document.addEventListener('DOMContentLoaded', function() {
         const bubble = document.createElement("img");
 
         bubble.src = bubble_images[Math.floor(Math.random() * bubble_images.length)];
-        bubble.className = "bubble";
+        bubble.setAttribute("id",  "bubble_" + i);
+
+        bubble.onclick = bubble_pop(bubble.id);
+
+        bubble.style.position = "absolute";
+        bubble.style.width = "50px";
+        bubble.style.height = "auto";
+        bubble.style.zIndex = -10;
+        bubble.filter.brightness = "var(--bubble-brightness)";
 
         bubble.style.left = Math.random() * 100 + "%";
         bubble.style.top = (Math.random() + 2 )* 50 + "%";
-        bubble.style.scale = Math.random() * 0.5 + 0.2;
+        bubble.style.scale = Math.random() * 1.5 + 0.2;
         
         // Randomize animation delay and duration
         bubble.style.animationDelay = Math.random() * 2 + "s";
@@ -27,5 +35,12 @@ document.addEventListener('DOMContentLoaded', function() {
         
         container.appendChild(bubble);
         }
+
     });
+    
+    function bubble_pop(bubble_id){
+        const popped_bubble = document.getElementById(bubble_id);
+        alert("test")
+    }
+
 });
