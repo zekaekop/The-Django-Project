@@ -191,30 +191,23 @@ class PostActions():
                 if request.method == "POST":
 
                     if post.user != request.user:
-                        if request.user.is_staff:
+                        if request.user.is_staff: #if an admin modifies a post, the op wont be able to change it back
                             post.staff_modified = True
 
                     action = request.POST.get("action")
 
-                    # Update text fields (fallback to old values)
-                    post.title = request.POST.get("title") or post.title
-                    post.desc = request.POST.get("desc") or post.desc
+                    # Update text fields to old values
+                    post.title = request.POST.get("title")
+                    post.desc = request.POST.get("desc")
 
-                    category = request.POST.get("category") or post.category
-                    current_total_size = request.POST.get("total_size") or post.current_total_size
+                    category = request.POST.get("category")
+                    current_total_size = request.POST.get("total_size")
 
-                    # Update files ONLY if uploaded
-                    if request.FILES.get("site_preview")  or request.FILES.get("site_preview") == None:
-                        post.site_preview = request.FILES.get("site_preview")
+                    post.site_preview = request.FILES.get("site_preview")
 
-                    if request.FILES.get("user_html")  or request.FILES.get("user_html") == None:
-                        post.user_html = request.FILES.get("user_html")
-
-                    if request.FILES.get("user_css")  or request.FILES.get("user_css") == None:
-                        post.user_css = request.FILES.get("user_css")
-
-                    if request.FILES.get("user_js")  or request.FILES.get("user_js") == None:
-                        post.user_js = request.FILES.get("user_js")
+                    post.user_html = request.FILES.get("user_html")
+                    post.user_css = request.FILES.get("user_css")
+                    post.user_js = request.FILES.get("user_js")
 
                     # Handle multiple images on update (append)
                     images = request.FILES.getlist('images')
