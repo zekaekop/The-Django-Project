@@ -1,11 +1,10 @@
 from urllib import request
 from django.shortcuts import render, get_object_or_404, HttpResponseRedirect, redirect, Http404, HttpResponse
-from django.views.generic import (ListView, DetailView, CreateView, UpdateView, DeleteView)
 from django.urls import reverse
 from .models import Post, PostImage, UserUpvote, UserReport
 from django.contrib.auth.models import User
 from .forms import PostForm, CommentForm
-from admin_panel.forms import ContactusForm
+
 from django.contrib import messages
 from django.db.models import Q
 from django.db.models import F
@@ -19,42 +18,6 @@ from django.utils import timezone
 def authenticate_users(request):
     if not request.user.is_authenticated:
         raise Http404()
-
-class Info:
-
-    def about_us(request):
-        return render(request, "info/about.html")
-
-    def contact_us(request):
-        form = ContactusForm(request.POST or None)
-
-        if form.is_valid():
-            contact = form.save(commit=False)
-
-            # Attach user only if logged in
-            if request.user.is_authenticated:
-                contact.user = request.user
-
-            contact.save()
-
-            return render(
-                request,
-                "info/contact.html",
-                {
-                    "form": ContactusForm(),
-                    "title": "Info",
-                    "success": True,
-                }
-            )
-
-        return render(
-            request,
-            "info/contact.html",
-            {
-                "form": form,
-                "title": "Info",
-            }
-        )
 
 class ListPosts():
 
@@ -228,33 +191,14 @@ class PostActions():
                 if request.method == "POST":
 
                     if post.user != request.user:
-                        if request.user.is_staff:
+                        if request.user.is_staff: #if an admin modifies a post, the op wont be able to change it back
                             post.staff_modified = True
 
-                    action = request.POST.get("action")
-
-                    # Update text fields (fallback to old values)
-                    post.title = request.POST.get("title") or post.title
-                    post.desc = request.POST.get("desc") or post.desc
-
-                    category = request.POST.get("category") or post.category
-                    current_total_size = request.POST.get("total_size") or post.current_total_size
-
-                    # Update files ONLY if uploaded
-                    if request.FILES.get("site_preview")  or request.FILES.get("site_preview") == None:
-                        post.site_preview = request.FILES.get("site_preview")
-
-                    if request.FILES.get("user_html")  or request.FILES.get("user_html") == None:
-                        post.user_html = request.FILES.get("user_html")
-
-                    if request.FILES.get("user_css")  or request.FILES.get("user_css") == None:
-                        post.user_css = request.FILES.get("user_css")
-
-                    if request.FILES.get("user_js")  or request.FILES.get("user_js") == None:
-                        post.user_js = request.FILES.get("user_js")
+                    # Update text fields to old values
+                    POST_data = PostAssembly.get_post_POST_data(request)
 
                     # Handle multiple images on update (append)
-                    images = request.FILES.getlist('images')
+                    images = POST_data.images
                     if images:
                         total_size = sum(f.size for f in images)
                         if total_size > 10 * 1024 * 1024:
@@ -268,15 +212,16 @@ class PostActions():
                     if request.FILES.get("video")  or request.FILES.get("video") == None:
                         post.video = request.FILES.get("video")
 
-                    if action == "publish":
+                    if POST_data.action == "publish":
                         if post.title and post.desc:
                             post.updated_at = timezone.now()
-                            post.category = category
-                            post.current_total_size = current_total_size
-                            post.save()
+
+                            post = PostAssembly.apply_post_POST_data(request, POST_data)
+                            
+                            post.save()   
                             return HttpResponseRedirect(post.get_absolute_url())
 
-                    if action == "preview":
+                    if POST_data.action == "preview":
                         return render(
                             request,
                             "post_templates/post_design_preview.html",
@@ -293,145 +238,118 @@ class PostActions():
 
 
 # AJax Functions for realtime updating
+class PostAjaxFetching():
 
-def post_detail_upvotes_ajax(request,id):
-    post = get_object_or_404(Post, id = id)
+    def post_detail_upvotes_ajax(self, request,id):
 
-    upvoted = False
-    if request.user.is_authenticated:
+        authenticate_users(request)
+
+        post = get_object_or_404(Post, id = id)
+
+        upvoted = False
         upvoted = UserUpvote.objects.filter(user=request.user, post=post).exists()
+        
+        data = {"upvotes" : post.upvotes,
+                "upvoted" : upvoted,}
+        return JsonResponse(data)
+
+    def post_detail_views_ajax(self, request, id):
+        post = get_object_or_404(Post, id = id)
+
+        data = {"post_views":post.post_views}
+        return JsonResponse(data)
     
-    data = {"upvotes" : post.upvotes,
-            "upvoted" : upvoted,}
-    return JsonResponse(data)
 
-def post_index_upvotes_ajax(request):
-    post_list = Post.objects.all()
-    paginator = Paginator(post_list, 9)  # Show 9 posts per page.
-    
-    post_ids = post_list.values_list('id', flat=True)
+    def post_index_upvotes_ajax(self, request):
+        post_list = Post.objects.all()
+        paginator = Paginator(post_list, 9)  # Show 9 posts per page.
+        
+        post_ids = post_list.values_list('id', flat=True)
 
-    upvoted_qs = UserUpvote.objects.filter(user=request.user, post_id__in=post_ids)
-    upvoted_posts = set(upvoted_qs.values_list('post_id', flat=True))
+        upvoted_qs = UserUpvote.objects.filter(user=request.user, post_id__in=post_ids)
+        upvoted_posts = set(upvoted_qs.values_list('post_id', flat=True))
 
-    page = request.GET.get("page")
-    page_obj = paginator.get_page(page)
-    data = {
-        "posts": [
-                {"id": post.id, 
-                "upvotes": post.upvotes,
-                "upvoted": post.id in upvoted_posts}
-            for post in page_obj.object_list
-        ]
-    }
+        page = request.GET.get("page")
+        page_obj = paginator.get_page(page)
+        data = {
+            "posts": [
+                    {"id": post.id, 
+                    "upvotes": post.upvotes,
+                    "upvoted": post.id in upvoted_posts}
+                for post in page_obj.object_list
+            ]
+        }
 
-    return JsonResponse(data)
+        return JsonResponse(data)
 
-def post_detail_views_ajax(request,id):
-    post = get_object_or_404(Post, id = id)
+    def post_index_views_ajax(self, request):
+        post_list = Post.objects.all()
+        paginator = Paginator(post_list, 9)  # 9 posts per page
 
-    data = {"post_views":post.post_views}
-    return JsonResponse(data)
+        post_ids = post_list.values_list('id', flat=True)
 
-def post_index_views_ajax(request):
-    post_list = Post.objects.all()
-    paginator = Paginator(post_list, 9)  # 9 posts per page
+        views_qs = Post.objects.filter(user=request.user, post_id__in=post_ids)
+        views_posts = set(views_qs.values_list('post_id', flat=True))
+        
+        page = request.GET.get("page")
+        page_obj = paginator.get_page(page)
+        data = {
+            "posts": [
+                {"id": post.id, "views": views_posts}
+                for post in page_obj.object_list
+            ]
+        }
+        return JsonResponse(data)
 
-    page = request.GET.get("page")
-    page_obj = paginator.get_page(page)
-    data = {
-        "posts": [
-            {"id": post.id, "views": post.post_views}
-            for post in page_obj.object_list
-        ]
-    }
-    return JsonResponse(data)
+class PostAssembly():
 
-def post_create(request):
-    authenticate_users(request)
+    def post_create(self, request):
 
-    if request.method == "POST":
-        action = request.POST.get("action")
+        authenticate_users(request)
 
-        category = request.POST.get("category")
+        if request.method == "POST":
 
-        current_total_size = request.POST.get("total_size")
+            POST_data = self.get_post_POST_data(request)
+            post = self.apply_post_POST_data(request, POST_data)
 
-        title = request.POST.get("title")
-        desc = request.POST.get("desc")
+            if POST_data.action == "publish":
+                if post.title and post.desc and post.category:
+                    post.save()
+                    # Handle multiple uploaded images (field name: 'images')
+                    images = request.FILES.getlist('images')
+                    if images:
+                        total_size = sum(f.size for f in images)
+                        if total_size > 10 * 1024 * 1024:
+                            messages.error(request, "Combined File Limit Allowed 10 MB Only.")
+                            return render(request, "post_templates/create.html", {"is_creating": True})
+                        if not post.image and images:
+                            post.image = images[0]
+                            post.save()
+                        for f in images:
+                            PostImage.objects.create(post=post, image=f)
+                    return HttpResponseRedirect(post.get_absolute_url())
+            if POST_data.action == "preview":
+                return render(request,"post_templates/post_design_preview.html",{"post": post})
+                
+        return render(request, "post_templates/create.html",{"is_creating": True, "category":Post.Categories}) # is creating will show create post or update post
 
-        site_preview = request.FILES.get("site_preview")
+    def post_create_preview(self, request):
 
-        user_html = request.FILES.get("user_html")
-        user_css = request.FILES.get("user_css")
-        user_js = request.FILES.get("user_js")
+        if request.method == "POST":
+            
+            POST_data = self.get_post_POST_data(request)
+            post = self.apply_post_POST_data(request, POST_data)
 
-        images = request.FILES.getlist("images")
-        image = images[0] if images else None
-        video = request.FILES.get("video")
+            context = {
+                "post" : post
+            }
 
+            return render(request, "post_templates/post_design_preview.html",context)
+        
         post = Post(
             user=request.user,
-            title=title,
-            desc=desc,
-            image=image,
-            video=video,
-            site_preview=site_preview,
-            user_html=user_html,
-            user_css=user_css,
-            user_js=user_js,
-            category = category,
-            current_total_size = current_total_size,
-        )
-
-        if action == "publish":
-            if title and desc and category:
-                post.save()
-                # Handle multiple uploaded images (field name: 'images')
-                images = request.FILES.getlist('images')
-                if images:
-                    total_size = sum(f.size for f in images)
-                    if total_size > 10 * 1024 * 1024:
-                        messages.error(request, "Combined File Limit Allowed 10 MB Only.")
-                        return render(request, "post_templates/create.html", {"is_creating": True})
-                    if not post.image and images:
-                        post.image = images[0]
-                        post.save()
-                    for f in images:
-                        PostImage.objects.create(post=post, image=f)
-                return HttpResponseRedirect(post.get_absolute_url())
-        if action == "preview":
-            return render(request,"post_templates/post_design_preview.html",{"post": post})
-        
-    return render(request, "post_templates/create.html",{"is_creating": True, "category":Post.Categories}) # is creating will show create post or update post
-
-def post_create_preview(request):
-    if request.method == "POST":
-        # Manually extract data from POST request
-        title = request.POST.get('title')
-        desc = request.POST.get('desc')
-
-        image = request.POST.get('image')
-        video = request.POST.get('video')
-        site_preview = request.POST.get('site_preview')
-        
-        user_html = request.POST.get('user_html')
-        user_css = request.POST.get('user_css')
-        user_js = request.POST.get('user_js')
-        site_preview = request.POST.get('site_preview')
-
-        post = Post(
-            user=request.user,
-            title=title,
-            desc=desc,
-
-            image=image,
-            video=video,
-            site_preview=site_preview,
-
-            user_html=user_html,
-            user_css=user_css,
-            user_js=user_js,
+            title="Title Example",
+            desc="This is the Desc",
         )
 
         context = {
@@ -439,14 +357,52 @@ def post_create_preview(request):
         }
 
         return render(request, "post_templates/post_design_preview.html",context)
-    post = Post(
-        user=request.user,
-        title="Title Example",
-        desc="This is the Desc",
-    )
+    
+    def get_post_POST_data(self, request): # The post of the post :)
 
-    context = {
-        "post" : post
-    }
+        class POST_data:
+            action = request.POST.get("action")
 
-    return render(request, "post_templates/post_design_preview.html",context)
+            category = request.POST.get("category")
+            # if not category  or category == None:
+            #     category == "CNT"
+
+            current_total_size = request.POST.get("total_size")
+
+            title = request.POST.get("title")
+            desc = request.POST.get("desc")
+
+            site_preview = request.FILES.get("site_preview")
+
+            user_html = request.FILES.get("user_html")
+            user_css = request.FILES.get("user_css")
+            user_js = request.FILES.get("user_js")
+
+            images = request.FILES.getlist("images")
+            image = images[0] if images else None
+            video = request.FILES.get("video")
+
+        return POST_data
+    
+    def apply_post_POST_data(self, request, POST_data):
+
+        post = Post(
+            user=request.user,
+
+            category= POST_data.category,
+            title= POST_data.title,
+            desc= POST_data.desc,
+
+            image= POST_data.image,
+            video= POST_data.video,
+
+            site_preview= POST_data.site_preview,
+
+            user_html= POST_data.user_html,
+            user_css= POST_data.user_css,
+            user_js= POST_data.user_js,
+
+            current_total_size = POST_data.current_total_size[0],
+            )
+
+        return post
