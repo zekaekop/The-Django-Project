@@ -10,10 +10,11 @@
                 {% for cats in category %}
                     <li  class="nav-item">
                          <a class="nav-link" href="{% url 'post:category' cats %}">
-                            {% if current_category == cats %}
-                            <b>{{ cats.label }}</b>
-                            {% else %}
-                            {{ cats.label }}
+                            {% if current_category == cats%}
+                                <b>{{ cats.label }}</b>
+                                <div class="text_fadded d-flex justify-content-center ms-auto" style=" margin-top: -0.5rem;">{{category_activity}}</div>
+                            {% else %} <!-- Selected category becomes bold -->
+                                {{ cats.label }}
                             {% endif %}
                         </a>
                     </li>  <span class="text_fadded me-2" style="margin-top: 0.7rem;">/</span>

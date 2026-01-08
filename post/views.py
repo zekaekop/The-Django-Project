@@ -55,7 +55,9 @@ class ListPosts():
         posts = self.posts_paginator(request,category)
         upvotes = self.post_get_upvotes(request)
         reports = self.post_get_reports(request)
-        
+
+        category_activity = Post.objects.filter(category = category).count()
+
         context = {
             "posts" : posts,
             "upvoted_posts" : upvotes,
@@ -63,6 +65,7 @@ class ListPosts():
             "debug": settings.DEBUG,
             "category":Post.Categories,
             "current_category": category,
+            "category_activity": category_activity,
         }
 
         suffix = ""
