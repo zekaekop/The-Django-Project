@@ -9,7 +9,7 @@
             <ul class="nav d-flex justify-content-center ms-auto">
                 {% for cats in category %}
                     <li  class="nav-item">
-                         <a class="nav-link" href="{% url 'post:category' cats %}">
+                         <a class="nav-link p-0" href="{% url 'post:category' cats %}">
                             {% if current_category == cats %}
                             <p class="desktop_compt"><b>{{ cats.label }}</b></p>
                             <p class="mobile_compt"><b>{{ cats }}</b></p>
@@ -18,7 +18,7 @@
                             <p class="mobile_compt">{{ cats }}</p>
                             {% endif %}
                         </a>
-                    </li>  <span class="text_fadded me-2" style="margin-top: 0.7rem;">/</span>
+                    </li>  <span class="text_fadded ms-2 me-2">/</span>
                 {% endfor %}
             </ul>
         </div>
