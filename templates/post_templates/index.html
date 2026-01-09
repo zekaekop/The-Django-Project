@@ -11,9 +11,11 @@
                     <li  class="nav-item">
                          <a class="nav-link" href="{% url 'post:category' cats %}">
                             {% if current_category == cats %}
-                            <b>{{ cats.label }}</b>
+                            <p class="desktop_compt"><b>{{ cats.label }}</b></p>
+                            <p class="mobile_compt"><b>{{ cats }}</b></p>
                             {% else %}
-                            {{ cats.label }}
+                            <p class="desktop_compt">{{ cats.label }}</p>
+                            <p class="mobile_compt">{{ cats }}</p>
                             {% endif %}
                         </a>
                     </li>  <span class="text_fadded me-2" style="margin-top: 0.7rem;">/</span>
