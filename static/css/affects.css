@@ -23,7 +23,7 @@
     position: absolute;
     width: 50px;
     height: auto;
-    z-index: -10;
+    z-index: 10;
     filter: brightness(var(--bubble-brightness));
     animation: bubble-float 3s ease-in infinite;
 }
