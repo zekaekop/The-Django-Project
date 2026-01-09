@@ -206,3 +206,17 @@ nav {
     border-color: var(--bg-border-color);
     background-color: var(--bg-color) !important;
 }
+
+.mobile_compt{
+    display: none;
+}
+
+@media (max-width: 800px) {
+    .mobile_compt{
+        display: block;
+    }
+
+    .desktop_compt{
+        display: none;
+    }
+}

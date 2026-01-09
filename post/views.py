@@ -55,14 +55,18 @@ class ListPosts():
         posts = self.posts_paginator(request,category)
         upvotes = self.post_get_upvotes(request)
         reports = self.post_get_reports(request)
-        
+
+        category_activity = Post.objects.filter(category = category).count()
+
         context = {
             "posts" : posts,
             "upvoted_posts" : upvotes,
             "reported_posts" : reports,
             "debug": settings.DEBUG,
             "category":Post.Categories,
+            "category_len":len(Post.Categories.choices),
             "current_category": category,
+            "category_activity": category_activity,
         }
 
         suffix = ""
@@ -195,7 +199,7 @@ class PostActions():
                             post.staff_modified = True
 
                     # Update text fields to old values
-                    POST_data = PostAssembly.get_post_POST_data(request)
+                    POST_data = PostAssembly().get_post_POST_data(request)
 
                     # Handle multiple images on update (append)
                     images = POST_data.images
@@ -216,7 +220,20 @@ class PostActions():
                         if post.title and post.desc:
                             post.updated_at = timezone.now()
 
-                            post = PostAssembly.apply_post_POST_data(request, POST_data)
+                            post.category= POST_data.category
+                            post.title= POST_data.title
+                            post.desc= POST_data.desc
+
+                            post.image= POST_data.image
+                            post.video= POST_data.video
+
+                            post.site_preview= POST_data.site_preview
+
+                            post.user_html= POST_data.user_html
+                            post.user_css= POST_data.user_css
+                            post.user_js= POST_data.user_js
+
+                            post.current_total_size = POST_data.current_total_size[0]
                             
                             post.save()   
                             return HttpResponseRedirect(post.get_absolute_url())

@@ -40,6 +40,8 @@ and it will be avaliable on your browser at "http://127.0.0.1:8000".
 
 <hr>
 
+<h1>WARNING: I will stop updating the fixtures, they wont work if its out of date. (You can still make your own fixtures.)</h1>
+
 <h2>Using the sample database</h1>
 
 By default you should get an emty database, but if you want to checkout the project without manually filling up all the data yourself.
