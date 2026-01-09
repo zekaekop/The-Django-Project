@@ -13,7 +13,7 @@
                             {% if current_category == cats %}
                             <p class="desktop_compt"><b>{{ cats.label }}</b></p>
                             <p class="mobile_compt"><b>{{ cats }}</b></p>
-                            {% else %}
+                            {% else %} <!-- Selected category becomes bold -->
                             <p class="desktop_compt">{{ cats.label }}</p>
                             <p class="mobile_compt">{{ cats }}</p>
                             {% endif %}
