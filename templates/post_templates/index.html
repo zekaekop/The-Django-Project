@@ -13,12 +13,13 @@
                             {% if current_category == cats %}
                             <p class="desktop_compt"><b>{{ cats.label }}</b></p>
                             <p class="mobile_compt"><b>{{ cats }}</b></p>
+                             <div class="text_fadded d-flex justify-content-center ms-auto" style=" margin-top: -0.5rem;">{{category_activity}}</div>
                             {% else %} <!-- Selected category becomes bold -->
-                            <p class="desktop_compt">{{ cats.label }}</p>
+                            <p class="desktop_compt">{{ cats.label }}   </p>
                             <p class="mobile_compt">{{ cats }}</p>
                             {% endif %}
                         </a>
-                        {{category_length}}
+
                     {% if forloop.counter != category_len %}
                         </li>  <span class="text_fadded ms-2 me-2">/</span>
                     {% endif%}
