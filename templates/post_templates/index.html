@@ -18,7 +18,10 @@
                             <p class="mobile_compt">{{ cats }}</p>
                             {% endif %}
                         </a>
-                    </li>  <span class="text_fadded ms-2 me-2">/</span>
+                        {{category_length}}
+                    {% if forloop.counter != category_len %}
+                        </li>  <span class="text_fadded ms-2 me-2">/</span>
+                    {% endif%}
                 {% endfor %}
             </ul>
         </div>

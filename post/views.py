@@ -62,6 +62,7 @@ class ListPosts():
             "reported_posts" : reports,
             "debug": settings.DEBUG,
             "category":Post.Categories,
+            "category_len":len(Post.Categories.choices),
             "current_category": category,
         }
 
