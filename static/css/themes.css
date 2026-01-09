@@ -67,9 +67,39 @@
     --bg-txtbox-color-focused: rgba(60,60,60);
     --txtbox-border-color-focused: rgb(80, 80, 80);
 }
+:root[data-theme="ocean"]{
+    --bg-color: rgb(30, 35, 110);
+    --bg-secondary-color: rgba(23, 13, 158, 0.3);
+    --bg-border-color: rgb(33, 81, 163);
+    --text-color: rgb(255, 255, 255);
+    --text-color-faded: rgb(255, 255, 255, 0.5);
+    
+    --shadow-color-04: rgb(0, 0, 0);
+    --shadow-color-02: rgba(0, 0, 0, 0.5);
 
-/* Old dark theme
-:root[data-theme="dark"]{
+    --transparent: rgba(0, 0, 0, 0);
+
+    --bubble-brightness: 1.0;
+    
+    --button-disabled: #4a4a4a;
+    --button-disabled-hover: #5a5a5a;
+    --button-disabled-active: #707070;
+    
+    --button-border-color: rgb(29, 82, 167);
+    --button-border-color-hover: rgb(13, 52, 181);
+    
+    --button-primary-color: rgb(12, 21, 139);
+    --button-primary-color-hover: rgb(43, 76, 194);
+
+    --navbar-gradient: linear-gradient(rgba(15, 10, 35, 0.6) 80%, rgba(0, 0, 0, 0) 90%);
+    --paginator-gradient: linear-gradient(rgba(0, 0, 0, 0), rgb(15, 10, 35, 0.6));
+
+    --bg-txtbox-color: rgb(12, 21, 139);
+    --txtbox-border-color: rgb(13, 52, 181);
+    --bg-txtbox-color-focused: rgb(0, 46, 195);
+    --txtbox-border-color-focused: rgb(4, 112, 207);
+}
+:root[data-theme="extra-dark"]{
     --bg-color: rgb(25, 25, 25);
     --bg-secondary-color: rgb(35, 35, 35,0.3);
     --bg-border-color: rgb(45, 45, 45);
@@ -98,4 +128,3 @@
     --bg-txtbox-color-focused: rgba(40, 40, 40);
     --txtbox-border-color-focused: rgb(70, 70, 70);
 }
-*/
