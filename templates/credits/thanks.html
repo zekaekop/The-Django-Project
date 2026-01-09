@@ -1,5 +1,5 @@
 {% extends 'base.html' %}
-
+{% load static %}
 {% block body %}
 <div class="container mt-5">
     <div class="row d-flex mt-3">
@@ -97,5 +97,7 @@
         </div>
     </div>
 </div>
+
+<script src="{% static 'js/bubbles_contribs.js'%}"></script>
 
 {% endblock %}
