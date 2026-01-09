@@ -9,15 +9,19 @@
             <ul class="nav d-flex justify-content-center ms-auto">
                 {% for cats in category %}
                     <li  class="nav-item">
-                         <a class="nav-link" href="{% url 'post:category' cats %}">
-                            {% if current_category == cats%}
-                                <b>{{ cats.label }}</b>
-                                <div class="text_fadded d-flex justify-content-center ms-auto" style=" margin-top: -0.5rem;">{{category_activity}}</div>
+                         <a class="nav-link p-0" href="{% url 'post:category' cats %}">
+                            {% if current_category == cats %}
+                            <p class="desktop_compt"><b>{{ cats.label }}</b></p>
+                            <p class="mobile_compt"><b>{{ cats }}</b></p>
                             {% else %} <!-- Selected category becomes bold -->
-                                {{ cats.label }}
+                            <p class="desktop_compt">{{ cats.label }}</p>
+                            <p class="mobile_compt">{{ cats }}</p>
                             {% endif %}
                         </a>
-                    </li>  <span class="text_fadded me-2" style="margin-top: 0.7rem;">/</span>
+                        {{category_length}}
+                    {% if forloop.counter != category_len %}
+                        </li>  <span class="text_fadded ms-2 me-2">/</span>
+                    {% endif%}
                 {% endfor %}
             </ul>
         </div>
