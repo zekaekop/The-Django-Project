@@ -15,11 +15,12 @@
     <title>{% block title %}The Django Project{% endblock %}</title>
     <link rel="stylesheet" href="{% static 'css/bootstrap.min.css' %}">
 
+    <link rel="stylesheet" href="{% static 'css/themes.css' %}">
     <link rel="stylesheet" href="{% static 'css/base.css' %}">
     <link rel="stylesheet" href="{% static 'css/affects.css' %}">
     <link rel="stylesheet" href="{% static 'css/components.css' %}">
     <link rel="stylesheet" href="{% static 'css/icons.css' %}">
-    <link rel="stylesheet" href="{% static 'css/themes.css' %}">
+
 
     <link rel="icon" type="image/png" href="{% static 'img/header/boat_sail.svg' %}"/> <!-- favicon -->
 </head>
@@ -72,6 +73,87 @@
     --compass: url("{% static 'img/header/compass.svg'%}"); /* navbar toggle icon */
 }
 :root[data-theme="dark"]{
+    /* Background */
+    --bg-image: url("{% static 'img/wallpaper/waves5_gray.jpg'%}");
+
+    /* Posts */
+    --eye: url("{% static 'img/eye_light.svg'%}"); /* view icon */
+
+    --edit: url("{% static 'img/post/edit_light.svg'%}");
+    --delete: url("{% static 'img/post/delete_light.svg'%}");
+
+    --flag: url("{% static 'img/post/flag_light.svg'%}"); /* report icon */
+    --flag-fill: url("{% static 'img/post/flag_light_fill.svg'%}");
+
+    --arrow: url("{% static 'img/arrow_light.svg'%}"); /* upvotes icon */
+    --arrow-fill: url("{% static 'img/arrow_fill_light.svg'%}");
+
+    --options: url("{% static 'img/post/options_light.svg' %}");
+    /* Post create */
+    --file-upload: url("{% static 'img/post/create/fileupload_light.svg'%}"); 
+    --file-upload-image: url("{% static 'img/post/create/image_arrow_up_light.svg'%}"); 
+
+    --css-logo: url("{% static 'img/post/create/css_light.svg'%}"); 
+    --js-logo: url("{% static 'img/post/create/js_light.svg'%}"); 
+    --html-logo: url("{% static 'img/post/create/html_light.svg'%}"); 
+
+    /* Admin panel */
+    --edit-normal: url("{% static 'img/admin_perms/edit_normal_light.svg'%}");
+
+    --disabled-eye: url("{% static 'img/admin_perms/disabled_visible_light.svg'%}"); 
+
+    --account: url("{% static 'img/admin_perms/account_light.svg'%}");
+    --account-false: url("{% static 'img/admin_perms/account_false_light.svg'%}");
+
+    --admin-true: url("{% static 'img/admin_perms/admin_true_light.svg'%}");
+    --admin-false: url("{% static 'img/admin_perms/admin_false_light.svg'%}");
+
+    /* Header */
+    --theme_toggle_icon: url("{% static 'img/header/sun.svg'%}");
+    --compass: url("{% static 'img/header/compass.svg'%}"); /* navbar toggle icon */
+}
+
+:root[data-theme="ocean"]{
+      /* Background */
+    --bg-image: url("{% static 'img/wallpaper/waves5_gray.jpg'%}");
+
+    /* Posts */
+    --eye: url("{% static 'img/eye_light.svg'%}"); /* view icon */
+
+    --edit: url("{% static 'img/post/edit_light.svg'%}");
+    --delete: url("{% static 'img/post/delete_light.svg'%}");
+
+    --flag: url("{% static 'img/post/flag_light.svg'%}"); /* report icon */
+    --flag-fill: url("{% static 'img/post/flag_light_fill.svg'%}");
+
+    --arrow: url("{% static 'img/arrow_light.svg'%}"); /* upvotes icon */
+    --arrow-fill: url("{% static 'img/arrow_fill_light.svg'%}");
+
+    --options: url("{% static 'img/post/options_light.svg' %}");
+    /* Post create */
+    --file-upload: url("{% static 'img/post/create/fileupload_light.svg'%}"); 
+    --file-upload-image: url("{% static 'img/post/create/image_arrow_up_light.svg'%}"); 
+
+    --css-logo: url("{% static 'img/post/create/css_light.svg'%}"); 
+    --js-logo: url("{% static 'img/post/create/js_light.svg'%}"); 
+    --html-logo: url("{% static 'img/post/create/html_light.svg'%}"); 
+
+    /* Admin panel */
+    --edit-normal: url("{% static 'img/admin_perms/edit_normal_light.svg'%}");
+
+    --disabled-eye: url("{% static 'img/admin_perms/disabled_visible_light.svg'%}"); 
+
+    --account: url("{% static 'img/admin_perms/account_light.svg'%}");
+    --account-false: url("{% static 'img/admin_perms/account_false_light.svg'%}");
+
+    --admin-true: url("{% static 'img/admin_perms/admin_true_light.svg'%}");
+    --admin-false: url("{% static 'img/admin_perms/admin_false_light.svg'%}");
+
+    /* Header */
+    --theme_toggle_icon: url("{% static 'img/header/sun.svg'%}");
+    --compass: url("{% static 'img/header/compass.svg'%}"); /* navbar toggle icon */
+}
+:root[data-theme="extra-dark"]{
     /* Background */
     --bg-image: url("{% static 'img/wallpaper/waves5_gray.jpg'%}");
 
