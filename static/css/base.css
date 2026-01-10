@@ -2,12 +2,7 @@
 /* This is where you will find cards styles and layouts */
 
 *{
-    font-family:  'Quicksand',  'Times New Roman', Times, serif !important;
-    font-weight: 600 !important;
-}
-
-*{
-    font-family:  'Quicksand',  'Times New Roman', Times, serif !important;
+    font-family: 'Quicksand' !important;
     font-weight: 600 !important;
 }
 
