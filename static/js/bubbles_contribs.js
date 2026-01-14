@@ -28,7 +28,7 @@ document.addEventListener('DOMContentLoaded', function() {
 
         bubble.src = bubble_images[Math.floor(Math.random() * bubble_images.length)];
         bubble.setAttribute("id",  "bubble_" + i);
-        bubble.setAttribute("class", "bubble_contrib");
+        bubble.setAttribute("class", "bubble_big");
 
         bubble.onclick = function() { 
             bubble_pop(this.id);
@@ -39,7 +39,7 @@ document.addEventListener('DOMContentLoaded', function() {
         bubble.style.scale = Math.random() * 2.5 + 1.5;
         
         // Randomize animation delay and duration
-        bubble.style.animationDelay = Math.random() * 2 + "s";
+        bubble.style.animationDelay = Math.random() * -2 + "s";
         bubble.style.animationDuration = (Math.random() * 12 + 5) + "s";
         
         container.appendChild(bubble);
