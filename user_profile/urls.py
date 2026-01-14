@@ -1,9 +1,12 @@
 from django.urls import path
 
-from . import views
+from .views import ListProfilePage
 
 app_name = "user_profile"
 
+list_profile = ListProfilePage() 
+
 urlpatterns = [
-    path('test/', views.test , name="test"),
+    path('credentials/', list_profile.change_credentials , name="change_credentials"),
+    path('profile/', list_profile.profile , name="profile"),
 ]
