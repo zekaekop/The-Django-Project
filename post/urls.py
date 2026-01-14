@@ -9,7 +9,6 @@ post_actions = PostActions()
 post_assembly = PostAssembly()
 post_ajax = PostAjaxFetching()
 
-
 urlpatterns = [
 
     # Posts

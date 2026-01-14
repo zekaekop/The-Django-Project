@@ -4,7 +4,7 @@ from user_profile.forms import UserProfileForm
 
 class ListProfilePage():
 
-    def profile(self, request):
+    def profile(self, request, username):
         return render(request, "profile_templates/profile.html")
 
     def change_credentials(self, request):
