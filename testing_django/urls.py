@@ -32,6 +32,7 @@ urlpatterns = [
     path('profile/', include('user_profile.urls')),
     path('info/', include('info.urls')),
     path('secret/', include('secret.urls')),
+    path('', include('credits.urls')),
 ]
 
 urlpatterns += static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)

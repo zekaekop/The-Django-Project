@@ -1,8 +1,20 @@
 <h1>The Django Project</h1>
 
+<h2>About the Django Project</h2>
+
+This project is a social media web platform made with django.
+It can do alot of things listed bellow.
+
 <h3>1.What it can do</h3>
  
-You can look at the Top Posts, Create your own Posts, Upvote, View and Comment on others. <br>
+You can look at the Top Posts, 
+Create your own Posts, 
+Upvote,
+View and Comment on others. 
+Upload videos, images, html, css, js and many more files!
+
+<br>
+
 If you are admin you can have access to the admin panel, it allows you to See the selected category and  Delete(also Deactivate),Update them. <br>
 The website has a Contact feature, where you can send details for an admin to see and contact you. <br>
 

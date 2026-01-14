@@ -50,6 +50,7 @@ INSTALLED_APPS = [
     'user_profile',
     'accounts',
     'admin_panel',
+    'credits',
 ]
 
 MIDDLEWARE = [
