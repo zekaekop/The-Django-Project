@@ -40,14 +40,20 @@
                         <div style="position: relative; flex-grow: 1; overflow: hidden; overflow-wrap: break-word;">
                             <a href="{{ post.get_absolute_url }}"><span class="div_link"></span></a>
 
+                            <div class="d-flex justify-content-between">
+                                <h6 class="post_title text_fadded"> <!-- profile pic-->
+                                    {{ post.user.username }}
+                                </h6> 
+
+                                <small class="text_fadded" data-bs-toggle="tooltip" title="{{ post.date }}">
+                                    {{ post.date|timesince_single_unit }} Ago
+                                </small>
+                            </div>
                             <div class="card-header mb-2">
                                 <h3 class="post_title">
                                     {{ post.title }}
                                 </h3>
-                                <h6 class="post_title">
-                                    OP: {{ post.user.username }}
-                                </h6>
-                            </div>                      
+                            </div>         
                             {% if post.video %}
                                 <video src="{{ post.video.url }}" alt="Post video" class="img-thumbnail" width="500" controls></video>
                             {% else %}
@@ -133,9 +139,6 @@
                                     {% endif %}
                                 </div>
 
-                                <small class="d-none d-md-block d-md-none d-lg-block" data-bs-toggle="tooltip" title="{{ post.date }}">
-                                    {{ post.date|timesince_single_unit }} Ago
-                                </small>
 
                                 <button class="btn p-0" type="button" data-bs-toggle="collapse" data-bs-target="#postfooteritems_{{ post.id }}" aria-label="Toggle Post Actions">
                                     <img class="options_toggle" alt="">
