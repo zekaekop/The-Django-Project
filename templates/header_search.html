@@ -5,7 +5,7 @@
     <div class="container">
 
         <img id="home_boat" onclick="damage_boat()" src="{% static 'img/header/boat_sail_dmg0.png'%}" alt="Home">
-        <a id="credit_boat" href="{% url 'credits:thanks'%}" style="display: none;" ><img src="{% static 'img/header/diamond,svg'%}" alt="Credits"></a>
+        <a id="credit_boat" href="{% url 'secret:thanks'%}" style="display: none;" ><img src="{% static 'img/header/diamond.svg'%}" alt="secret"></a>
 
             <a href="/" class="nav-link navbar-brand  me-auto" style="color: white !important;"> Home</a>
 
@@ -68,4 +68,4 @@
 
 <script src="{% static 'js/theme.js'%}"></script>
 
-<script src="{% static 'js/credits.js'%}"></script>
+<script src="{% static 'js/secret.js'%}"></script>

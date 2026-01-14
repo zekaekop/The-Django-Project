@@ -1,10 +1,10 @@
 var clicks = 0;
 
 const fake_boat = document.getElementById("home_boat");
-const real_boat = document.getElementById("credit_boat");
+const real_boat = document.getElementById("secret_boat");
 
 function damage_boat(){
-    if (window.location.pathname != "/credits/thank-you"){
+    if (window.location.pathname != "/secret/thank-you"){
         fake_boat.style.transform = "rotate(" + (Math.random() * 50 + -30) + "deg)";
 
         clicks += 1;

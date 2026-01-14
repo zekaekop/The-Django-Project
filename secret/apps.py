@@ -1,6 +1,6 @@
 from django.apps import AppConfig
 
 
-class CreditsConfig(AppConfig):
+class SecretConfig(AppConfig):
     default_auto_field = 'django.db.models.BigAutoField'
-    name = 'credits'
+    name = 'secret'

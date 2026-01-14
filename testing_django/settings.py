@@ -46,7 +46,7 @@ INSTALLED_APPS = [
     'post',
     'home',
     'info',
-    'credits',
+    "secret",
     'user_profile',
     'accounts',
     'admin_panel',
