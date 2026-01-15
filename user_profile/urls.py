@@ -1,13 +1,14 @@
 from django.urls import path
 
-from .views import ListProfilePage
+from .views import ListProfilePage, ProfileEdit
 
 app_name = "user_profile"
 
 list_profile = ListProfilePage() 
+edit_profile = ProfileEdit() 
 
 urlpatterns = [
-    path('<str:username>/credentials/', list_profile.change_credentials , name="change_credentials"),
+    path('credentials/', list_profile.change_credentials , name="change_credentials"),
     path('<str:username>/', list_profile.profile , name="profile"),
-    path('<str:username>/edit', list_profile.profile , name="profile_edit"),
+    path('<str:username>/edit', edit_profile.profile_update , name="profile_edit"),
 ]

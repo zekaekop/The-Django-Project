@@ -24,7 +24,6 @@ class ListProfilePage():
         return render(request, "profile_templates/profile.html", context)
 
     def change_credentials(self, request):
-
         if request.user.is_authenticated:
             name = {"name" : request.user.username}
             user_instance = request.user
@@ -57,7 +56,7 @@ class ListProfilePage():
 class ProfileEdit():
 
     def profile_update(self, request, username):
-
+        user = User.objects.get(username=username)
         authenticate_users(request)
 
         if request.method == "POST":
@@ -67,7 +66,11 @@ class ProfileEdit():
 
             profile.save()
             return HttpResponseRedirect(profile.get_absolute_url())
-                
+
+        context = {
+            "user": user,
+        }
+
         return render(request, "profile_templates/profile_edit.html",context)
     
     def get_profile_POST_data(self, request, username): 
