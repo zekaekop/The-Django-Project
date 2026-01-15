@@ -20,8 +20,32 @@
                     {% if user == request.user %} <!-- if the user is the profile user, than show the edit profile button -->
                         <a href="{% url 'user_profile:profile_edit' request.user %}">Edit profile</a>
                     {% endif %}
-                    <h1>list stuff here bla bla</h1>
-                    <img src="{{ profile.image.url }}" alt="profile image">
+
+                    {% if profile.image %}
+                        <img src="{{ profile.image.url }}" alt="profile image">
+                    {% else %}
+                        <img src="{% static 'img/django_heart.svg' %}" alt="profile image">
+                    {% endif %}
+
+                    <h1>{{user}}</h1>
+
+                    <h3>Bio</h3>
+                    <p>{{ UserProfile.bio }}</p>
+
+                    <h4>Location</h4>
+                    <p>{{ UserProfile.location }}</p>
+
+                    <h4>Gender</h4>
+                    <p>{{ UserProfile.gender}}</p>
+
+                    <h4>Age</h4>
+                    <p>{{ UserProfile.user_age}}</p>
+
+                    <h4>Account Age</h4>
+                    <p>{{ UserProfile.created_at}}</p>
+
+                    <h4>Profile Last updated</h4>
+                    <p>{{ UserProfile.updated_at }}</p>
                 </div>
             </div>
         </div>

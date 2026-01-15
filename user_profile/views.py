@@ -17,7 +17,7 @@ class ListProfilePage():
 
         context = {
             "user": user,
-            # "profile": profile,
+            "profile": UserProfile,
         }
 
         return render(request, "profile_templates/profile.html", context)
@@ -68,6 +68,7 @@ class ProfileEdit():
 
         context = {
             "user": user,
+            "userprofile":UserProfile,
         }
 
         return render(request, "profile_templates/profile_edit.html",context)
@@ -78,7 +79,7 @@ class ProfileEdit():
 
             bio = request.POST.get("bio")
             location = request.POST.get("location")
-            user_Age = request.POST.get("user_Age")
+            user_Age = request.POST.get("user_age")
             gender = request.POST.get("gender")
             profile_pic = request.FILES.get("profile_pic")
 
