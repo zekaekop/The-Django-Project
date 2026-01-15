@@ -50,7 +50,7 @@ def signin_view(request):
     
     context ={
         'form':form,
-        'title':'Login',
+        'title':'Sign in',
         "donthaveaccount":False,
         "total_accounts":accounts,
         "total_posts":posts,
