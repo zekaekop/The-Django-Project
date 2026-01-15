@@ -100,3 +100,9 @@
 .paginator-arrow-right{ content: var(--paginator-arrow-right); }
 .paginator-arrow-double-left{ content: var(--paginator-arrow-double-left); }
 .paginator-arrow-double-right{ content: var(--paginator-arrow-double-right); }
+
+/* buttons*/
+
+.btn-close{
+    --bs-btn-close-bg: var(--close-icon);
+}
