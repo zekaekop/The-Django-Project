@@ -18,6 +18,7 @@ class UserProfile(models.Model):
     gender = models.CharField(max_length=10, choices=GENDER_CHOICES, default='other')
     user_age = models.IntegerField(null=True, blank=True)
 
+    generated_pic = models.JSONField(default=list, blank=True, null=True,)
     image = models.ImageField(upload_to='profile_pics/', blank=True, null=True)
 
     created_at = models.DateTimeField(auto_now_add=True)

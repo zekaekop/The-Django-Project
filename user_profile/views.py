@@ -13,11 +13,12 @@ class ListProfilePage():
 
     def profile(self, request, username):
         user = User.objects.get(username=username)
+        user_profile = UserProfile.objects.get(user=user)
         # profile = ProfileAssembly.profile_update(request)
 
         context = {
             "user": user,
-            "profile": UserProfile,
+            "profile":user_profile,
         }
 
         return render(request, "profile_templates/profile.html", context)

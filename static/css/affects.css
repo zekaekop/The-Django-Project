@@ -67,3 +67,18 @@
         opacity: 1;
     }
 }
+
+/* PFP grid*/
+
+.profile-grid {
+    display: inline-block;
+}
+
+.row {
+    display: flex;
+}
+
+.pixel {
+    width: 20px;
+    height: 25px;
+}

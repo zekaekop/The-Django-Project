@@ -27,25 +27,28 @@
                         <img src="{% static 'img/django_heart.svg' %}" alt="profile image">
                     {% endif %}
 
+                    <h1>Testing custom profile</h1>
+                    {% include 'profile_templates/generated_profile_pic.html' %}
+
                     <h1>{{user}}</h1>
 
                     <h3>Bio</h3>
-                    <p>{{ UserProfile.bio }}</p>
+                    <p>{{ profile.bio }}</p>
 
                     <h4>Location</h4>
-                    <p>{{ UserProfile.location }}</p>
+                    <p>{{ profile.location }}</p>
 
                     <h4>Gender</h4>
-                    <p>{{ UserProfile.gender}}</p>
+                    <p>{{ profile.gender}}</p>
 
                     <h4>Age</h4>
-                    <p>{{ UserProfile.user_age}}</p>
+                    <p>{{ profile.user_age}}</p>
 
                     <h4>Account Age</h4>
-                    <p>{{ UserProfile.created_at}}</p>
+                    <p>{{ profile.created_at}}</p>
 
                     <h4>Profile Last updated</h4>
-                    <p>{{ UserProfile.updated_at }}</p>
+                    <p>{{ profile.updated_at }}</p>
                 </div>
             </div>
         </div>
