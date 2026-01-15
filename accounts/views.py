@@ -47,13 +47,7 @@ def signin_view(request):
         user.save()
         new_user = authenticate(username = user.username, password = password)
 
-        # generate pfp
-        generated_pic_data = generate_profile_pic(8, 8)
-
-        print(generated_pic_data)
-        
-        # Create UserProfile for the user
-        UserProfile.objects.create(user=new_user, generated_pic=generated_pic_data)
+        create_user_profile(user, new_user)
 
         login(request, new_user)
         return redirect('/')
@@ -74,6 +68,12 @@ def signin_view(request):
 def logout_view(request):
     logout(request)
     return redirect('/accounts/login/')
+
+def create_user_profile(user, new_user):
+    # generate pfp
+    generated_pic_data = generate_profile_pic(4, 4)
+    # Create UserProfile for the user
+    UserProfile.objects.create(user=new_user, generated_pic=generated_pic_data)
 
 def generate_profile_pic(height = 4, width = 4): # its 4 by 4 and than it gets mirrored and flipped on the other sides 
 

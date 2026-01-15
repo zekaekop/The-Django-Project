@@ -70,15 +70,31 @@
 
 /* PFP grid*/
 
-.profile-grid {
+.profile-box {
     display: inline-block;
+
+    background-color: rgba(100, 100, 100); 
+    border: 2px solid rgb(0, 0, 0, 0.3);
+    border-radius: 5px;
+
+    margin: 0;
+    padding: 0;
+
+    mask-size: auto;
+    overflow: hidden;
+    clip-path: inset(0 0 0 0);
+
+    font-size: 0; /* invincible characters ruining the layout */
 }
 
-.row {
-    display: flex;
+.profile-grid {
+    display: inline-block;
+    border-radius: 5px;
 }
 
 .pixel {
     width: 20px;
-    height: 25px;
+    height: 20px;
+    padding: 0;
+    margin: 0;
 }

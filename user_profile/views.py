@@ -3,6 +3,10 @@ from user_profile.forms import UserProfileForm
 from accounts.models import UserProfile
 from django.contrib.auth.models import User
 
+from django.core.exceptions import ObjectDoesNotExist
+
+from accounts.views import create_user_profile
+
 # Create your views here.
 
 def authenticate_users(request):
@@ -12,8 +16,14 @@ def authenticate_users(request):
 class ListProfilePage():
 
     def profile(self, request, username):
+
         user = User.objects.get(username=username)
-        user_profile = UserProfile.objects.get(user=user)
+
+        try:
+            user_profile = UserProfile.objects.get(user=user) # if it doesnt exist than create it, support for older accounts that dont have this
+        except UserProfile.DoesNotExist:
+            user_profile = create_user_profile(user, user) 
+
         # profile = ProfileAssembly.profile_update(request)
 
         context = {

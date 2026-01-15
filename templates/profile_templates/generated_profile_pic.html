@@ -1,9 +1,45 @@
-<div class="profile-grid">
-{% for row in profile.generated_pic %}
-    <div class="row">
-    {% for pixel in row %} <!-- visual studio code thinks this is a style error but, its correct Django template syntax ... its cursed -->
-        <div class="pixel" style="background-color: rgba( {{ pixel.0 }}, {{ pixel.1 }}, {{ pixel.2 }}, {{ pixel.3 }});"></div> 
+<div class="profile-box">
+
+    <div class="profile-grid ms-2">
+    {% for row in profile.generated_pic %}
+        <div class="row">
+        {% for pixel in row %} <!-- visual studio code thinks this is a style error but, its correct Django template syntax ... its cursed -->
+            <div class="pixel" style="background-color: rgba( {{ pixel.0 }}, {{ pixel.1 }}, {{ pixel.2 }}, {{ pixel.3 }});"></div>
+        {% endfor %}
+        </div>
     {% endfor %}
     </div>
-{% endfor %}
+
+    <div class="profile-grid me-2" style="transform: scale(-1, 1);">
+    {% for row in profile.generated_pic %}
+        <div class="row">
+        {% for pixel in row %} <!-- visual studio code thinks this is a style error but, its correct Django template syntax ... its cursed -->
+            <div class="pixel" style="background-color: rgba( {{ pixel.0 }}, {{ pixel.1 }}, {{ pixel.2 }}, {{ pixel.3 }});"></div> 
+        {% endfor %}
+        </div>
+    {% endfor %}
+    </div>
+
+    <br>
+
+    <div class="profile-grid ms-2" style="transform: scale(1, -1); ">
+    {% for row in profile.generated_pic %}
+        <div class="row">
+        {% for pixel in row %} <!-- visual studio code thinks this is a style error but, its correct Django template syntax ... its cursed -->
+            <div class="pixel" style="background-color: rgba( {{ pixel.0 }}, {{ pixel.1 }}, {{ pixel.2 }}, {{ pixel.3 }});"></div> 
+        {% endfor %}
+        </div>
+    {% endfor %}
+    </div>
+
+    <div class="profile-grid me-2" style="transform: scale(-1, -1);">
+    {% for row in profile.generated_pic %}
+        <div class="row">
+        {% for pixel in row %} <!-- visual studio code thinks this is a style error but, its correct Django template syntax ... its cursed -->
+            <div class="pixel" style="background-color: rgba( {{ pixel.0 }}, {{ pixel.1 }}, {{ pixel.2 }}, {{ pixel.3 }});"></div> 
+        {% endfor %}
+        </div>
+    {% endfor %}
+    </div>
+
 </div>
