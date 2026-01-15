@@ -14,7 +14,6 @@ class ListProfilePage():
     def profile(self, request, username):
         user = User.objects.get(username=username)
         # profile = ProfileAssembly.profile_update(request)
-        print(user)
 
         context = {
             "user": user,
@@ -65,7 +64,7 @@ class ProfileEdit():
             profile = self.apply_profile_POST_data(request, POST_data)
 
             profile.save()
-            return HttpResponseRedirect(profile.get_absolute_url())
+            return render(request, "profile_templates/profile_edit.html",context)
 
         context = {
             "user": user,
@@ -79,7 +78,8 @@ class ProfileEdit():
 
             bio = request.POST.get("bio")
             location = request.POST.get("location")
-            account_age = request.POST.get("account_age")
+            user_Age = request.POST.get("user_Age")
+            gender = request.POST.get("gender")
             profile_pic = request.FILES.get("profile_pic")
 
         return POST_data
@@ -89,7 +89,8 @@ class ProfileEdit():
         profile = Profile(
             bio= POST_data.bio,
             location= POST_data.location,
-            account_age= POST_data.account_age,
+            user_Age= POST_data.user_Age,
+            gender = request.POST.get("gender"),
             profile_pic= POST_data.profile_pic,
             )
 
