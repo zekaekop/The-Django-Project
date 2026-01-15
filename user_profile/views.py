@@ -1,11 +1,27 @@
 from django.shortcuts import render, redirect
 from user_profile.forms import UserProfileForm
+from accounts.models import UserProfile
+from django.contrib.auth.models import User
+
 # Create your views here.
+
+def authenticate_users(request):
+    if not request.user.is_authenticated:
+        raise Http404()
 
 class ListProfilePage():
 
     def profile(self, request, username):
-        return render(request, "profile_templates/profile.html")
+        user = User.objects.get(username=username)
+        # profile = ProfileAssembly.profile_update(request)
+        print(user)
+
+        context = {
+            "user": user,
+            # "profile": profile,
+        }
+
+        return render(request, "profile_templates/profile.html", context)
 
     def change_credentials(self, request):
 
@@ -32,9 +48,46 @@ class ListProfilePage():
             return redirect("/accounts/login")
         
         context = {
-            "title":"Hello world",
             "account": name,
             "user_form" : user_form,
         }
         
         return render(request, "profile_templates/change_credentials.html", context)
+
+class ProfileEdit():
+
+    def profile_update(self, request, username):
+
+        authenticate_users(request)
+
+        if request.method == "POST":
+
+            POST_data = self.get_profile_POST_data(request)
+            profile = self.apply_profile_POST_data(request, POST_data)
+
+            profile.save()
+            return HttpResponseRedirect(profile.get_absolute_url())
+                
+        return render(request, "profile_templates/profile_edit.html",context)
+    
+    def get_profile_POST_data(self, request, username): 
+
+        class POST_data:
+
+            bio = request.POST.get("bio")
+            location = request.POST.get("location")
+            account_age = request.POST.get("account_age")
+            profile_pic = request.FILES.get("profile_pic")
+
+        return POST_data
+    
+    def apply_profile_POST_data(self, request, POST_data, username):
+
+        profile = Profile(
+            bio= POST_data.bio,
+            location= POST_data.location,
+            account_age= POST_data.account_age,
+            profile_pic= POST_data.profile_pic,
+            )
+
+        return profile

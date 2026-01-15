@@ -1,0 +1,29 @@
+{% extends 'base.html' %}
+{% load static %}
+
+{% block body %}
+
+    <div class="container">
+        <div class="row"> 
+                       
+            {% include 'user_welcome_title.html' %}
+            
+            <h6>Last Login {{request.user.last_login}}</h6>
+
+            <hr>
+            <div class="card">
+                <div class="col-md-10 col-md-offset-3">
+                    <a href="{% url 'user_profile:change_credentials' request.user%}">change credentials</a>
+                    <form method="POST" enctype="multipart/form-data">
+                        <input type="file" name="profile_pic" id="profile_pic">
+                        <br>
+                        <button type="submit" name="action" value="save" class="btn btn-primary button_shadow">
+                            Save Changes
+                        </button>
+                    </form> 
+                </div>
+            </div>
+        </div>
+    </div>
+
+{% endblock %}

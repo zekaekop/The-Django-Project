@@ -3,5 +3,5 @@
 <div class="d-flex mt-2">
     <h1>Welcome {{request.user|safe|truncatechars:50}}</h1>
     <h5 class="ms-auto"> {% if request.user.is_staff %} <a class="nav-link text-black" href="{% url 'user_profile:profile'  request.user %}">     Admin 
-    {% else %} <a class="nav-link text-black" href="{% url 'user_profile:test' %}"> User {% endif %} <img class="account" alt=""></a></h5>
+    {% else %} <a class="nav-link text-black" href="{% url 'user_profile:profile' request.user %}"> User {% endif %} <img class="account" alt=""></a></h5>
 </div>

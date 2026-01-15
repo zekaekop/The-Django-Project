@@ -6,14 +6,22 @@
     <div class="container">
         <div class="row"> 
                        
-            {% include 'user_welcome_title.html' %}
+            <div class="d-flex mt-2">
+                <h1>Welcome To {{user}}</h1>
+                <h5 class="ms-auto"> {% if user.is_staff %} <a class="nav-link text-black" href="{% url 'user_profile:profile'  request.user %}">     Admin 
+                {% else %} <a class="nav-link text-black" href="{% url 'user_profile:profile' request.user %}"> User {% endif %} <img class="account" alt=""></a></h5>
+            </div>
             
-            <h6>Last Login {{request.user.last_login}}</h6>
+            <h6>Last Login {{user.last_login}}</h6>
 
             <hr>
             <div class="card">
                 <div class="col-md-10 col-md-offset-3">
-                    <a href="{% url 'user_profile:change_credentials'%}">test</a>
+                    {% if user == request.user %} <!-- if the user is the profile user, than show the edit profile button -->
+                        <a href="{% url 'user_profile:profile_edit' request.user%}">Edit profile</a>
+                    {% endif %}
+                    <h1>list stuff here bla bla</h1>
+                    <img src="{{ profile.image.url }}" alt="profile image">
                 </div>
             </div>
         </div>
