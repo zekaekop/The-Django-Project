@@ -1,6 +1,7 @@
 <!-- Navbar Start -->
 
 {% load static %}
+{% load profile_tag %}
 
 <nav class="navbar navbar-expand-lg" role="banner">
 
@@ -47,9 +48,10 @@
 
         </div>
 
+
         <div class="transform-scale-20 profile-box me-2" data-size="2.5">
             <div class="profile-box" data-size="2.5"> 
-            {% include 'profile_templates/generated_profile_pic.html' %}
+                {% render_profile request.user %}
             </div>
         </div>
 
