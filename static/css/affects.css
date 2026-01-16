@@ -70,13 +70,23 @@
 
 /* PFP grid*/
 
+.transform-scale-2-0 {
+    transform: scale(2.0); 
+}
+.transform-scale-1-5 { 
+    transform: scale(1.5); 
+}
+.transform-scale-0-3 { 
+    transform: scale(0.3); 
+}
+
 .profile-box {
     display: inline-block;
     
     /* use this instead of flex, because it doesnt break the layout of the view diamention is changed*/
-    width: calc(18px * 8);
+    width: calc(20px * 8);
     height: calc(20px * 8); 
-    min-width: calc(18px * 8);
+    min-width: calc(20px * 8);
     min-height: calc(20px * 8);
     
     background-color: rgba(100, 100, 100); 
