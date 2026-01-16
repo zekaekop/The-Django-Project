@@ -1,6 +1,6 @@
 <div class="profile-box">
 
-    <div class="profile-grid ms-2">
+    <div class="profile-grid" style="margin-left: 0.9rem;">
     {% for row in profile.generated_pic %}
         <div class="row">
         {% for pixel in row %} <!-- visual studio code thinks this is a style error but, its correct Django template syntax ... its cursed -->
@@ -22,7 +22,7 @@
 
     <br>
 
-    <div class="profile-grid ms-2" style="transform: scale(1, -1); ">
+    <div class="profile-grid" style="transform: scale(1, -1); margin-left: 0.9rem; ">
     {% for row in profile.generated_pic %}
         <div class="row">
         {% for pixel in row %} <!-- visual studio code thinks this is a style error but, its correct Django template syntax ... its cursed -->
