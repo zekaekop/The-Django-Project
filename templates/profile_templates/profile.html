@@ -1,6 +1,6 @@
 {% extends 'base.html' %}
 {% load static %}
-
+{% load profile_tag %}
 {% block body %}
 
     <div class="container">
@@ -29,7 +29,11 @@
 
                     <h1>Testing custom profile</h1>
 
-                        {% include 'profile_templates/generated_profile_pic.html' %}
+                    <div class="2profile-box me-2" data-size="8">
+                        <div class="profile-box" data-size="8"> 
+                            {% render_profile request.user %}
+                        </div>
+                    </div>
                     
                         <h1>{{user}}</h1>
 

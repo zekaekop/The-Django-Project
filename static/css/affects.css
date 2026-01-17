@@ -107,7 +107,6 @@
     min-height: calc(var(--pixel-size) * var(--grid-size));
     
     background-color: rgba(100, 100, 100); 
-    border: 2px solid rgb(0, 0, 0, 0.3);
     border-radius: 5px;
 
     margin: 0;
@@ -123,6 +122,9 @@
 .profile-grid {
     display: inline-block;
     border-radius: 5px;
+    
+    padding: 0;
+    margin: 0;
 }
 
 .pixel {
