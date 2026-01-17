@@ -13,9 +13,16 @@
             <hr>
             <div class="card">
                 <div class="col-md-10 col-md-offset-3">
-                    <a href="{% url 'user_profile:change_credentials' %}">change credentials</a>
+                    <a href="{% url 'user_profile:change_credentials' %}">Change credentials</a>
+                    <a href="{% url 'user_profile:profile' request.user %}">Go back to profile</a>
                     <form method="POST" enctype="multipart/form-data">
                         <input type="file" name="profile_pic" id="profile_pic">
+                        <br>
+                        <textarea class="form-control form-control-lg" type="text" name="bio" id="bio" placeholder="Enter Bio"></textarea>
+                        <br>
+                        <input class="btn btn-primary button_shadow" type="text" name="location" id="location">
+                        <br>
+                        <input class="btn btn-primary button_shadow" type="text" name="user_age" id="user_age">
                         <br>
                         <button type="submit" name="action" value="save" class="btn btn-primary button_shadow">
                             Save Changes
