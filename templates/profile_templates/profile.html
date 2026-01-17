@@ -24,16 +24,14 @@
                     {% if profile.image %}
                         <img src="{{ profile.image.url }}" alt="profile image">
                     {% else %}
-                        <img src="{% static 'img/django_heart.svg' %}" alt="profile image">
+                        <div class="2profile-box me-2" data-size="8">
+                            <div class="profile-box" data-size="8"> 
+                                {% render_profile request.user %}
+                            </div>
+                        </div>
                     {% endif %}
 
                     <h1>Testing custom profile</h1>
-
-                    <div class="2profile-box me-2" data-size="8">
-                        <div class="profile-box" data-size="8"> 
-                            {% render_profile request.user %}
-                        </div>
-                    </div>
                     
                         <h1>{{user}}</h1>
 
