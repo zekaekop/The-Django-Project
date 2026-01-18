@@ -12,7 +12,12 @@
                 {% else %} <a class="nav-link text-black" href="{% url 'user_profile:profile' request.user %}"> User {% endif %} <img class="account" alt=""></a></h5>
             </div>
 
-            <h6>Last Login {{user.last_login}}</h6>
+            <div class="d-flex">
+                <h6>Last Login {{user.last_login}}</h6>
+
+                 <a class="nav-link ms-auto me-3 p-0" href="{% url 'accounts:logout' %}"
+                data-bs-toggle="modal" data-bs-target="#modal_1">Logout</a>
+            </div>
 
             <hr>
             <div class="card">
