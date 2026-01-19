@@ -21,7 +21,7 @@
 
             <hr>
             <div class="card">
-                <div class="col-md-10 col-md-offset-3">
+                <div class="col-md-0">
                     {% if user == request.user %} <!-- if the user is the profile user, than show the edit profile button -->
                         <a href="{% url 'user_profile:profile_edit' request.user %}">Edit profile</a>
                     {% endif %}
@@ -50,12 +50,11 @@
                     <h4>Age</h4>
                     <p>{{ profile.user_age}}</p>
 
-                    <h4>Account Age</h4>
-                    <p>{{ profile.created_at}}</p>
-
-                    <h4>Profile Last updated</h4>
-                    <p>{{ profile.updated_at }}</p>
-                        
+                    <div class="d-flex justify-content-between">
+                        <small class="text_fadded">Edited: {{ profile.updated_at }}</small>
+                        <small class="text_fadded">Account Age: {{ profile.created_at}}</small>
+                    </div>
+                    
                 </div>
             </div>
         </div>
