@@ -2,35 +2,60 @@
 {% load static %}
 
 {% block body %}
-
     <div class="container">
-        <div class="row"> 
-                       
+        <div class="row">                       
             {% include 'user_welcome_title.html' %}
             
             <h6>Last Login {{request.user.last_login}}</h6>
-
             <hr>
+            
             <div class="card">
-                <div class="col-md-10 col-md-offset-3">
-                    <a href="{% url 'user_profile:change_credentials' %}">Change credentials</a>
-                    <a href="{% url 'user_profile:profile' request.user %}">Go back to profile</a>
+                <div class="col-md-0">
+                    
                     <form method="POST" enctype="multipart/form-data">
-                        <input type="file" name="profile_pic" id="profile_pic">
-                        <br>
-                        <textarea class="form-control form-control-lg" type="text" name="bio" id="bio" placeholder="Enter Bio"></textarea>
-                        <br>
-                        <input class="btn btn-primary button_shadow" type="text" name="location" id="location">
-                        <br>
-                        <input class="btn btn-primary button_shadow" type="text" name="user_age" id="user_age">
-                        <br>
-                        <button type="submit" name="action" value="save" class="btn btn-primary button_shadow">
-                            Save Changes
-                        </button>
+                        {% csrf_token %}
+                        
+                        <div class="form-group mb-3">
+                            <label for="profile_pic" class="form-label">Profile Picture</label>
+                            <input type="file" name="profile_pic" id="profile_pic" class="form-control">
+                        </div>
+                        
+                        <div class="form-group mb-3">
+                            <label for="bio" class="form-label">Bio</label>
+                            <textarea class="form-control" name="bio" id="bio" placeholder="Enter Bio" rows="3"></textarea>
+                        </div>
+                        
+                        <div class="form-group mb-3">
+                            <label for="location" class="form-label">Location</label>
+                            <input type="text" name="location" id="location" class="form-control" placeholder="Enter location">
+                        </div>
+                        
+                        <div class="form-group mb-3">
+                            <label for="user_age" class="form-label">Age</label>
+                            <input type="number" name="user_age" id="user_age" class="form-control" placeholder="Enter age">
+                        </div>
+
+                        <div class=" d-flex">
+
+                        <button type="submit" name="action" value="save" class="btn btn-primary button_shadow m-2">
+                                Save Changes
+                            </button>
+
+                            <a href="{% url 'user_profile:profile' request.user %}" class="btn btn-primary button_shadow m-2">
+                                Go back to profile
+                            </a>
+
+                            <div class="ms-auto">
+                                <a href="{% url 'user_profile:change_credentials' %}" class="btn btn-primary button_shadow m-2">
+                                    Change Credentials
+                                </a>
+                            </div>
+
+                        </div>
+
                     </form> 
                 </div>
             </div>
         </div>
     </div>
-
 {% endblock %}
