@@ -14,7 +14,7 @@
                 <div class="card">
                 <!-- Title Input -->
                 <div class="mb-4">
-                    <label class="form-label fw-bold">Title *</label>
+                    <label for="title" class="form-label fw-bold">Title *</label>
                     <textarea type="text" 
                            name="title" 
                            class="form-control form-control-lg" 
@@ -26,35 +26,37 @@
                 
                 <!-- Description Textarea -->
                 <div class="mb-2">
-                    <label class="form-label fw-bold">Description</label>
+                    <label class="form-label fw-bold" for="descTextarea">Description</label>
                     <textarea id="descTextarea" maxlength="10000" name="desc" class="form-control" rows="4" placeholder="What's this post about?">{{post.desc}}</textarea>
                 </div>
 
                 <div class="mb-4">
-                <label class="form-label fw-bold">Category *</label> <br>
+                <fieldset>
+                <legend class="form-label fw-bold">Category *</legend> <br>
                 {% for cats in category %}
                         <div class="btn btn-primary py-1 mt-3 button_shadow" style="cursor:auto;"  data-bs-toggle="tooltip" title="{{ cats.label }}">
                             {% if cats == 'CNT' %}  
-                                 <input class="button_shadow" style="cursor: pointer;" type="radio" name="category" value="CNT"  data-bs-toggle="tooltip" title="{{ cats.label }}"  checked="checked">
+                                 <input class="button_shadow" style="cursor: pointer;" type="radio" name="category" value="CNT"  data-bs-toggle="tooltip" title="{{ cats.label }}"  checked="checked" aria-label="{{ cats.label }}">
                             {% else %}
-                                <input class="button_shadow" style="cursor: pointer;" type="radio" name="category" value="{{cats}}" data-bs-toggle="tooltip" title="{{ cats.label }}" >
+                                <input class="button_shadow" style="cursor: pointer;" type="radio" name="category" value="{{cats}}" data-bs-toggle="tooltip" title="{{ cats.label }}" aria-label="{{ cats.label }}" >
                             {% endif %}
                                 {{ cats }}
                             </input>
                         </div>
                 {% endfor %}
+                </fieldset>
                 </div>
                 <!-- File Uploads -->
                 <div class="mb-2">
-                    <label class="form-label fw-bold">File Uploads</label> <img class="image_file_upload" alt=""> <img class="file_upload" alt="">
+                    <label class="form-label fw-bold">File Uploads</label> <img class="image_file_upload" alt="File Upload section"> <img class="file_upload" alt="File Upload section">
                     <div class="row g-0 mb-2">
                         <div class="col-md-6">
                             <div class="btn btn-primary py-1 mt-3 button_shadow" style="height: 85%; width: 97%;"> 
                                 <a href=""><span class="div_link" id="uploadImg"></span></a> <!-- Add Image -->
-                                <a href=""><span class="div_link" style="width: 2rem; height: 2rem;" id="deleteImg"><img class="delete scale-hover" alt=""></span></a> <!-- Delete Image -->
+                                <a href=""><span class="div_link" style="width: 2rem; height: 2rem;" id="deleteImg"><img class="delete scale-hover" alt="Delete image"></span></a> <!-- Delete Image -->
                                 <input type="file" name="images" multiple accept="image/*" id="fileImg" style="display: none;">
                                 <div class="card-body">
-                                    <label class="form-label fw-bold text_color">Image</label> <img class="image_file_upload" alt=""> <!-- <a href="teststst"><img class="delete" alt=""></a>  I needs to ix z indexing before i can do this -->
+                                    <label class="form-label fw-bold text_color">Image</label> <img class="image_file_upload" alt="Upload image"> <!-- <a href="teststst"><img class="delete" alt=""></a>  I needs to ix z indexing before i can do this -->
                                     <br>
                                     <div class="card-body d-md-none">
                                         <small class="text_fadded">Supported - png, jpg, jpeg, webp</small>
@@ -71,10 +73,10 @@
                         <div class="col-md-6">
                             <div class="btn btn-primary py-1 mt-3  button_shadow" style="height: 85%; width: 99%;">
                                 <a href=""><span class="div_link"  id="uploadVideo"></span></a> <!-- Add Video -->
-                                <a href=""><span class="div_link" style="width: 2rem; height: 2rem;" id="deleteVideo"><img class="delete scale-hover" alt=""></span></a> <!-- Delete Video -->
+                                <a href=""><span class="div_link" style="width: 2rem; height: 2rem;" id="deleteVideo"><img class="delete scale-hover" alt="Delete video"></span></a> <!-- Delete Video -->
                                 <input type="file" name="video" id="fileVideo" style="display: none;">
                                 <div class="card-body">
-                                    <label class="form-label fw-bold text_color">Video</label> <img class="image_file_upload" alt="">
+                                    <label class="form-label fw-bold text_color">Video</label> <img class="image_file_upload" alt="Upload video">
                                     <br>
                                     <div class="card-body d-md-none">
                                         <small class="text_fadded">Supported - MOV, avi, mp4, webm, mkv</small>
@@ -88,10 +90,10 @@
                         <div class="col-md-6 w-100">
                             <div class="btn btn-primary py-1 mt-3  button_shadow" style="height: 85%; width: 99%;">
                                 <a href=""><span class="div_link"  id="uploadSitePreview"></span></a> <!-- Add site preview -->
-                                <a href=""><span class="div_link" style="width: 2rem; height: 2rem;" id="deleteSitePreview"><img class="delete scale-hover" alt=""></span></a> <!-- Delete SitePreview -->
+                                <a href=""><span class="div_link" style="width: 2rem; height: 2rem;" id="deleteSitePreview"><img class="delete scale-hover" alt="Delete site preview"></span></a> <!-- Delete SitePreview -->
                                 <input type="file" name="site_preview" id="fileSitePreview" style="display: none;">
                                 <div class="card-body">
-                                    <label class="form-label fw-bold text_color">Site Preview </label> <img class="image_file_upload" alt="">
+                                    <label class="form-label fw-bold text_color">Site Preview </label> <img class="image_file_upload" alt="Upload site preview">
                                     <br>
                                     <small class="text_fadded" id="filename_site_preview"> {% if post.site_preview %}{{post.site_preview.name|cut:"images_uploaded/"}} {% else %} None {% endif %}  |</small>
                                     <small class="text_fadded" id="filesize_site_preview"> 0 </small> <small class="text_fadded">/ 10 MiB</small>
@@ -101,10 +103,10 @@
                         <div class="col-md-6">
                             <div class="btn btn-primary py-1 mt-3  button_shadow" style="height: 85%; width: 97%;">
                                 <a href=""><span class="div_link"  id="uploadHtml"></span></a> <!-- Add Html -->
-                                <a href=""><span class="div_link" style="width: 2rem; height: 2rem;" id="deleteHtml"><img class="delete scale-hover" alt=""></span></a> <!-- Delete Html -->
+                                <a href=""><span class="div_link" style="width: 2rem; height: 2rem;" id="deleteHtml"><img class="delete scale-hover" alt="Delete HTML"></span></a> <!-- Delete Html -->
                                 <input type="file" name="user_html" id="fileHtml" style="display: none;">
                                 <div class="card-body">
-                                    <img class="html_logo" alt="" height="50"> <img class="file_upload" alt="">
+                                    <img class="html_logo" height="50" alt="HTML Logo"> <img class="file_upload" alt="Upload HTML">
                                     <br>
                                     <small class="text_fadded" id="filename_html"> {% if post.user_html %}{{post.user_html.name|cut:"html_uploaded/"}} {% else %} None {% endif %} |</small>
                                     <small class="text_fadded" id="filesize_html"> 0 </small> <small class="text_fadded">/ 10 MiB</small>
@@ -114,10 +116,10 @@
                         <div class="col-md-6">
                             <div class="btn btn-primary py-1 mt-3  button_shadow" style="height: 85%; width: 99%;">
                                 <a href=""><span class="div_link"  id="uploadCss"></span></a> <!-- Add Css -->
-                                <a href=""><span class="div_link" style="width: 2rem; height: 2rem;" id="deleteCss"><img class="delete scale-hover" alt=""></span></a> <!-- Delete Css -->
+                                <a href=""><span class="div_link" style="width: 2rem; height: 2rem;" id="deleteCss"><img class="delete scale-hover" alt="Delete CSS"></span></a> <!-- Delete Css -->
                                 <input type="file" name="user_css" id="fileCss" style="display: none;">
                                 <div class="card-body">
-                                    <img class="css_logo" alt="" height="50"><img class="file_upload" alt="">
+                                    <img class="CSS_logo" height="50" alt="CSS logo"><img class="file_upload" alt="Upload CSS">
                                     <br>
                                     <small class="text_fadded" id="filename_css"> {% if post.user_css %}{{post.user_css.name|cut:"css_uploaded/"}} {% else %} None {% endif %} |</small>
                                     <small class="text_fadded" id="filesize_css"> 0 </small> <small class="text_fadded">/ 10 MiB</small>
@@ -127,10 +129,10 @@
                         <div class="col-md-6 w-100">
                             <div class="btn btn-primary py-1 mt-3  button_shadow" style="height: 85%; width: 99%;">
                                 <a href=""><span class="div_link"  id="uploadJs"></span></a> <!-- Add Js -->
-                                <a href=""><span class="div_link" style="width: 2rem; height: 2rem;" id="deleteJs"><img class="delete scale-hover" alt=""></span></a> <!-- Delete Js -->
+                                <a href=""><span class="div_link" style="width: 2rem; height: 2rem;" id="deleteJs"><img class="delete scale-hover" alt="Delete JS"></span></a> <!-- Delete Js -->
                                 <input type="file" name="user_js" id="fileJs" style="display: none;">
                                 <div class="card-body">
-                                    <img class="js_logo" alt="" height="50"><img class="file_upload" alt="">
+                                    <img class="js_logo" alt="JavaScript Logo" height="50"><img class="file_upload" alt="Upload JS">
                                     <br>
                                     <small class="text_fadded" id="filename_js"> {% if post.user_js %}{{post.user_js.name|cut:"js_uploaded/"}} {% else %} None {% endif %} |</small>
                                     <small class="text_fadded" id="filesize_js"> 0 </small> <small class="text_fadded">/ 10 MiB</small>
@@ -171,7 +173,7 @@
             <div class="sticky-top" style="top: 20px;">
                 <div class="d-flex justify-content-between align-items-center mb-4">
                     <h2>Post Preview</h2>
-                    <button type="submit" name="action" value="preview" class="btn btn-yellow button_shadow" onclick="updatePreview()">
+                    <button type="submit" name="action" value="preview" class="btn btn-yellow button_shadow" onclick="updatePreview()" aria-label="Refresh">
                         <img src="{% static 'img/post/create/refresh_light.svg'%}" alt="Refresh">
                     </button>
                 </div>
@@ -186,7 +188,7 @@
                     <div class="card-body p-0">
                         <div id="previewFrame" class="preview-container">
                             <!-- Preview will be rendered here -->
-                            <iframe src="{% url 'post:preview' %}" style="position: absolute; height: 100%; width: 100%; border: none"  sandbox="allow-scripts allow-same-origin" scrolling="no"></iframe>
+                            <iframe src="{% url 'post:preview' %}" title="Post preview" style="position: absolute; height: 100%; width: 100%; border: none"  sandbox="allow-scripts allow-same-origin" scrolling="no"></iframe>
                         </div>
                     </div>
                 </div>
