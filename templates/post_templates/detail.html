@@ -4,7 +4,7 @@
 {% block body %}
 {% load timesince_shortner %}
     <div class="container"> 
-                <div class="card post_body_noscale d-inline-block" >
+                <div class="card post_body_noscale" >
                     <div class="caption">
                         <div style="position: relative; overflow: hidden; overflow-wrap: break-word;">
                             
@@ -18,15 +18,19 @@
                             </div>  
 
                             {% if post.video %}
-                                <video src="{{ post.video.url }}" alt="Post video" class="img-thumbnail mt-2" width="800" controls></video>                          
+                                <video src="{{ post.video.url }}" alt="Post video" class="video-details mt-2" width="500" controls></video>                          
                             {% endif %}
-
-                            {% if post.images.count %}
-                                {% for img in post.images.all %}
-                                    <img src="{{ img.image.url }}" alt="Post Image" class="img-thumbnail mt-2" style="width: 600px;">
-                                {% endfor %}
-                            {% elif post.image %}
-                                <img src="{{ post.image.url }}" alt="Post Image" class="img-thumbnail mt-2" style="width: 600px;">
+                            <!--Videos: If there's no image, don't show img-container-->
+                            {% if post.image %}
+                            <div class="img-container">
+                                {% if post.images.count %}
+                                    {% for img in post.images.all %}
+                                        <img src="{{ img.image.url }}" alt="Post Image" class="mt-2" style="width: 400px;">
+                                    {% endfor %}
+                                {% elif post.image %}
+                                    <img src="{{ post.image.url }}" alt="Post Image" class="mt-2" style="width: 400px;">
+                                {% endif %}
+                            </div>
                             {% endif %}
 
                             {% if has_html %}
