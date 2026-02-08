@@ -3,9 +3,9 @@
 
 <div class="container">
     <div class="row justify-content-center">
-        <div class="col-md-7 img-thumbnail" style="margin: 15px; box-shadow: 5px 5px 10px rgba(0, 0, 0, 0.449);">
+        <div class="col-md-7 card" style="margin: 15px; box-shadow: 5px 5px 10px rgba(0, 0, 0, 0.449);">
             <form method="POST" >
-                <h1>{{title}}</h1>
+                <h1 class="text_color">{{title}}</h1>
                 <hr>
                 {% csrf_token %}
                 {{ form|crispy }}
