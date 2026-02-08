@@ -26,10 +26,6 @@ body{
 
 .detail-card { 
     margin: 10px auto !important;
-    padding: 10px !important;
-    box-shadow: 5px 5px 10px var(--shadow-color-02) !important;
-    background-color: var(--bg-color) !important;
-    border-color: var(--button-border-color);
     max-width: 600px;
 }
 

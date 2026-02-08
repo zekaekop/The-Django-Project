@@ -4,7 +4,7 @@
 {% block body %}
 {% load timesince_shortner %}
     <div class="container"> 
-                <div class="detail-card post_body_noscale" >
+                <div class="card detail-card post_body_noscale" >
                     <div class="caption">
                         <div style="position: relative; overflow: hidden; overflow-wrap: break-word;">
                             
@@ -107,14 +107,14 @@
                 <br>
                 <hr>
                 <br>
-                <div class="detail-card post_body_noscale">
+                <div class="card detail-card post_body_noscale">
                     <h3>Comment: </h3>
                     
                     {% include 'post_templates/comment.html' %}
                 </div>
                 {% for comment in post.comments.all%}
                     <hr>
-                    <div class="detail-card post_body_noscale">
+                    <div class="card detail-card post_body_noscale">
                         {% if comment.user %} 
                             <h4> {{ comment.user }} <span style="font-size: 0.8rem;" data-toggle="tooltip" data-placement="top" title="{{post.date}}">{{ comment.created_date|timesince}} Ago</span></h4>
                         {% else %}
