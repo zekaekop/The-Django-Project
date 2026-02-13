@@ -154,3 +154,11 @@ textarea::placeholder {
 .modal-footer{
     border-top: var(--bs-modal-footer-border-width) solid var(--bg-border-color);
 }
+
+.alert-warning{
+    --bs-alert-color: rgb(233, 198, 138);
+    --bs-alert-bg: rgba(79, 64, 37, 0.485);
+    --bs-alert-border-color: var(--bs-warning-border-subtle);
+    --bs-alert-link-color: var(--bs-warning-text-emphasis);
+}
+
