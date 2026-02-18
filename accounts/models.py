@@ -4,17 +4,12 @@ from django.contrib.auth.models import User
 # Create your models here.
 
 class UserProfile(models.Model):
-    
-    GENDER_CHOICES = (
-        ('male', 'Male'),
-        ('female', 'Female'),
-    )
-    
+
     user = models.OneToOneField(User, on_delete=models.CASCADE, related_name='profile')
 
     bio = models.CharField(max_length=100, blank=True, null=True)
     location = models.CharField(max_length=100, blank=True, null=True)
-    gender = models.CharField(max_length=10, choices=GENDER_CHOICES, blank=True ,null=True)
+    gender = models.CharField(max_length=10, blank=True ,null=True)
     user_age = models.IntegerField(null=True, blank=True)
 
     generated_pic = models.JSONField(default=list, blank=True, null=True,)
