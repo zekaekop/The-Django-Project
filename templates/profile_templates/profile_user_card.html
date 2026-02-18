@@ -32,6 +32,7 @@
                     {% if profile.user_age %}
                         <p class="text_fadded mt-3 ms-2">Age/{{ profile.user_age}}</p> 
                     {% endif %}
+
                     </div>
                 </div>
 
@@ -47,6 +48,17 @@
                     {% else %}
                         <h3 class="text_fadded">No Message</h3>
                     {% endif%}
+
+                    <!-- {% if user %} Add friend button -->
+                        
+                        <a href="{% url 'user_profile:profile' request.user %}" class="btn btn-primary button_shadow m-2">
+                            <img class="favorite-heart " alt="Add Friend"> Add friend
+                        </a>
+                    <!-- {% else %}
+                        <a href="{% url 'user_profile:profile' request.user %}" class="btn btn-primary button_shadow m-2">
+                            <img class="broken-heart " alt="Remove Friend"> Remove friend
+                        </a>
+                    {% endif %} -->
                 </div>
         </div>
 
