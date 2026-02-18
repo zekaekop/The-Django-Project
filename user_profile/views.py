@@ -113,7 +113,7 @@ class ProfileEdit():
         
         # If profile already existed, update its fields
         if not created:
-            # Only update if the field is provided in POST_data
+            # Only update if the field is provided in POST_dataz
             if POST_data.get('bio') is not None:
                 profile.bio = POST_data['bio']
             if POST_data.get('location') is not None:

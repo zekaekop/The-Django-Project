@@ -16,28 +16,38 @@
         {% endif %}
         
     
-            <div >
-                <h1>{{user}}</h1>
+            <div>
+                <h1 class="ms-2">{{user}}</h1>
+                <div class="d-flex justify-content-between">
 
-                <h3>Bio</h3>
-                {% if profile.location %}
-                    {{ profile.bio }}
-                {% else %}
-                    <p>No Bio</p>
-                {% endif%}
+                    <div class="ms-auto">
+                    {% if profile.location %}
+                        <p class="text_fadded ms-2">Location/{{ profile.location }}</p>
+                    {% endif %}
 
-                {% if profile.location %}
-                    <p class="text_fadded">{{ profile.location }}</p>
-                {% endif %}
+                    {% if profile.gender %}
+                        <p class="text_fadded mt-3 ms-2">Gender/{{ profile.gender}}</p>
+                    {% endif %}
 
-                {% if profile.gender %}
-                    <p class="text_fadded">{{ profile.gender}}</p>
-                {% endif %}
+                    {% if profile.user_age %}
+                        <p class="text_fadded mt-3 ms-2">Age/{{ profile.user_age}}</p> 
+                    {% endif %}
+                    </div>
+                </div>
 
-                {% if profile.user_age %}
-                    <p class="text_fadded">{{ profile.user_age}} <span> Yrs Old</span> </p> 
-                {% endif %}
             </div>
+
+            <hr class="ms-3" style="width: 4px; height: auto; display: inline-block; background-color: rgb(255, 255, 255);">
+
+                <div class="m-2 p-3">
+                    {% if profile.location %}
+                        <div>
+                            <p style="overflow-wrap: break-word; word-break: break-word;">{{ profile.bio }}</p>
+                        </div>
+                    {% else %}
+                        <h3 class="text_fadded">No Message</h3>
+                    {% endif%}
+                </div>
         </div>
 
         <div class="d-flex justify-content-between">
