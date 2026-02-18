@@ -9,54 +9,52 @@
             <div class="d-flex mt-2">
                 <h1>Welcome To {{user}}'s profile</h1>
                 <h5 class="ms-auto"> {% if user.is_staff %} <a class="nav-link text-black" href="{% url 'user_profile:profile'  request.user %}">     Admin 
-                {% else %} <a class="nav-link text-black" href="{% url 'user_profile:profile' request.user %}"> User {% endif %} <img class="account" alt=""></a></h5>
+                {% else %} <a class="nav-link text-black" href="{% url 'user_profile:profile' request.user %}"> User {% endif %} <img class="account" alt=""></a></h5> 
+
+                
             </div>
 
             <div class="d-flex">
                 <h6>Last Login {{user.last_login}}</h6>
 
+                {% if user == request.user %} <!-- if the user is the profile user, than show the edit profile button -->
+                    <small class="text_fadded ms-3 "><a class="nav-link p-0 " href="{% url 'user_profile:profile_edit' request.user %}">Edit profile</a></small>
+                {% endif %}
+
                  <a class="nav-link ms-auto me-3 p-0" href="{% url 'accounts:logout' %}"
                 data-bs-toggle="modal" data-bs-target="#modal_1">Logout</a>
             </div>
 
+            {% include 'profile_templates/profile_user_card.html' %}
+
             <hr>
-            <div class="card">
-                <div class="col-md-0">
-                    {% if user == request.user %} <!-- if the user is the profile user, than show the edit profile button -->
-                        <a href="{% url 'user_profile:profile_edit' request.user %}">Edit profile</a>
-                    {% endif %}
 
-                    {% if profile.image %}
-                        <img src="{{ profile.image.url }}" alt="profile image">
-                    {% else %}
-                        <div class="2profile-box me-2" data-size="8">
-                            <div class="profile-box" data-size="8"> 
-                                {% render_profile user %}
-                            </div>
-                        </div>
-                    {% endif %}
-                
-                    <h1>{{user}}</h1>
+            <div class=" d-flex justify-content-between">
+                <h3>Friends</h3>
 
-                    <h3>Bio</h3>
-                    <p>{{ profile.bio }}</p>
-
-                    <h4>Location</h4>
-                    <p>{{ profile.location }}</p>
-
-                    <h4>Gender</h4>
-                    <p>{{ profile.gender}}</p>
-
-                    <h4>Age</h4>
-                    <p>{{ profile.user_age}}</p>
-
-                    <div class="d-flex justify-content-between">
-                        <small class="text_fadded">Edited: {{ profile.updated_at }}</small>
-                        <small class="text_fadded">Account Age: {{ profile.created_at}}</small>
-                    </div>
-                    
+                <div>
+                    <!-- TODO: -->
+                    <!-- Make a include card here that will iterate over everyones friends and list them here -->
+                    <!-- NOTE: i havent added a friend system yet, i will soon. -->
                 </div>
+
+                <h3>Posts</h3>
+
+                <div>
+                    <!-- TODO: -->
+                     <!-- will list the user posts. -->
+                </div>
+                
+                <h3>Stats</h3>
+
+                <div>
+                    <!-- TODO: -->
+                    <!-- will list the user stats like amount of likes, comments, posts, friends, bans, etc.-->
+                     <!-- it would be better to make it sticky -->
+                </div>
+
             </div>
+            <hr>
         </div>
     </div>
 
