@@ -127,4 +127,7 @@ class ProfileEdit():
         if POST_data.get('image'):
             profile.image = POST_data['image']
 
+        if POST_data.get('user_age') == '':
+            profile.user_age = None
+
         return profile
