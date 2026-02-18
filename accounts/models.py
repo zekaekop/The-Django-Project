@@ -10,7 +10,7 @@ class UserProfile(models.Model):
     bio = models.CharField(max_length=400, blank=True, null=True)
     location = models.CharField(max_length=100, blank=True, null=True)
     gender = models.CharField(max_length=10, blank=True ,null=True)
-    user_age = models.IntegerField(null=True, blank=True)
+    user_age = models.PositiveSmallIntegerField(null=True, blank=True)
 
     generated_pic = models.JSONField(default=list, blank=True, null=True,)
     image = models.ImageField(upload_to='profile_pics/', blank=True, null=True)
