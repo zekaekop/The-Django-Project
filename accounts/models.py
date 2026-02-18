@@ -6,7 +6,6 @@ from django.contrib.auth.models import User
 class UserProfile(models.Model):
     
     GENDER_CHOICES = (
-        ('other', 'Other'),
         ('male', 'Male'),
         ('female', 'Female'),
     )
@@ -15,7 +14,7 @@ class UserProfile(models.Model):
 
     bio = models.CharField(max_length=100, blank=True, null=True)
     location = models.CharField(max_length=100, blank=True, null=True)
-    gender = models.CharField(max_length=10, choices=GENDER_CHOICES, default='other')
+    gender = models.CharField(max_length=10, choices=GENDER_CHOICES, blank=True ,null=True)
     user_age = models.IntegerField(null=True, blank=True)
 
     generated_pic = models.JSONField(default=list, blank=True, null=True,)

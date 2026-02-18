@@ -69,41 +69,62 @@ class ProfileEdit():
         user = User.objects.get(username=username)
         authenticate_users(request)
 
-        if request.method == "POST":
-
-            POST_data = self.get_profile_POST_data(request)
-            profile = self.apply_profile_POST_data(request, POST_data)
-
-            profile.save()
-            return render(request, "profile_templates/profile_edit.html",context)
+        try:
+            userprofile = UserProfile.objects.get(user=user)
+        except UserProfile.DoesNotExist:
+            userprofile = None
 
         context = {
             "user": user,
-            "userprofile":UserProfile,
+            "userprofile":userprofile,
         }
 
+        if request.method == "POST":
+
+            POST_data = self.get_profile_POST_data(request)
+            profile = self.apply_profile_POST_data(request, POST_data, user)
+
+            profile.user = request.user
+            profile.save()
+            return render(request, "profile_templates/profile_edit.html",context)
+
         return render(request, "profile_templates/profile_edit.html",context)
+        
+    def get_profile_POST_data(self, request): 
+            return { # apperantly its better to do it with a dict instead of a class
+                'bio': request.POST.get("bio"),
+                'location': request.POST.get("location"),
+                'user_age': request.POST.get("user_age"),
+                'gender': request.POST.get("gender"),
+                'image': request.FILES.get("image"),
+            }
     
-    def get_profile_POST_data(self, request, username): 
-
-        class POST_data:
-
-            bio = request.POST.get("bio")
-            location = request.POST.get("location")
-            user_Age = request.POST.get("user_age")
-            gender = request.POST.get("gender")
-            profile_pic = request.FILES.get("profile_pic")
-
-        return POST_data
-    
-    def apply_profile_POST_data(self, request, POST_data, username):
-
-        profile = Profile(
-            bio= POST_data.bio,
-            location= POST_data.location,
-            user_Age= POST_data.user_Age,
-            gender = request.POST.get("gender"),
-            profile_pic= POST_data.profile_pic,
-            )
+    def apply_profile_POST_data(self, request, POST_data, user):
+        # POST_data is now a dictionary
+        profile, created = UserProfile.objects.get_or_create(
+            user=user,
+            defaults={
+                'bio': POST_data.get('bio', ''),
+                'location': POST_data.get('location', ''),
+                'user_age': POST_data.get('user_age'),
+                'gender': POST_data.get('gender'),
+            }
+        )
+        
+        # If profile already existed, update its fields
+        if not created:
+            # Only update if the field is provided in POST_data
+            if POST_data.get('bio') is not None:
+                profile.bio = POST_data['bio']
+            if POST_data.get('location') is not None:
+                profile.location = POST_data['location']
+            if POST_data.get('user_age') is not None:
+                profile.user_age = POST_data['user_age']
+            if POST_data.get('gender') is not None:
+                profile.gender = POST_data['gender']
+        
+        # Handle image separately
+        if POST_data.get('image'):
+            profile.image = POST_data['image']
 
         return profile

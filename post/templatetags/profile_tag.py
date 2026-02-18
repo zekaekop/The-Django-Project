@@ -1,7 +1,7 @@
 from django import template
 from django.contrib.auth.models import User
-from accounts.models import UserProfile  # IMPORTANT: Import your model
-from accounts.views import create_user_profile # IMPORTANT: Import your function
+from accounts.models import UserProfile
+from accounts.views import create_user_profile
 
 register = template.Library()
 
