@@ -27,11 +27,3 @@ class UserProfile(models.Model):
 # Source - https://stackoverflow.com/a/52915586
 # Posted by Hugo Trentesaux
 # Retrieved 2026-02-18, License - CC BY-SA 4.0
-
-class Friend(models.Model):
-    to_user = models.ForeignKey(AUTH_USER_MODEL, models.CASCADE, related_name='friends')
-    from_user = models.ForeignKey(AUTH_USER_MODEL, models.CASCADE, related_name='_unused_friend_relation')
-
-class FriendshipRequest(models.Model):
-    from_user = models.ForeignKey(AUTH_USER_MODEL, on_delete=models.CASCADE, related_name='friendship_requests_sent')
-    to_user = models.ForeignKey(AUTH_USER_MODEL, on_delete=models.CASCADE, related_name='friendship_requests_received')

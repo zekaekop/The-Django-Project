@@ -6,8 +6,14 @@ from django.contrib.auth.models import User
 from django.core.exceptions import ObjectDoesNotExist
 
 from accounts.views import create_user_profile
+from post.models import Post
+from django.conf import settings
+from django.core.paginator import Paginator
 
-# Create your views here.
+from friendship.models import FriendshipRequest
+from friendship.models import Friend
+
+from post.views import ListPosts
 
 def authenticate_users(request):
     if not request.user.is_authenticated:
@@ -18,6 +24,7 @@ class ListProfilePage():
     def profile(self, request, username):
 
         user = User.objects.get(username=username)
+        user_posts_data = self.ListUserPosts(request, username)
 
         try:
             user_profile = UserProfile.objects.get(user=user) # if it doesnt exist than create it, support for older accounts that dont have this
@@ -26,12 +33,101 @@ class ListProfilePage():
 
         # profile = ProfileAssembly.profile_update(request)
 
+        if username == request.user.username:
+            pending_friend_req = Friend.objects.unread_requests(user=request.user)
+        else:
+            pending_friend_req = None # Dont display pending requests to other users
+
         context = {
             "user": user,
             "profile":user_profile,
+            "user_posts_data": user_posts_data,
+            "pending_friend_req": pending_friend_req,
+            "friends" : Friend.objects.friends(user), # displays the profile users friends
         }
 
         return render(request, "profile_templates/profile.html", context)
+
+    def remove_friend(self, request, username):
+        username_id = User.objects.get(username=username)
+        other_user = username_id
+        
+        Friend.objects.remove_friend(request.user, other_user)
+         # this may also work to remove pending requests
+        return redirect("/profile/" + username)
+
+    def reject_friend_request(self, request, username):
+        username_id = User.objects.get(username=username)
+        other_user = username_id
+
+        friend_request = FriendshipRequest.objects.get(
+            from_user=other_user, to_user=request.user
+        )
+        friend_request.reject()
+        return redirect("/profile/" + username)
+
+    def accept_friend_request(self, request, username):
+        username_id = User.objects.get(username=username)
+        other_user = username_id
+
+        friend_request = FriendshipRequest.objects.get(
+            from_user=other_user, to_user=request.user
+        )
+        friend_request.accept()
+        return redirect("/profile/" + request.user.username)
+
+    def request_friend(self, request, username):
+        username_id = User.objects.get(username=username)
+        other_user = username_id
+        
+        Friend.objects.add_friend(
+            request.user,  # The sender
+            other_user,  # The recipient
+            message=request.user.username,
+        )  # This message is optional
+        return redirect("/profile/" + username)
+
+    def ListUserPosts(self,request, username):
+        username_id = User.objects.get(username=username)
+        post_list = Post.objects.filter(user=username_id)
+        query = request.GET.get("q")
+
+        if query: # Search query in header
+            post_list = post_list.filter(
+                Q(title__icontains=query) |
+                Q(desc__icontains=query)|
+                Q(user__first_name__icontains=query)|
+                Q(user__last_name__icontains=query)).distinct()
+        paginator = Paginator(post_list, 9)  # Show 9 posts per page.te
+        page = request.GET.get("page")
+
+        posts = paginator.get_page(page)
+
+        upvotes = ListPosts().post_get_upvotes(request)
+        reports = ListPosts().post_get_reports(request)
+
+        # category_activity = Post.objects.filter(category = category).count()
+
+        context = {
+            "posts" : posts,
+            "upvoted_posts" : upvotes,
+            "reported_posts" : reports,
+            "debug": settings.DEBUG,
+            # "category":Post.Categories,
+            # "category_len":len(Post.Categories.choices),
+            # "current_category": category,
+            # "category_activity": category_activity,
+        }
+
+        suffix = "" # shortens the length of the title to prevent overflow
+        for each_page in range(len(posts)):
+            if len(posts[each_page].title) > 45:
+                suffix = "..."
+            else:
+                suffix = ""
+            posts[each_page].title = posts[each_page].title[:45] + suffix
+
+        return context
 
     def change_credentials(self, request):
         if request.user.is_authenticated:

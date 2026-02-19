@@ -1,0 +1,149 @@
+{% load timesince_shortner %}
+{% if posts %}
+    <div class="container" style="margin-bottom: 5rem;">             
+        <div class="row row-cols-1 row-cols-md-3 " style="margin-top: 1rem;">
+            {% for post in posts %}
+            <div class="col d-flex mt-3">
+                <div class="card post_body w-100 d-flex flex-column justify-content-between" style="height: 100%;"> 
+                    <div class="caption flex-grow-1 d-flex flex-column">
+                        
+                        <div style="position: relative; flex-grow: 1; overflow: hidden; overflow-wrap: break-word;">
+                            <a href="{{ post.get_absolute_url }}"><span class="div_link"></span></a>
+
+                            <div class="d-flex justify-content-between">
+                                <h6 class="post_title text_fadded"> <!-- profile pic-->
+                                    {{ post.user.username }}
+                                </h6> 
+
+                                <small class="text_fadded" data-bs-toggle="tooltip" title="{{ post.date }}">
+                                    {{ post.date|timesince_single_unit }} Ago
+                                </small>
+                            </div>
+                            <div class="card-header mb-2">
+                                <h3 class="post_title">
+                                    {{ post.title }}
+                                </h3>
+                            </div>         
+                            {% if post.video %}
+                                <video src="{{ post.video.url }}" alt="Post video" class="img-thumbnail" width="500" controls></video>
+                            {% else %}
+                                {% if post.images.count %}
+                                    <img src="{{ post.images.all.0.image.url }}" alt="Post Image" class="img-thumbnail" style="max-height: 200px;">
+                                {% elif post.image %}
+                                    <img src="{{ post.image.url }}" alt="Post Image" class="img-thumbnail" style="max-height: 200px;">
+                                {% endif %}
+                            {% endif %}
+                            
+                            {% if post.video %}
+                                {% if post.image%}
+                                    <small class="text_fadded">Show More ...</small>
+                                {% endif %}
+                            {% endif %}
+
+                            <div class="card-header mt-2" style="position: relative;">
+                                {{ post.desc|safe|linebreaks|truncatechars:150 }}
+
+                                {% if post.current_total_size or post.current_total_size >= 0.01 %}
+                                <small class="text_fadded">{{ post.current_total_size }} MiB</small>
+                                {% endif %}
+
+                                {% if post.updated_at %}
+                                    <small class="text_fadded">Edited {{ post.updated_at }}</small>
+                                {% endif %}
+                            </div>
+
+                            {% if post.site_preview %}
+                                <div class="d-flex flex-column">
+                                    <img src="{{ post.site_preview.url }}" alt="Post site preview" class="img-thumbnail" style="max-height: 200px;">
+                                    <small class="text_fadded">Site preview*</small>
+                                </div>
+                            {% endif %}
+                            
+                            {% if post.user_html %}
+                                <small class="text_fadded">HTML included </small>
+                                {% if post.user_css %}
+                                    <small class="text_fadded">CSS included </small>
+                                {% endif %}
+
+                                {% if post.user_js %}
+                                    <small class="text_fadded"><b><a href="https://en.wikipedia.org/wiki/Cross-site_scripting" style="color: red; ">js included </a></b></small>
+                                {% endif %}
+                            {% endif %}
+
+                            <div class="cloud_container"></div> <!-- creates card clouds -->
+
+                        </div>
+
+
+                        <div class="d-flex align-items-center mt-auto px-2 card-header"> <!-- post footer -->
+
+                            <!-- upvotes views -->
+                            {% if request.user.is_authenticated %}
+                                <div class="d-flex align-items-center gap-2">
+
+                                <a class="upvote-btn" data-id="{{ post.id }}" href="{% url 'post:upvote_post' post.id %}" role="button">
+                                    <img id="upvote-icon-{{ post.id }}" class="scale-hover arrow_upvote" alt="">
+                                </a>
+                                <span id="upvotes_counter_{{ post.id }}">{{post.upvotes}}</span>
+
+                                <img class="ms-2 eye" alt=""><span id="views_counter_">{{ post.post_views }}</span>  
+
+                                </div>
+                            {% endif %}
+
+
+                            <div class="d-flex align-items-center ms-auto gap-2">
+
+                                <!-- option actions -->
+                                <div class="collapse text-end px-2" id="postfooteritems_{{ post.id }}">
+                                    {% if post.user == request.user %}
+                                        <a href="{% url 'post:update' post.id %}"><img class="edit" alt="Edit Post"></a>
+                                        <a href="" data-bs-toggle="modal" data-bs-target="#modal_delete_{{ post.id }}"><img class="delete" alt="Delete Post"></a>
+                                    {% endif %}
+                                    {% if request.user.is_authenticated %}
+                                        {% if post.id in reported_posts %}
+                                            <a href="" data-bs-toggle="modal" data-bs-target="#modal_report_{{ post.id }}"><img class="flag_fill" alt="Report Post"></a>
+                                        {% else %}
+                                            <a href="" data-bs-toggle="modal" data-bs-target="#modal_report_{{ post.id }}"><img class="flag" alt="Report Post"></a>
+                                        {% endif %}
+                                    {% endif %}
+                                </div>
+
+
+                                <button class="btn p-0" type="button" data-bs-toggle="collapse" data-bs-target="#postfooteritems_{{ post.id }}" aria-label="Toggle Post Actions">
+                                    <img class="options_toggle" alt="">
+                                </button>
+                            </div>
+                        </div>
+                    </div>
+                    
+                </div>
+            </div>
+
+                {% include 'post_templates/modals/modal_delete.html' %}
+                {% include 'post_templates/modals/modal_report.html' %}
+
+            {% endfor %}
+        </div>
+    </div>
+{% else %}
+    {% if debug %}
+        <div class="d-flex mt-4 justify-content-center"> 
+        <div class="img-thumbnail post_body w-50 " style="text-align: center; padding: 2rem;">
+            <h4>
+                There seems to be no Posts... Did you forget to load db_sample.json?
+            </h4>
+            <a class="btn btn-primary button_shadow mt-3" href="{% url 'post:create' %}">Create posts</a> <a class="btn btn-primary button_shadow mt-3" href="https://github.com/zekaekop/The-Django-Project/blob/main/docs/Running.md" target="_blank">Fixture guide</a>
+        </div>
+        </div>
+    {% else %}
+        <div class="mt-4">
+        <div class="img-thumbnail post_body" style="text-align: center; padding: 2rem;">
+            <h4>
+                Be the first one to make a post!
+            </h4>
+            <a class="btn btn-primary button_shadow mt-3" href="{% url 'post:create' %}">Create posts</a>
+        </div>
+        </div>
+    {% endif %}
+{% endif %}

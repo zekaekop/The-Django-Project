@@ -49,16 +49,14 @@
                         <h3 class="text_fadded">No Message</h3>
                     {% endif%}
 
-                    <!-- {% if user %} Add friend button -->
-                        
-                        <a href="{% url 'user_profile:profile' request.user %}" class="btn btn-primary button_shadow m-2">
+                    {% if request.user != user %}
+                        <a href="{% url 'user_profile:friend_req' user %}" class="btn btn-primary button_shadow m-2">
                             <img class="favorite-heart " alt="Add Friend"> Add friend
                         </a>
-                    <!-- {% else %}
-                        <a href="{% url 'user_profile:profile' request.user %}" class="btn btn-primary button_shadow m-2">
+                        <a href="{% url 'user_profile:remove_friend' user %}" class="btn btn-primary button_shadow m-2">
                             <img class="broken-heart " alt="Remove Friend"> Remove friend
                         </a>
-                    {% endif %} -->
+                    {% endif %}
                 </div>
         </div>
 

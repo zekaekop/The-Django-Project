@@ -32,29 +32,115 @@
             <div class=" d-flex justify-content-between">
                 <h3>Friends</h3>
 
-                <div>
                     <!-- TODO: -->
                     <!-- Make a include card here that will iterate over everyones friends and list them here -->
                     <!-- NOTE: i havent added a friend system yet, i will soon. -->
+
+                    <!-- This lists your friends to you and everyone. -->
+                        
+                    {% if friends %}
+                        <div class="col-md-0"> 
+                            <div class="d-flex">
+                                {% for friend in friends %}
+                                <a href="/profile/{{friend}}">
+                                    <div class="card">
+
+                                        <div class="2profile-box me-2" data-size="8">
+                                            <div class="profile-box" data-size="8"> 
+                                                {% render_profile friend %}
+                                            </div>
+                                        </div>
+
+                                        <h3 class="text_color">I am {{friend}}</h3>
+
+                                    </div>
+                                </a>
+                            {% endfor %}
+                            </div>
+                        </div>
+                    {% else %}
+                        <div class="mt-4 w-100">
+                        <div class="img-thumbnail post_body" style="text-align: center; padding: 2rem;">
+                            <h1>You have no friends :P</h1>
+                            <a class="btn btn-primary button_shadow mt-3" href="{% url 'post:create' %}">Make friends :D</a>
+                        </div>
+                        </div>
+                    {% endif %}
+                    
+                    </div>
+                            
+                {% if pending_friend_req != None %}
+                <div class="card">
+                    <div class="col-md-0"> <!-- This will display the friendship requests from other users only to YOU!!, no one else sees this-->
+                        <div class="d-flex">
+                            
+                                {% if request.user == user %}
+                                    {% for i in pending_friend_req %}
+                                        <h3>Friend request from {{i}}</h3>
+                                        <div class="card">
+                                            <a href="{% url 'user_profile:accept_friend_req' i.message %}" class="btn btn-primary button_shadow m-2">
+                                                <img class="favorite-heart " alt="Accept Friend"> Accept friend
+                                            </a>
+                                            <a href="{% url 'user_profile:reject_friend_req' i.message %}" class="btn btn-primary button_shadow m-2">
+                                                <img class="broken-heart " alt="Remove Friend"> Reject friend
+                                            </a>
+                                        </div>
+                                    {% endfor %}
+                                {% endif %}
+                            
+                            </div>
+                        </div>
+                    </div>
                 </div>
+                {% endif %}
+
+                <hr>
 
                 <h3>Posts</h3>
 
-                <div>
+                {% include 'post_templates/post_cards_friends.html'%}
+
                     <!-- TODO: -->
                      <!-- will list the user posts. -->
-                </div>
                 
+                <hr>
+
                 <h3>Stats</h3>
 
-                <div>
+                <div class="card">
+                    <div class="col-md-0">
+                        
+                        <div class="d-flex">
+
+                            <p>stats</p>
+
+                            <br>
+
+                            <div class="ms-auto">
+                            {% if profile.location %} <!-- Generic info about the account, you can put anything here -->
+                                <p class="text_fadded ms-2">Location/{{ profile.location }}</p>
+                            {% endif %}
+
+                            {% if profile.gender %}
+                                <p class="text_fadded mt-3 ms-2">Gender/{{ profile.gender}}</p> <!--Gender is limited to 10 characters -->
+                            {% endif %}
+
+                            {% if profile.user_age %}
+                                <p class="text_fadded mt-3 ms-2">Age/{{ profile.user_age}}</p>  <!-- Numeric value from 1-120 -->
+                            {% endif %}
+
+                            </div>
+
+                        </div>
+                    </div>
+                </div>
+
                     <!-- TODO: -->
                     <!-- will list the user stats like amount of likes, comments, posts, friends, bans, etc.-->
                      <!-- it would be better to make it sticky -->
-                </div>
 
             </div>
-            <hr>
+        
         </div>
     </div>
 

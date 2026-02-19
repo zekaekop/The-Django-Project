@@ -51,6 +51,8 @@ INSTALLED_APPS = [
     'accounts',
     'admin_panel',
     'credits',
+
+    'friendship',
 ]
 
 MIDDLEWARE = [
