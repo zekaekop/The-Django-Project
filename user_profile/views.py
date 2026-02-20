@@ -25,14 +25,18 @@ class ListProfilePage():
         return User.objects.get(username=username)
 
     def current_profile_matches_req(self,request, user_profile):
-        for req in Friend.objects.sent_requests(user=request.user):
-            if req.to_user_id == user_profile.user.id:
-                there_invite = True
-                break
-            else:
-                there_invite = False
-        
-        return there_invite
+        friend_requests_sent = Friend.objects.sent_requests(user=request.user)
+        there_invite = False
+        if len(friend_requests_sent) != 0:
+            for req in friend_requests_sent:
+                if req.to_user_id == user_profile.user.id:
+                    there_invite = True
+                    break
+                else:
+                    there_invite = False
+            return there_invite
+        else:
+            return there_invite
 
     def profile(self, request, username):
 
