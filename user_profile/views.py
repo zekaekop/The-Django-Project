@@ -21,6 +21,9 @@ def authenticate_users(request):
 
 class ListProfilePage():
 
+    def username_to_id(self, request, username):
+        return User.objects.get(username=username)
+
     def profile(self, request, username):
 
         user = User.objects.get(username=username)
@@ -37,6 +40,13 @@ class ListProfilePage():
             pending_friend_req = Friend.objects.unread_requests(user=request.user)
         else:
             pending_friend_req = None # Dont display pending requests to other users
+        
+        other_user = self.username_to_id(request, username)
+        
+        if Friend.objects.are_friends(request.user, other_user):
+            is_friend = True
+        else:
+            is_friend = False
 
         context = {
             "user": user,
@@ -44,13 +54,13 @@ class ListProfilePage():
             "user_posts_data": user_posts_data,
             "pending_friend_req": pending_friend_req,
             "friends" : Friend.objects.friends(user), # displays the profile users friends
+            "is_friend":is_friend,
         }
 
         return render(request, "profile_templates/profile.html", context)
 
     def remove_friend(self, request, username):
-        username_id = User.objects.get(username=username)
-        other_user = username_id
+        other_user = self.username_to_id(request, username)
         
         Friend.objects.remove_friend(request.user, other_user)
          # this may also work to remove pending requests
@@ -67,18 +77,17 @@ class ListProfilePage():
         return redirect("/profile/" + username)
 
     def accept_friend_request(self, request, username):
-        username_id = User.objects.get(username=username)
-        other_user = username_id
+        other_user = self.username_to_id(request, username)
 
         friend_request = FriendshipRequest.objects.get(
             from_user=other_user, to_user=request.user
         )
+
         friend_request.accept()
         return redirect("/profile/" + request.user.username)
 
     def request_friend(self, request, username):
-        username_id = User.objects.get(username=username)
-        other_user = username_id
+        other_user = self.username_to_id(request, username)
         
         Friend.objects.add_friend(
             request.user,  # The sender
@@ -88,7 +97,7 @@ class ListProfilePage():
         return redirect("/profile/" + username)
 
     def ListUserPosts(self,request, username):
-        username_id = User.objects.get(username=username)
+        username_id =  self.username_to_id(request, username)
         post_list = Post.objects.filter(user=username_id)
         query = request.GET.get("q")
 
