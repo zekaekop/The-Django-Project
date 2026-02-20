@@ -70,14 +70,15 @@
                     </div>
                             
                 {% if pending_friend_req != None %}
-                <div class="card">
+                <div>
                     <div class="col-md-0"> <!-- This will display the friendship requests from other users only to YOU!!, no one else sees this-->
-                        <div class="d-flex">
+                        <div class="d-flex justify-content-center">
                             
                                 {% if request.user == user %}
                                     {% for i in pending_friend_req %}
-                                        <h3>Friend request from {{i}}</h3>
+                                        
                                         <div class="card">
+                                            <h3 class="text_color">Friend request from {{i.message}}</h3>
                                             <a href="{% url 'user_profile:accept_friend_req' i.message %}" class="btn btn-primary button_shadow m-2">
                                                 <img class="favorite-heart " alt="Accept Friend"> Accept friend
                                             </a>
