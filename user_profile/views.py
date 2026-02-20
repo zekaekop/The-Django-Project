@@ -21,6 +21,12 @@ def authenticate_users(request):
 
 class ListProfilePage():
 
+    def increment_profile_view(self,request,user):
+        profile = UserProfile.objects.get(user=user)
+        profile.profile_views += 1
+        profile.save()
+        
+
     def username_to_id(self, request, username):
         return User.objects.get(username=username)
 
@@ -64,6 +70,8 @@ class ListProfilePage():
         
         there_invite = self.current_profile_matches_req(request, user_profile)
 
+        self.increment_profile_view(request,user)
+
         context = {
             "user": user,
             "profile":user_profile,
@@ -73,6 +81,8 @@ class ListProfilePage():
             "is_friend":is_friend,
             "friend_requested" :  there_invite,
             "user_id": self.username_to_id(request, request.user),
+            "profile_views": UserProfile.objects.get(user=user).profile_views,
+            "post_count": UserProfile.objects.get(user=user).post_count,
         }
 
         return render(request, "profile_templates/profile.html", context)

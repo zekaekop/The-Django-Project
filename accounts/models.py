@@ -20,6 +20,10 @@ class UserProfile(models.Model):
     created_at = models.DateTimeField(auto_now_add=True)
     updated_at = models.DateTimeField(auto_now=True)
     
+    profile_views = models.PositiveIntegerField(null=True, default = 0)
+    post_count = models.PositiveIntegerField(null=True, default = 0)
+    # a bunch more statistics could be added but i will leave it simple for now
+
 # Handles the model friendship relation system
 # a friendship can be sent and it will be pending
 # friendship invites can be declined or accepted

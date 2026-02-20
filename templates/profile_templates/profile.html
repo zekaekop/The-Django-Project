@@ -30,7 +30,6 @@
             <hr>
 
             <div class=" d-flex justify-content-between">
-                <h3>Friends</h3>
 
                     <!-- TODO: -->
                     <!-- Make a include card here that will iterate over everyones friends and list them here -->
@@ -97,8 +96,6 @@
 
                 <hr>
 
-                <h3>Posts</h3>
-
                 {% include 'post_templates/post_cards_friends.html'%}
 
                     <!-- TODO: -->
@@ -106,18 +103,35 @@
                 
                 <hr>
 
-                <h3>Stats</h3>
-
-                <div class="card">
+                <div>
                     <div class="col-md-0">
-                        
+                                                    
+                    <h3 style="text-align: center;">Profile Stats</h3>
                         <div class="d-flex">
 
-                            <p>stats</p>
 
-                            <br>
 
-                            <div class="ms-auto">
+                            <div class="mt-1 w-100">
+                                <div class="row text-center">
+                                    <div class="col">
+                                        <div class="card">
+                                            <div class="card-body">
+                                                <small class="text_color">Profile Views</small>
+                                                <h4 class="text_color"><span>{{profile_views}}</span> / 1,000,000 </h4>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="col">
+                                        <div class="card">
+                                            <div class="card-body">
+                                                <small class="text_color">Posts Created</small>
+                                                <h4 class="text_color"><span>{{post_count}}</span> / 10,000</h4>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+
                             {% if profile.location %} <!-- Generic info about the account, you can put anything here -->
                                 <p class="text_fadded ms-2">Location/{{ profile.location }}</p>
                             {% endif %}
@@ -130,7 +144,6 @@
                                 <p class="text_fadded mt-3 ms-2">Age/{{ profile.user_age}}</p>  <!-- Numeric value from 1-120 -->
                             {% endif %}
 
-                            </div>
 
                         </div>
                     </div>
