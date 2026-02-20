@@ -1,6 +1,7 @@
 <!-- Navbar Start -->
 
 {% load static %}
+{% load profile_tag %}
 
 <nav class="navbar navbar-expand-lg" role="banner">
 
@@ -23,9 +24,8 @@
             <ul class="nav d-flex justify-content-end ms-auto">
                 {% if request.user.is_authenticated %} <!-- Header is always Dark -->
                     <li class="nav-item"><a class="nav-link text-light" href="{% url 'post:create' %}" style="color: white !important;">Create</a></li>
-                    <li class="nav-item"><a class="nav-link text-light" href="{% url 'accounts:logout' %}" style="color: white !important;"
-                            data-bs-toggle="modal" data-bs-target="#modal_1">Logout</a></li>
-                    <li class="nav-item"><a class="nav-link text-light" href="{% url 'user_profile:test' %}" style="color: white !important;">Profile</a></li>
+
+                    <li class="nav-item"><a class="nav-link text-light" href="{% url 'user_profile:profile' request.user %}" style="color: white !important;">Profile</a></li>
                     {% if request.user.is_staff %}
                         <li class="nav-item"><a class="nav-link text-light" href="{% url 'admin_panel:admin_panel' %}" style="color: white !important;">Admin Panel</a></li>
                     {% endif %}
@@ -46,6 +46,15 @@
         {% include 'header_modals/modal_logout.html' %}
 
         </div>
+
+        <a href="{% url 'user_profile:profile' request.user %}">
+            <div class="transform-scale-20 profile-box me-2" data-size="2.5">
+                <div class="profile-box" style="margin-top: 0.05rem;" data-size="2.5"> 
+                    {% render_profile request.user %}
+                </div>
+            </div>
+        </a>
+
     </div>
 </nav>
 

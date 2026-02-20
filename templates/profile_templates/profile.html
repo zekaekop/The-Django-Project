@@ -1,27 +1,161 @@
 {% extends 'base.html' %}
-{% load crispy_forms_tags  %}
 {% load static %}
+{% load profile_tag %}
 {% block body %}
 
     <div class="container">
         <div class="row"> 
                        
-            {% include 'user_welcome_title.html' %}
-            
-            <h6>Last Login {{request.user.last_login}}</h6>
+            <div class="d-flex mt-2">
+                <h1>Welcome To {{user}}'s profile</h1>
+                <h5 class="ms-auto"> {% if user.is_staff %} <a class="nav-link text-black" href="{% url 'user_profile:profile'  request.user %}">     Admin 
+                {% else %} <a class="nav-link text-black" href="{% url 'user_profile:profile' request.user %}"> User {% endif %} <img class="account" alt=""></a></h5> 
+
+                
+            </div>
+
+            <div class="d-flex">
+                <h6>Last Login {{user.last_login}}</h6>
+
+                {% if user == request.user %} <!-- if the user is the profile user, than show the edit profile button -->
+                    <small class="text_fadded ms-3 "><a class="nav-link p-0 " href="{% url 'user_profile:profile_edit' request.user %}">Edit profile</a></small>
+                {% endif %}
+
+                 <a class="nav-link ms-auto me-3 p-0" href="{% url 'accounts:logout' %}"
+                data-bs-toggle="modal" data-bs-target="#modal_1">Logout</a>
+            </div>
+
+            {% include 'profile_templates/profile_user_card.html' %}
 
             <hr>
-            <div class="card">
-                <div class="col-md-10 col-md-offset-3">
-                    <form method="POST"enctype="multipart/form-data" autocomplete="off">
-                        {% csrf_token %}
-                        {{user_form|crispy}}
-                        {{user_form.media}}
-                        <input class="btn btn-primary button_shadow"type="submit" value="send">
-                    </form>
+
+            <div class=" d-flex justify-content-between">
+
+                    <!-- TODO: -->
+                    <!-- Make a include card here that will iterate over everyones friends and list them here -->
+                    <!-- NOTE: i havent added a friend system yet, i will soon. -->
+
+                    <!-- This lists your friends to you and everyone. -->
+                        
+                    {% if friends %}
+                        <div class="col-md-0"> 
+                            <div class="d-flex">
+                                {% for friend in friends %}
+                                <a href="/profile/{{friend}}">
+                                    <div class="card">
+
+                                        <div class="2profile-box me-2" data-size="8">
+                                            <div class="profile-box" data-size="8"> 
+                                                {% render_profile friend %}
+                                            </div>
+                                        </div>
+
+                                        <h3 class="text_color">I am {{friend}}</h3>
+
+                                    </div>
+                                </a>
+                            {% endfor %}
+                            </div>
+                        </div>
+                    {% else %}
+                        <div class="mt-4 w-100">
+                        <div class="img-thumbnail post_body" style="text-align: center; padding: 2rem;">
+                            <h1>You have no friends :P</h1>
+                            <a class="btn btn-primary button_shadow mt-3" href="{% url 'post:create' %}">Make friends :D</a>
+                        </div>
+                        </div>
+                    {% endif %}
+                    
+                    </div>
+                            
+                {% if pending_friend_req != None %}
+                <div>
+                    <div class="col-md-0"> <!-- This will display the friendship requests from other users only to YOU!!, no one else sees this-->
+                        <div class="d-flex justify-content-center">
+                            
+                                {% if request.user == user %}
+                                    {% for i in pending_friend_req %}
+                                        
+                                        <div class="card">
+                                            <h3 class="text_color">Friend request from {{i.message}}</h3>
+                                            <a href="{% url 'user_profile:accept_friend_req' i.message %}" class="btn btn-primary button_shadow m-2">
+                                                <img class="favorite-heart " alt="Accept Friend"> Accept friend
+                                            </a>
+                                            <a href="{% url 'user_profile:reject_friend_req' i.message %}" class="btn btn-primary button_shadow m-2">
+                                                <img class="broken-heart " alt="Remove Friend"> Reject friend
+                                            </a>
+                                        </div>
+                                    {% endfor %}
+                                {% endif %}
+                            
+                            </div>
+                        </div>
+                    </div>
                 </div>
+                {% endif %}
+
+                <hr>
+
+                {% include 'post_templates/post_cards_friends.html'%}
+
+                    <!-- TODO: -->
+                     <!-- will list the user posts. -->
+                
+                <hr>
+
+                <div>
+                    <div class="col-md-0">
+                                                    
+                    <h3 style="text-align: center;">Profile Stats</h3>
+                        <div class="d-flex">
+
+
+
+                            <div class="mt-1 w-100">
+                                <div class="row text-center">
+                                    <div class="col">
+                                        <div class="card">
+                                            <div class="card-body">
+                                                <small class="text_color">Profile Views</small>
+                                                <h4 class="text_color"><span>{{profile_views}}</span> / 1,000,000 </h4>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="col">
+                                        <div class="card">
+                                            <div class="card-body">
+                                                <small class="text_color">Posts Created</small>
+                                                <h4 class="text_color"><span>{{post_count}}</span> / 10,000</h4>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+
+                            {% if profile.location %} <!-- Generic info about the account, you can put anything here -->
+                                <p class="text_fadded ms-2">Location/{{ profile.location }}</p>
+                            {% endif %}
+
+                            {% if profile.gender %}
+                                <p class="text_fadded mt-3 ms-2">Gender/{{ profile.gender}}</p> <!--Gender is limited to 10 characters -->
+                            {% endif %}
+
+                            {% if profile.user_age %}
+                                <p class="text_fadded mt-3 ms-2">Age/{{ profile.user_age}}</p>  <!-- Numeric value from 1-120 -->
+                            {% endif %}
+
+
+                        </div>
+                    </div>
+                </div>
+
+                    <!-- TODO: -->
+                    <!-- will list the user stats like amount of likes, comments, posts, friends, bans, etc.-->
+                     <!-- it would be better to make it sticky -->
+
             </div>
+        
         </div>
     </div>
-    
+
 {% endblock %}

@@ -3,23 +3,31 @@ from django.contrib.auth.models import User
 
 # Create your models here.
 
-class UserRegularMailAccount(models.Model):
-    user = models.OneToOneField(User, on_delete=models.CASCADE)
-    about = models.CharField(max_length=100)
-    location = models.CharField(max_length=100)
-    account_age = models.DateTimeField(verbose_name="Date/Time ", auto_now_add=True)
+AUTH_USER_MODEL = 'accounts.UserProfile'
 
-    select_gender = (
-        ('Other', 'Other'),
-        ('Male', 'Male'),
-        ('Female', 'Female'),)
+class UserProfile(models.Model):
+
+    user = models.OneToOneField(User, on_delete=models.CASCADE, related_name='profile')
+
+    bio = models.CharField(max_length=400, blank=True, null=True)
+    location = models.CharField(max_length=100, blank=True, null=True)
+    gender = models.CharField(max_length=10, blank=True ,null=True)
+    user_age = models.PositiveSmallIntegerField(null=True, blank=True)
+
+    generated_pic = models.JSONField(default=list, blank=True, null=True,)
+    image = models.ImageField(upload_to='profile_pics/', blank=True, null=True)
+
+    created_at = models.DateTimeField(auto_now_add=True)
+    updated_at = models.DateTimeField(auto_now=True)
     
-    gender = models.CharField(max_length=8, choices=select_gender, default="other")
+    profile_views = models.PositiveIntegerField(null=True, default = 0)
+    post_count = models.PositiveIntegerField(null=True, default = 0)
+    # a bunch more statistics could be added but i will leave it simple for now
 
-    image = models.ImageField(upload_to='profile_pics', null=True, blank=True)
+# Handles the model friendship relation system
+# a friendship can be sent and it will be pending
+# friendship invites can be declined or accepted
 
-class UserModerator(models.Model):
-    pass
-
-class UserAdmin(models.Model):
-    pass
+# Source - https://stackoverflow.com/a/52915586
+# Posted by Hugo Trentesaux
+# Retrieved 2026-02-18, License - CC BY-SA 4.0

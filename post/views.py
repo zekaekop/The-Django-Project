@@ -2,6 +2,7 @@ from urllib import request
 from django.shortcuts import render, get_object_or_404, HttpResponseRedirect, redirect, Http404, HttpResponse
 from django.urls import reverse
 from .models import Post, PostImage, UserUpvote, UserReport
+from accounts.models import UserProfile
 from django.contrib.auth.models import User
 from .forms import PostForm, CommentForm
 
@@ -336,6 +337,12 @@ class PostAssembly():
             if POST_data.action == "publish":
                 if post.title and post.desc and post.category:
                     post.save()
+
+                    user = request.user
+                    account = UserProfile.objects.get(user=user)
+                    account.post_count += 1
+                    account.save()
+
                     # Handle multiple uploaded images (field name: 'images')
                     images = request.FILES.getlist('images')
                     if images:
@@ -346,6 +353,7 @@ class PostAssembly():
                         if not post.image and images:
                             post.image = images[0]
                             post.save()
+
                         for f in images:
                             PostImage.objects.create(post=post, image=f)
                     return HttpResponseRedirect(post.get_absolute_url())

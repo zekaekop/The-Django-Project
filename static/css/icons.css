@@ -94,6 +94,17 @@
     content: var(--map-search);
 }
 
+.favorite-heart{
+    content: var(--favorite-heart);
+}
+
+.broken-heart{
+    content: var(--broken-heart);
+}
+
+.pending-invite{
+    content: var(--pending-invite);
+}
 /* Paginator */
 
 .paginator-arrow-left{ content: var(--paginator-arrow-left); }
