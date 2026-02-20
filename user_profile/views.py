@@ -24,6 +24,16 @@ class ListProfilePage():
     def username_to_id(self, request, username):
         return User.objects.get(username=username)
 
+    def current_profile_matches_req(self,request, user_profile):
+        for req in Friend.objects.sent_requests(user=request.user):
+            if req.to_user_id == user_profile.user.id:
+                there_invite = True
+                break
+            else:
+                there_invite = False
+        
+        return there_invite
+
     def profile(self, request, username):
 
         user = User.objects.get(username=username)
@@ -37,7 +47,7 @@ class ListProfilePage():
         # profile = ProfileAssembly.profile_update(request)
 
         if username == request.user.username:
-            pending_friend_req = Friend.objects.unread_requests(user=request.user)
+            pending_friend_req = Friend.objects.unrejected_requests(user=request.user)
         else:
             pending_friend_req = None # Dont display pending requests to other users
         
@@ -47,6 +57,8 @@ class ListProfilePage():
             is_friend = True
         else:
             is_friend = False
+        
+        there_invite = self.current_profile_matches_req(request, user_profile)
 
         context = {
             "user": user,
@@ -55,6 +67,8 @@ class ListProfilePage():
             "pending_friend_req": pending_friend_req,
             "friends" : Friend.objects.friends(user), # displays the profile users friends
             "is_friend":is_friend,
+            "friend_requested" :  there_invite,
+            "user_id": self.username_to_id(request, request.user),
         }
 
         return render(request, "profile_templates/profile.html", context)
@@ -66,13 +80,25 @@ class ListProfilePage():
          # this may also work to remove pending requests
         return redirect("/profile/" + username)
 
+    def cancel_friend_request(self, request, username):
+
+        user = User.objects.get(username=username)
+        user_profile = UserProfile.objects.get(user=user)
+
+        for req in Friend.objects.sent_requests(user=request.user):
+            if req.to_user_id == user_profile.user.id:
+                req.delete() # deletes friendship request, canceling the request
+                break
+
+        return redirect("/profile/" + username)
+
     def reject_friend_request(self, request, username):
-        username_id = User.objects.get(username=username)
-        other_user = username_id
+        other_user = self.username_to_id(request, username)
 
         friend_request = FriendshipRequest.objects.get(
             from_user=other_user, to_user=request.user
         )
+
         friend_request.reject()
         return redirect("/profile/" + username)
 
@@ -94,6 +120,7 @@ class ListProfilePage():
             other_user,  # The recipient
             message=request.user.username,
         )  # This message is optional
+
         return redirect("/profile/" + username)
 
     def ListUserPosts(self,request, username):

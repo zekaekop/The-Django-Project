@@ -51,9 +51,15 @@
 
                     {% if request.user != user %}
                         {% if is_friend == False %}
-                            <a href="{% url 'user_profile:friend_req' user %}" class="btn btn-primary button_shadow m-2">
-                                <img class="favorite-heart " alt="Add Friend"> Add friend
-                            </a>
+                            {% if friend_requested == False %}
+                                <a href="{% url 'user_profile:friend_req' user %}" class="btn btn-primary button_shadow m-2">
+                                    <img class="favorite-heart " alt="Add Friend"> Add friend
+                                </a>
+                            {% else %}
+                                 <a href="{% url 'user_profile:cancel_friend_req' user %}" class="btn btn-primary button_shadow m-2">
+                                    <img class="favorite-heart " alt="Add Friend"> Cancel friend request
+                                </a>
+                            {% endif %}
                         {% else %}
                             <a href="{% url 'user_profile:remove_friend' user %}" class="btn btn-primary button_shadow m-2">
                                 <img class="broken-heart " alt="Remove Friend"> Remove friend
