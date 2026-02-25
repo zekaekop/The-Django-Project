@@ -5,7 +5,7 @@ from django.contrib.auth.models import User
 
 from django.core.exceptions import ObjectDoesNotExist
 
-from accounts.views import create_user_profile
+from procedural_pfp import views
 from post.models import Post
 from django.conf import settings
 from django.core.paginator import Paginator
@@ -52,7 +52,7 @@ class ListProfilePage():
         try:
             user_profile = UserProfile.objects.get(user=user) # if it doesnt exist than create it, support for older accounts that dont have this
         except UserProfile.DoesNotExist:
-            user_profile = create_user_profile(user, user) 
+            user_profile = views.PfpAssembly().create_user_pfp(user, user)  # Creates PFP
 
         # profile = ProfileAssembly.profile_update(request)
 
@@ -83,6 +83,8 @@ class ListProfilePage():
             "user_id": self.username_to_id(request, request.user),
             "profile_views": UserProfile.objects.get(user=user).profile_views,
             "post_count": UserProfile.objects.get(user=user).post_count,
+
+            "debug": settings.DEBUG
         }
 
         return render(request, "profile_templates/profile.html", context)

@@ -31,10 +31,6 @@
 
             <div class=" d-flex justify-content-between">
 
-                    <!-- TODO: -->
-                    <!-- Make a include card here that will iterate over everyones friends and list them here -->
-                    <!-- NOTE: i havent added a friend system yet, i will soon. -->
-
                     <!-- This lists your friends to you and everyone. -->
                         
                     {% if friends %}
@@ -96,10 +92,8 @@
 
                 <hr>
 
+                <!-- list the user posts. -->
                 {% include 'post_templates/post_cards_friends.html'%}
-
-                    <!-- TODO: -->
-                     <!-- will list the user posts. -->
                 
                 <hr>
 
@@ -131,20 +125,6 @@
                                     </div>
                                 </div>
                             </div>
-
-                            {% if profile.location %} <!-- Generic info about the account, you can put anything here -->
-                                <p class="text_fadded ms-2">Location/{{ profile.location }}</p>
-                            {% endif %}
-
-                            {% if profile.gender %}
-                                <p class="text_fadded mt-3 ms-2">Gender/{{ profile.gender}}</p> <!--Gender is limited to 10 characters -->
-                            {% endif %}
-
-                            {% if profile.user_age %}
-                                <p class="text_fadded mt-3 ms-2">Age/{{ profile.user_age}}</p>  <!-- Numeric value from 1-120 -->
-                            {% endif %}
-
-
                         </div>
                     </div>
                 </div>

@@ -4,15 +4,22 @@
     <div class="col-md-0">
         
         <div class="d-flex">
-
-        {% if profile.image %}
+            
+        <!-- This is no longer used unless  you wana bring back custom profile pics -->
+        <!-- {% if profile.image %}
             <img src="{{ profile.image.url }}" alt="profile image">
-        {% else %}
+        {% else %} -->
+        
             <div class="2profile-box me-2" data-size="8">
                 <div class="profile-box" data-size="8"> 
                     {% render_profile user %}
                 </div>
             </div>
+
+            {% if False and debug %} <!-- makes this True for testing out profile generation-->
+                <a href="{% url 'procedural_pfp:pfp_regen_debug' %}">Debug Refresh Profile Pic</a>
+            {% endif %}
+
         {% endif %}
         
     
@@ -21,16 +28,16 @@
                 <div class="d-flex justify-content-between">
 
                     <div class="ms-auto">
-                    {% if profile.location %}
+                    {% if profile.location %} <!-- Generic info about the account, you can put anything here -->
                         <p class="text_fadded ms-2">Location/{{ profile.location }}</p>
                     {% endif %}
 
                     {% if profile.gender %}
-                        <p class="text_fadded mt-3 ms-2">Gender/{{ profile.gender}}</p>
+                        <p class="text_fadded mt-3 ms-2">Gender/{{ profile.gender}}</p> <!--Gender is limited to 10 characters -->
                     {% endif %}
 
                     {% if profile.user_age %}
-                        <p class="text_fadded mt-3 ms-2">Age/{{ profile.user_age}}</p> 
+                        <p class="text_fadded mt-3 ms-2">Age/{{ profile.user_age}}</p>  <!-- Numeric value from 1-120 -->
                     {% endif %}
 
                     </div>

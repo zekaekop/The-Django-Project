@@ -1,7 +1,7 @@
 from django import template
 from django.contrib.auth.models import User
 from accounts.models import UserProfile
-from accounts.views import create_user_profile
+from procedural_pfp import views
 
 register = template.Library()
 
@@ -15,7 +15,7 @@ def render_profile(user_or_profile=None):
             try:
                 context['profile'] = UserProfile.objects.get(user=user_or_profile)
             except UserProfile.DoesNotExist:
-                context['profile'] = create_user_profile(user_or_profile, user_or_profile)
+                context['profile'] = views.PfpAssembly().create_user_pfp(user_or_profile, user_or_profile)
         else:
             # Assume it's already a profile object
             context['profile'] = user_or_profile
