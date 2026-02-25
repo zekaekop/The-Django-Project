@@ -1,6 +1,7 @@
 from django.shortcuts import render, redirect
 from accounts.models import UserProfile
 from dataclasses import dataclass
+from accounts.views import decrease_BZ
 
 import random
 
@@ -18,19 +19,18 @@ class PfpAssembly():
     def pfp_reroll(self, request): # we could add a currency that costs to reroll, it adds value
         authenticate_users(request)
         result = self.create_user_pfp(request.user)
+        decrease_BZ(request, 20)
         return redirect("/profile/" + request.user.username)
 
     def create_user_pfp(self, user, new_user = None):
         # generate pfp
         generated_pic_data = self.generate_pfp_values(4, 4)
-        
         # Try to get existing profile or create new one
         profile, created = UserProfile.objects.get_or_create(user=user)
         
         # Update the generated_pic field
         profile.generated_pic = generated_pic_data
         profile.save()
-        # This isnt really required since the profile checks if profile is created before fetching 
 
     # class Pixel: # I removed this since i forgot the model uses JSONField meaning its just way easier to do a dict
     #     def __init__(self, r, g, b, a=255):

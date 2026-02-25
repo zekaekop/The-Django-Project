@@ -7,9 +7,11 @@ from django.contrib.auth.models import User
 from django.db.models import Q
 from django.core.paginator import Paginator
 
-from procedural_pfp import views
+from .models import UserProfile
 
-PfpAssembly = views.PfpAssembly()
+def authenticate_users(request):
+    if not request.user.is_authenticated:
+        raise Http404()
 
 # ----- Main Account logic -----
 def login_view(request):
@@ -51,8 +53,10 @@ def signin_view(request):
         user.is_superuser = False # If you need a superuser use 'python manage.py createsuperuser'
         user.save()
         new_user = authenticate(username = user.username, password = password)
-
-        PfpAssembly.create_user_pfp(user, new_user) # create user PFP
+        
+        from procedural_pfp.views import PfpAssembly
+        pfp_assembly = PfpAssembly()
+        pfp_assembly.create_user_pfp(user, new_user) # create user PFP
 
         login(request, new_user)
         return redirect('/')
@@ -71,6 +75,21 @@ def signin_view(request):
         }
         
     return render(request, "account_templates/form.html", context)
+
+def increament_BZ(request, inc_amount):
+    authenticate_users(request)
+    user = request.user
+    currency = UserProfile.objects.get(user=user)
+    currency.BZ += inc_amount
+    currency.save()
+
+def decrease_BZ(request, dec_amount):
+    authenticate_users(request)
+    user = request.user
+    currency = UserProfile.objects.get(user=user)
+    if currency.BZ >= dec_amount:
+        currency.BZ -= dec_amount
+        currency.save()
 
 # logs user out
 def logout_view(request):

@@ -22,6 +22,9 @@ class UserProfile(models.Model):
     
     profile_views = models.PositiveIntegerField(null=True, default = 0)
     post_count = models.PositiveIntegerField(null=True, default = 0)
+
+    BZ = models.PositiveIntegerField(null=False, default = 150) # possible virtual currency for cosmetics??
+    
     # a bunch more statistics could be added but i will leave it simple for now
 
 # Handles the model friendship relation system

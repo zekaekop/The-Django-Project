@@ -3,6 +3,7 @@ from django.shortcuts import render, get_object_or_404, HttpResponseRedirect, re
 from django.urls import reverse
 from .models import Post, PostImage, UserUpvote, UserReport
 from accounts.models import UserProfile
+from accounts.views import increament_BZ
 from django.contrib.auth.models import User
 from .forms import PostForm, CommentForm
 
@@ -343,6 +344,8 @@ class PostAssembly():
                     account.post_count += 1
                     account.save()
 
+                    increament_BZ(request, 110)
+
                     # Handle multiple uploaded images (field name: 'images')
                     images = request.FILES.getlist('images')
                     if images:
@@ -359,7 +362,7 @@ class PostAssembly():
                     return HttpResponseRedirect(post.get_absolute_url())
             if POST_data.action == "preview":
                 return render(request,"post_templates/post_design_preview.html",{"post": post})
-                
+
         return render(request, "post_templates/create.html",{"is_creating": True, "category":Post.Categories}) # is creating will show create post or update post
 
     def post_create_preview(self, request):
