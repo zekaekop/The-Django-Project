@@ -1,0 +1,15 @@
+{% spaceless %}
+
+{% if pixel.color %} 
+    <div class="pixel" style="background-color: rgba( {{ pixel.color.0 }}, {{ pixel.color.1 }}, {{ pixel.color.2 }}, {{ pixel.color.3 }});
+    box-shadow: {{pixel.glow.0}}px {{pixel.glow.0}}px {{pixel.glow.1}}px rgba( {{ pixel.color.0 }}, {{ pixel.color.1 }}, {{ pixel.color.2 }}, {{ pixel.color.3 }});
+    border-radius: {{pixel.roundness}}px;
+    transform: scale({{pixel.scale}});
+    rotate:{{pixel.rotation}}deg;
+    background: linear-gradient(rgba( {{ pixel.color.0 }}, {{ pixel.color.1 }}, {{ pixel.color.2 }}, {{ pixel.color.3 }}) 0%, rgba( {{ pixel.gradience.0 }}, {{ pixel.gradience.1 }}, {{ pixel.gradience.2 }}, {{ pixel.gradience.3 }} 100%));
+    "></div>
+{% else %}
+    <div class="pixel" style="background-color: rgba( {{ pixel.0 }}, {{ pixel.1 }}, {{ pixel.2 }}, {{ pixel.3 }});"></div> <!-- This supports old profiles -->
+{% endif %}
+
+{% endspaceless %}

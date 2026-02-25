@@ -50,10 +50,11 @@ class PfpAssembly():
 
                 pixel = {
                     "color": [0,0,0,0],
-                    "affects": [],
                     "gradience": [],
+                    "glow": [],
                     "scale": 1,
                     "roundness":0,
+                    "rotation":0,
                 }
 
                 if random.choice([True, False]): # random 50% 50% to block color or not
@@ -62,16 +63,19 @@ class PfpAssembly():
                     pixel["color"] = [pfp.red, pfp.blue, pfp.green, 255]
 
                     if pfp.gradience_chance == 1:
-                        pixel.append(["gradience", pfp.red_gradience, pfp.blue_gradience, pfp.green_gradience])
+                        pixel["gradience"] = [pfp.red_gradience, pfp.blue_gradience, pfp.green_gradience]
 
                     if pfp.glow_chance == 1: # you can apply more affects using add_affect, you just need a tag
-                        pixel.append(["glow", pfp.glow_intensity])
+                        pixel["glow"] = [pfp.glow_intensity, pfp.glow_radius]
 
                     if pfp.roundness_chance == 1:
                         pixel["roundness"] = pfp.roundness
                     
                     if pfp.scale_chance == 1:
                         pixel["scale"] = pfp.scale_size
+
+                    if pfp.rotation_chance == 1:
+                        pixel["rotation"] = pfp.rotation
 
                     row.append(pixel)
 
@@ -102,18 +106,21 @@ class PfpAssembly():
             green: int = random.randint(128,255)
             blue: int = random.randint(128,255)
 
-            red_gradience: int = random.randint(128,255)
-            blue_gradience: int = random.randint(128,255)
-            green_gradience: int = random.randint(128,255)
+            red_gradience: int = random.randint(0,255)
+            blue_gradience: int = random.randint(0,255)
+            green_gradience: int = random.randint(0,255)
 
-            scale_size: int = random.uniform(0.8,1.2)
-            scale_chance: int = random.randint(0,30)
-            glow_chance: int = random.randint(0,30)
-            gradience_chance: int = random.randint(0,30)
-            roundness_chance: int = random.randint(0,30)
+            scale_size: int = random.uniform(0.5,1.5)
+            scale_chance: int = random.randint(0,5)
+            glow_chance: int = random.randint(0,5)
+            gradience_chance: int = random.randint(0,5)
+            roundness_chance: int = random.randint(0,5)
+            rotation_chance:int = random.randint(0,5)
 
-            roundness: int = random.randint(0,30)
-            glow_intensity: int = random.randint(0,10) # the glow is just an drop shadow thats bright
+            roundness: int = random.randint(1,30)
+            glow_intensity: int = random.randint(5,30) # the glow is just an drop shadow thats bright
+            glow_radius: int = random.randint(10,30)
+            rotation: int = random.randint(0,360)
             # individuality: int = random.randint(0,30)
         
         pfp_values.height = height
