@@ -1,6 +1,7 @@
 from django.shortcuts import render, redirect
 from accounts.models import UserProfile
 from dataclasses import dataclass
+from accounts.views import decrease_BZ
 
 import random
 
@@ -15,9 +16,16 @@ class PfpAssembly():
         result = self.create_user_pfp(request.user)
         return redirect("/profile/" + request.user.username)
 
-    def create_user_pfp(self, user, new_user=None):
+    def pfp_reroll(self, request): # we could add a currency that costs to reroll, it adds value
+        authenticate_users(request)
+        result = self.create_user_pfp(request.user)
+        decrease_BZ(request, 20)
+        return redirect("/profile/" + request.user.username)
+
+    def create_user_pfp(self, user, new_user = None):
         # generate pfp
         generated_pic_data = self.generate_pfp_values(4, 4)
+        # Try to get existing profile or create new one
         profile, created = UserProfile.objects.get_or_create(user=user)
         profile.generated_pic = generated_pic_data
         profile.save()
@@ -45,10 +53,11 @@ class PfpAssembly():
 
                 pixel = {
                     "color": [0,0,0,0],
-                    "affects": [],
                     "gradience": [],
+                    "glow": [],
                     "scale": 1,
                     "roundness":0,
+                    "rotation":0,
                 }
 
                 if random.choice([True, False]): # random 50% 50% to block color or not
@@ -57,16 +66,19 @@ class PfpAssembly():
                     pixel["color"] = [pfp.red, pfp.blue, pfp.green, 255]
 
                     if pfp.gradience_chance == 1:
-                        pixel.append(["gradience", pfp.red_gradience, pfp.blue_gradience, pfp.green_gradience])
+                        pixel["gradience"] = [pfp.red_gradience, pfp.blue_gradience, pfp.green_gradience]
 
                     if pfp.glow_chance == 1: # you can apply more affects using add_affect, you just need a tag
-                        pixel.append(["glow", pfp.glow_intensity])
+                        pixel["glow"] = [pfp.glow_intensity, pfp.glow_radius]
 
                     if pfp.roundness_chance == 1:
                         pixel["roundness"] = pfp.roundness
                     
                     if pfp.scale_chance == 1:
                         pixel["scale"] = pfp.scale_size
+
+                    if pfp.rotation_chance == 1:
+                        pixel["rotation"] = pfp.rotation
 
                     row.append(pixel)
 
@@ -97,18 +109,21 @@ class PfpAssembly():
             green: int = random.randint(128,255)
             blue: int = random.randint(128,255)
 
-            red_gradience: int = random.randint(128,255)
-            blue_gradience: int = random.randint(128,255)
-            green_gradience: int = random.randint(128,255)
+            red_gradience: int = random.randint(0,255)
+            blue_gradience: int = random.randint(0,255)
+            green_gradience: int = random.randint(0,255)
 
-            scale_size: int = random.uniform(0.8,1.2)
-            scale_chance: int = random.randint(0,30)
-            glow_chance: int = random.randint(0,30)
-            gradience_chance: int = random.randint(0,30)
-            roundness_chance: int = random.randint(0,30)
+            scale_size: int = random.uniform(0.5,1.5)
+            scale_chance: int = random.randint(0,5)
+            glow_chance: int = random.randint(0,5)
+            gradience_chance: int = random.randint(0,5)
+            roundness_chance: int = random.randint(0,5)
+            rotation_chance:int = random.randint(0,5)
 
-            roundness: int = random.randint(0,30)
-            glow_intensity: int = random.randint(0,10) # the glow is just an drop shadow thats bright
+            roundness: int = random.randint(1,30)
+            glow_intensity: int = random.randint(5,30) # the glow is just an drop shadow thats bright
+            glow_radius: int = random.randint(10,30)
+            rotation: int = random.randint(0,360)
             # individuality: int = random.randint(0,30)
         
         pfp_values.height = height

@@ -94,6 +94,8 @@
     content: var(--map-search);
 }
 
+/* profile */
+
 .favorite-heart{
     content: var(--favorite-heart);
 }
@@ -105,6 +107,11 @@
 .pending-invite{
     content: var(--pending-invite);
 }
+
+.refresh{
+    content: var(--refresh);
+}
+
 /* Paginator */
 
 .paginator-arrow-left{ content: var(--paginator-arrow-left); }

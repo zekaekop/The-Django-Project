@@ -9,4 +9,5 @@ PfpAssembly = views.PfpAssembly()
 
 urlpatterns = [
     path('pfp_regen_debug/', PfpAssembly.pfp_regen_debug , name="pfp_regen_debug"),
+    path('pfp_reroll/', PfpAssembly.pfp_reroll , name="pfp_reroll"),
 ]

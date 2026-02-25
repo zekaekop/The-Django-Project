@@ -83,6 +83,8 @@ class ListProfilePage():
             "user_id": self.username_to_id(request, request.user),
             "profile_views": UserProfile.objects.get(user=user).profile_views,
             "post_count": UserProfile.objects.get(user=user).post_count,
+            
+            "BZ": UserProfile.objects.get(user=user).BZ,
 
             "debug": settings.DEBUG
         }
