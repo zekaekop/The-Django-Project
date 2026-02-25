@@ -15,6 +15,11 @@ class PfpAssembly():
         result = self.create_user_pfp(request.user)
         return redirect("/profile/" + request.user.username)
 
+    def pfp_reroll(self, request): # we could add a currency that costs to reroll, it adds value
+        authenticate_users(request)
+        result = self.create_user_pfp(request.user)
+        return redirect("/profile/" + request.user.username)
+
     def create_user_pfp(self, user, new_user = None):
         # generate pfp
         generated_pic_data = self.generate_pfp_values(4, 4)

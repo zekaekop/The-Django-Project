@@ -56,6 +56,12 @@
                         <h3 class="text_fadded">No Message</h3>
                     {% endif%}
 
+                    {% if request.user == user %}
+                        <a href="{% url 'procedural_pfp:pfp_reroll' %}" class="btn btn-primary button_shadow m-2">
+                            <img class="refresh" alt="Reroll profile"> Reroll Profile
+                        </a>
+                    {% endif %}
+
                     {% if request.user != user %}
                         {% if is_friend == False %}
                             {% if friend_requested == False %}
