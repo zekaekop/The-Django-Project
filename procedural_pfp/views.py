@@ -27,8 +27,6 @@ class PfpAssembly():
         generated_pic_data = self.generate_pfp_values(4, 4)
         # Try to get existing profile or create new one
         profile, created = UserProfile.objects.get_or_create(user=user)
-        
-        # Update the generated_pic field
         profile.generated_pic = generated_pic_data
         profile.save()
 
