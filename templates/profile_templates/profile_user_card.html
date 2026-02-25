@@ -27,21 +27,22 @@
                 <h1 class="ms-2">{{user}}</h1>
                 <div class="d-flex justify-content-between">
 
+                    <div class="ms-auto">
+
                     {% if request.user == user %}
-                    <p class="ms-2">Currency: {{ BZ }}</p> 
+                        <p class="ms-2 mb-0">Currency: {{ BZ }}</p> 
                     {% endif %}
 
-                    <div class="ms-auto">
                     {% if profile.location %} <!-- Generic info about the account, you can put anything here -->
-                        <p class="text_fadded ms-2">Location: {{ profile.location }}</p>
+                        <p class="text_fadded mb-0 ms-2">Location: {{ profile.location }}</p>
                     {% endif %}
 
                     {% if profile.gender %}
-                        <p class="text_fadded mt-3 ms-2">Gender: {{ profile.gender}}</p> <!--Gender is limited to 10 characters -->
+                        <p class="text_fadded mb-0 ms-2">Gender: {{ profile.gender}}</p> <!--Gender is limited to 10 characters -->
                     {% endif %}
 
                     {% if profile.user_age %}
-                        <p class="text_fadded mt-3 ms-2">Age: {{ profile.user_age}}</p>  <!-- Numeric value from 1-120 -->
+                        <p class="text_fadded mb-0 ms-2">Age: {{ profile.user_age}}</p>  <!-- Numeric value from 1-120 -->
                     {% endif %}
 
                     </div>
