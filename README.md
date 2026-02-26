@@ -8,15 +8,17 @@ It can do alot of things listed bellow.
 <h3>1.What it can do</h3>
  
 You can look at the Top Posts, 
-Create your own Posts, 
+Create your own Posts,  <br>
 Upvote,
-View and Comment on others. 
+View and Comment on others. <br>
 Upload videos, images, html, css, js and many more files!
 
 <br>
 
-If you are admin you can have access to the admin panel, it allows you to See the selected category and  Delete(also Deactivate),Update them. <br>
-The website has a Contact feature, where you can send details for an admin to see and contact you. <br>
+If you are admin you can have access to the admin panel, it allows you to See the selected category and Users Delete(Deactivate) and update user permisions. <br>
+And admins have the power to modify and delete your posts. <br>
+The website has a Contact feature, where you can send details for an admin to see and contact you. 
+<br>
 
 <hr>
 
@@ -31,22 +33,26 @@ You can find the Contents <a href = "/docs/Contents.md">here</a>.
 To start testing with this project or perhaps contribute you can follow this <a href="/docs/Running.md"><b>guide</b></a>.
 
 Note: The images bellow is the fixture sample db, in the <a href="/docs/Running.md"><b>guide</b></a>. you can find how to set it up.
-
-<h3>Admin Passwords:</h3>
-1. Username: "eko" / Password: "eko"
 <br>
-2. Username: "ekola" / Password: "ekola"
-<br>
-3. Username: "admin_user" / "123"
+Warning: I stopped updating the fixtures, meaning its better to create your own superuser and exploring the site emty.
 
-<hr>
-<img width="1920" height="941" alt="image" src="https://github.com/user-attachments/assets/8358507e-7500-4152-b36a-80f786b9ff40" />
+<!-- <h3>4.Contribution Guidelines</h3> -->
 
-<img width="1348" height="785" alt="image" src="https://github.com/user-attachments/assets/8c2bbb72-e56d-4608-a899-f8345277d9c4" />
+Home Page
+![alt text](image.png)
 
-<img width="1920" height="945" alt="image" src="https://github.com/user-attachments/assets/20f75650-66ed-48f4-a280-879ace618801" />
+Admin Panel
+![alt text](image-1.png)
 
-<img width="1920" height="947" alt="image" src="https://github.com/user-attachments/assets/30667a17-a289-490d-93c3-bde7e3013952" />
+Light mode and Dark mode support
+
+![alt text](image-2.png)
+
+![alt text](image-3.png)
+
+Custom Profile PFP generation
+
+![alt text](image-4.png)
 
 
 Credit:
