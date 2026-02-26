@@ -27,6 +27,19 @@ class UserProfile(models.Model):
     
     # a bunch more statistics could be added but i will leave it simple for now
 
+class Achievement(models.Model):
+    name = models.CharField(max_length=200)
+    description = models.TextField()
+    icon = models.ImageField(upload_to='achievement_icons/', null=True, blank=True)
+
+class UserAchievement(models.Model):
+    user = models.ForeignKey(User, on_delete=models.CASCADE)
+    achievement = models.ForeignKey(Achievement, on_delete=models.CASCADE)
+    unlocked_at = models.DateTimeField(auto_now_add=True)
+
+    class Meta:
+        unique_together = ('user', 'achievement')
+
 # Handles the model friendship relation system
 # a friendship can be sent and it will be pending
 # friendship invites can be declined or accepted
