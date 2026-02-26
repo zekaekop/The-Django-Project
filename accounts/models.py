@@ -30,6 +30,7 @@ class UserProfile(models.Model):
 class Achievement(models.Model):
     name = models.CharField(max_length=200)
     description = models.TextField()
+    goal = models.CharField(max_length=200, unique=True)
     icon = models.ImageField(upload_to='achievement_icons/', null=True, blank=True)
 
 class UserAchievement(models.Model):
