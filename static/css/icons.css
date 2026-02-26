@@ -112,6 +112,9 @@
     content: var(--refresh);
 }
 
+.card-star{
+    content: var(--card-star);
+}
 /* Paginator */
 
 .paginator-arrow-left{ content: var(--paginator-arrow-left); }
