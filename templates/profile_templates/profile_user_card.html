@@ -3,13 +3,15 @@
 <div class="card flex-grow-1">
     <div class="col-md-0">
         
-        <div class="d-flex flex-column align-content-center justify-content-center align-items-center p-6">
+        <div class="d-flex flex-row flex-wrap flex-md-nowrap align-content-start justify-content-evenly align-items-start p-3 mb-3 gap-3">
             
         <!-- This is no longer used unless  you wana bring back custom profile pics -->
         <!-- {% if profile.image %}
             <img src="{{ profile.image.url }}" alt="profile image">
         {% else %} -->
         
+        <div class="d-flex flex-row flex-wrap flex-md-nowrap mb-3 gap-4">
+            <!--Profile img-->
             <div class="2profile-box" data-size="8">
                 <div class="profile-box" data-size="8"> 
                     {% render_profile user %}
@@ -21,16 +23,16 @@
             {% endif %}
 
         {% endif %}
-        
-    
+            <!--End of profile img-->
+        </div>
+        <div class="flex flex-column"> 
+            <!--Name and currency-->
             <div>
-                <h1 class="ms-2 text-center">{{user}}</h1>
-                <div class="d-flex justify-content-between">
-
-                    <div class="ms-auto">
+                <h1 class="ms-2 text-center text-md-start">{{user}}</h1>
+                <div class="d-flex justify-content-center justify-content-md-start">
 
                     {% if request.user == user %}
-                        <p class="ms-2 mb-0">Currency: {{ BZ }}</p> 
+                        <p class="ms-2 mb-0 text-center text-md-start">Currency: {{ BZ }}</p> 
                     {% endif %}
 
                     {% if profile.location %} <!-- Generic info about the account, you can put anything here -->
@@ -44,25 +46,24 @@
                     {% if profile.user_age %}
                         <p class="text_fadded mb-0 ms-2">Age: {{ profile.user_age}}</p>  <!-- Numeric value from 1-120 -->
                     {% endif %}
-
-                    </div>
                 </div>
 
             </div>
+            <!--End of name and currency-->
 
-            <hr class="ms-3" style="width: 4px; height: auto; display: inline-block; background-color: rgb(255, 255, 255);">
-
-                <div class="m-2 p-3">
+            <hr style="width: 100%; height: auto; display: inline-block; background-color: rgb(255, 255, 255);">
+            <!--Message & Reroll button-->
+                <div class="">
                     {% if profile.location %}
                         <div>
                             <p style="overflow-wrap: break-word; word-break: break-word;">{{ profile.bio }}</p>
                         </div>
                     {% else %}
-                        <h3 class="text_fadded text-center">No Message</h3>
+                        <h3 class="text_fadded text-center text-md-start mb-3">No Message</h3>
                     {% endif%}
 
                     {% if request.user == user %}
-                        <a href="{% url 'procedural_pfp:pfp_reroll' %}" class="btn btn-primary button_shadow m-2">
+                        <a href="{% url 'procedural_pfp:pfp_reroll' %}" class="btn btn-primary button_shadow ">
                             <img class="refresh" alt="Reroll profile"> Reroll Profile -20 BZ
                         </a>
                     {% endif %}
@@ -85,8 +86,12 @@
                         {% endif %}
                     {% endif %}
                 </div>
+                <!--End of message & reroll-->
         </div>
 
+    </div>
+
+        <!--Edited and account age dates-->
         <div class="d-flex flex-column justify-content-between align-items-center p-3">
             <small class="text_fadded">Edited: {{ profile.updated_at }}</small>
             <small class="text_fadded">Account Age: {{ profile.created_at}}</small>
