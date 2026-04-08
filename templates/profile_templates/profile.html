@@ -138,6 +138,43 @@
                 <!-- <div>
                     <div class="col-md-0">
                                                     
+                    <h3 style="text-align: center;">Profile Achivements</h3>
+                        <div class="d-flex">
+
+                            <div class="mt-1 w-100">
+                                <div class="row text-center">
+
+                                    {% if achivements %}
+                                        {% for achivement in achivements %}
+                                        <div class="col">
+                                            <div class="card">
+                                                <div class="card-body">
+                                                    <small class="text_color">{{achivement.name}}</small>
+                                                    <h4 class="text_color"><span>{{achivement.progress}}</span> / {{achivement.goal}} </h4>
+                                                </div>
+                                            </div>
+                                        </div>
+                                        {% endfor %}
+                                    {% else %}
+                                    <div class="mt-4 w-100">
+                                        <div class="img-thumbnail post_body" style="text-align: center; padding: 2rem;">
+                                            <h3>You have no achivements <img class="card-star" alt=""></h3>
+                                        </div>
+                                    </div>
+                                    {% endif %}
+
+                                </div>
+                            </div>
+
+                        </div>
+                    </div>
+                </div>
+
+                <hr>
+
+                <div>
+                    <div class="col-md-0">
+                                                    
                     <h3 style="text-align: center;">Profile Stats</h3>
                         <div class="d-flex">
 
@@ -145,27 +182,32 @@
 
                             <div class="mt-1 w-100">
                                 <div class="row text-center">
+
                                     <div class="col">
                                         <div class="card">
                                             <div class="card-body">
                                                 <small class="text_color">Profile Views</small>
-                                                <h4 class="text_color"><span>{{profile_views}}</span> / 1,000,000 </h4>
+                                                <h4 class="text_color"><span>{{profile_views}}</span></h4>
                                             </div>
                                         </div>
                                     </div>
+
                                     <div class="col">
                                         <div class="card">
                                             <div class="card-body">
                                                 <small class="text_color">Posts Created</small>
-                                                <h4 class="text_color"><span>{{post_count}}</span> / 10,000</h4>
+                                                <h4 class="text_color"><span>{{post_count}}</span></h4>
                                             </div>
                                         </div>
                                     </div>
+
                                 </div>
                             </div>
+
                         </div>
                     </div>
                 </div> -->
+
 
                     <!-- TODO: -->
                     <!-- will list the user stats like amount of likes, comments, posts, friends, bans, etc.-->

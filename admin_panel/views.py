@@ -1,5 +1,6 @@
 from django.shortcuts import render, get_object_or_404, HttpResponseRedirect, redirect, Http404, HttpResponse
 from info.models import ContactInfo
+from accounts.models import Achievement
 from post.models import Post
 from django.contrib.auth.models import User
 from .forms import ContactusForm
@@ -194,3 +195,28 @@ def password_change_user_account(request, id):
     }
             
     return render(request,'account_templates/change_user_password.html', context)
+
+def admin_panel_achivements(request):
+    if request.user.is_staff or request.user.is_superuser:
+
+        achivement_list = Achievement.objects.all()
+
+        query = request.GET.get("q")
+
+        if query:
+            achivement_list = post_list.filter(
+                Q(title__icontains=query) |
+                Q(desc__icontains=query)|
+                Q(user__first_name__icontains=query)|
+                Q(user__last_name__icontains=query)).distinct()
+    
+        paginator = Paginator(achivement_list, 8)  # Show 8 per page.
+
+        page = request.GET.get("page")
+        achivements = paginator.get_page(page)
+
+        context = {"admin_datas":achivements, "data_category":"achivements",}
+
+        return render(request, "account_templates/admin_panel.html", context)
+    else:
+        raise Http404()

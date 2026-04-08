@@ -20,7 +20,10 @@
                         <a class="nav-link text-black" href="/admin_panel/category/users">{% if data_category == "users" %}<b>Users</b>{%else%}Users{% endif %}</a>
                     </li>
                     <li class="nav-item">
-                        <a class="nav-link text-black" href="/admin_panel/category/contacts">{% if data_category == "contacts" %}<b>Contact</b>{%else%}Contact{% endif %}</a>
+                        <a class="nav-link text-black" href="/admin_panel/category/contacts">{% if data_category == "contacts" %}<b>Contacts</b>{%else%}Contacts{% endif %}</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link text-black" href="/admin_panel/category/achivements">{% if data_category == "achivements" %}<b>Achivements</b>{%else%}Achivements{% endif %}</a>
                     </li>
                 </ul>
             </div>
@@ -57,6 +60,16 @@
                         <th scope="col">Gender</th>
                         <th scope="col">Email</th>
                         <th scope="col">UserIDs/Accounts</th>
+                        <th scope="col">Actions</th>
+                        </tr>
+
+                    {% elif data_category == "achivements" %}
+                        <tr>
+                        <th scope="col">#</th>
+                        <th scope="col">Goal</th>
+                        <th scope="col">Name</th>
+                        <th scope="col">Description</th>
+                        <th scope="col">Icon</th>
                         <th scope="col">Actions</th>
                         </tr>
                     {% else %}
@@ -166,6 +179,25 @@
 
                             {% include 'account_templates/modals/modal_contact.html' %}
                         {% endfor %}
+
+                    {% elif data_category == "achivements" %}
+                    {% for admin_data in admin_datas%} <!-- achivements -->
+                        <tr>
+                            <th scope="row">{{admin_data.id}} <img class="card-star"></th>
+
+                            <td>{{admin_data.goal}}</td>
+
+                            <td>{{admin_data.name}}</td>
+                            <td>{{admin_data.description}}</td>
+                            <td>{{admin_data.icon}}</td>
+                            <td>
+                                <a href="{{ admin_data.get_update_url }}"><img class="edit" alt="Edit Achivement"></a>
+                                <a href="" data-bs-toggle="modal" data-bs-target="#modal_delete{{ admin_data.id }}"><img class="delete" alt="Delete Achivement"></a>
+                            </td>
+                        </tr>
+
+                        {# {% include 'account_templates/modals/modal_achivement.html' %} #}
+                    {% endfor %}
                     {% endif %}
                 </tbody>
                 </table>

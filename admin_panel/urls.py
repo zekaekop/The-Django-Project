@@ -15,6 +15,7 @@ urlpatterns = [
     path("category/users", views.admin_panel_users, name = "admin_panel_users"),
     path("category/posts", views.admin_panel_posts, name = "admin_panel_posts"),
     path("category/contacts", views.admin_panel_contact, name = "admin_panel_contact"),
+    path("category/achivements", views.admin_panel_achivements, name = "admin_panel_achivements"),
 
     # Admin Panel User Action logic
     re_path(r'^(?P<id>\d+)/active_state_user_account/$', views.active_state_user_account, name = "active_state_user_account"),
